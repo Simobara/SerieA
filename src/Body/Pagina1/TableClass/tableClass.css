@@ -1,0 +1,50 @@
+/* File style.css */
+
+.vertical-dashed-line {
+    /* Aggiustato per rimuovere position: absolute */
+    border-left: 1px dashed black;
+    height: 100%; 
+    z-index: 10;
+}
+
+.sq-column {
+    font-weight: bold;
+    height: 100%;
+}
+
+table {
+    /* Proprietà non commentate per gestire il layout della tabella */
+    white-space: nowrap;
+    overflow-x: auto;
+}
+
+th, td {
+    /* Aumentato min-width per una migliore gestione delle colonne */
+    min-width: 20px; /* Ajusta questo valore secondo necessità */
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.underline-green {
+    text-decoration: underline;
+    text-decoration-color: green;
+    text-decoration-thickness: 2px;
+}
+
+.text-green {
+    color: green;
+}
+
+.underline-yellow {
+    text-decoration: underline;
+    text-decoration-color: #ae7b04;
+    text-decoration-thickness: 2px;
+}
+
+.text-yellow {
+    color: #ae7b04;
+}
+
+.borderAlto {
+    border-top-width: 4px;
+}
