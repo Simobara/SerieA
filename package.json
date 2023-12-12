@@ -1,0 +1,22 @@
+{
+  "name": "1my-calcio",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
+  },
+  "dependencies": {
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.32",
+    "react": "^17.0.0",
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1",
+    "react-dom": "^17.0.0",
+    "tailwindcss": "^3.3.6"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.2.1",
+    "vite": "^5.0.8"
+  }
+}
