@@ -10,7 +10,7 @@ const Placeholder = ({ day, movePartita }) => {
     });
 
     return (
-        <div ref={drop} className="mx-auto flex justify-center items-center max-w-[45vh] border-dashed border-2 border-gray-400 h-16">
+        <div ref={drop} className="mx-auto flex justify-center items-center w-[60rem] max-w-[60vh] border-dashed border-2 border-gray-400 h-16">
             Trascina qui per aggiungere
         </div >
     );

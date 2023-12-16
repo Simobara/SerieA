@@ -46,5 +46,6 @@ th, td {
 }
 
 .borderAlto {
-    border-top-width: 4px;
+    border-top-width: 1px;
+    
 }

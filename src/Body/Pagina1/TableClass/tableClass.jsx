@@ -1,5 +1,6 @@
 import { useContext, useState, useEffect } from "react";
 import { SquadraContext } from "../../Global/global";
+import { CoppiaPartitaContext } from "../../Global/global";
 import { squadre } from "../../../START/START";
 import "./tableClass.css";
 
@@ -8,8 +9,12 @@ const TableClass = () => {
   console.log("ARRAY TEAM:", sqSelected);
   const [indiciDiffPts, setIndiciDiffPts] = useState([]);
   const [indiciDiffQ, setIndiciDiffQ] = useState([]);
-
   const [differenzePunti, setDifferenzePunti] = useState({});
+
+
+
+
+  const { coppiaSelected } = useContext(CoppiaPartitaContext);
 
   const getPunteggioVirtuale = (squadra) => {
     // Calcola il punteggio aggiunto in base alla selezione
@@ -42,23 +47,29 @@ const TableClass = () => {
 
   const getBackgroundClass = (index) => {
     if (index < 4) {
-      return "bg-blue-900 text-white font-extrabold";
+      return "bg-gray-800 text-white font-extrabold";
     } else if (index >= 4 && index < 6) {
-      return "bg-gray-700 text-white font-extrabold";
+      return "bg-sky-800 text-white font-extrabold";
     } else if (index === 6) {
-      return "bg-gray-600 text-white font-extrabold";
+      return "bg-cyan-700 text-white font-extrabold";
     } else if (index >= squadre.length - 3) {
       return "bg-gray-400 text-black font-extrabold";
     } else {
-      return "";
+      return "bg-black";
     }
   };
 
-  const isTeamMarkedWithX = (teamName) => {
+  const isTeamMarkedWithX = (teamName) => { // variazione per vedere una funzione esterna
     return teamName.endsWith("X") || sqSelected.includes(teamName + "X");
   };
 
   const isPureNumber = (str) => /^\d+$/.test(str);
+
+
+  const isCoppiaSelected = (nomeSquadra) => {
+    return coppiaSelected && (nomeSquadra === coppiaSelected.team1 || nomeSquadra === coppiaSelected.team2);
+  };
+
 
   useEffect(() => {
     let nuoviIndici = [];
@@ -79,76 +90,84 @@ const TableClass = () => {
   useEffect(() => {
     let nuoviIndici = [];
     let nuoveDifferenze = {};
-
     for (let i = 1; i < squadreOrdinate.length; i++) {
       const differenza = Math.abs(squadreOrdinate[i].punteggio - squadreOrdinate[i - 1].punteggio);
-
       if (differenza >= 3) {
         nuoviIndici.push(i);
         nuoveDifferenze[i] = differenza;
       }
     }
-
     setIndiciDiffPts(nuoviIndici);
     setDifferenzePunti(nuoveDifferenze);
   }, []);
 
+
+
+  useEffect(() => {
+    if (coppiaSelected) {
+      // setSquadraAttiva1(coppiaSelected.team1);
+      // setSquadraAttiva2(coppiaSelected.team2);
+      console.log("coppiaSelected", coppiaSelected)
+      // console.log("SQ1", squadraAttiva1)
+      // console.log("SQ2", squadraAttiva2)
+    }
+  }, [coppiaSelected]);
+
   return (
-    <table className="relative h-full min-h-[40rem] w-full max-w-[100%] mb-[-4]">
-      <thead className="bg-black text-white">
-        <tr className="text-white bg-blue-900 ">
-          <th className="sm:px-2 text-center max-w-[10px]" style={{ whiteSpace: "nowrap" }}>
-            #
-          </th>
-          <th className="py-1 max-w-[2rem]">SQUADRA</th>
-          <th className="py-1  xs:pl-0 sm:pr-16 md:pr-16 lg:pr-20 xl:pl-0 sm:px-2 min-w-[2rem]">?</th>
-          <th className="py-1 xl:pr-2  text-center sm:px-2 max-w-[1rem]">PTS</th>
-          <th className="py-1 px-2 min-w-ful w-auto"> </th>
+    <table className="relative h-[57.5rem] w-full max-w-[100%] mb-[-4]">
+      <thead>
+        <tr className="bg-black text-gray-500 py-1 text-center">
+          <th className=" w-[2%]" style={{ whiteSpace: "nowrap" }}> # </th>
+          <th className=" w-[10%]">---  SQUADRA ---</th>
+          <th className=" w-[1%] xs:pl-0">?</th>
+          <th className=" w-[2%] pr-[2rem]  text-left">PTS</th>
+          {/* <th className=" w-[2%]"> </th> */}
           {/* Altre colonne commentate */}
         </tr>
       </thead>
-      <tbody className="bg-black text-white">
+      <tbody className="bg-black text-cyan-600">
         {squadreOrdinate.map((squadra, index) => (
           <tr key={index}>
             <td className={`text-center relative ${getBackgroundClass(index)}`}>
-              <div className="w-full h-full flex items-center justify-center border-b-2 border-gray-600">{/* {index + 1} */}</div>
+              <div className="w-full h-full flex items-center justify-center ">{/* {index + 1} */}</div>
             </td>
-            <td
-              className={`bg-black xs:pl-0 sm:pl-32 lg:pl-36 xl:px-6 flex justify-start relative sq-column text-xl ${
-                isTeamMarkedWithX(squadra.nome)
-                  ? "underline-yello text-yellow-800"
-                  : sqSelected.includes(squadra.nome + "Z")
-                  ? "underline-gree text-green-700"
+            <td className={`w-[100%] bg-black xs:pl-0 sm:pl-32 lg:pl-36 xl:px-6 flex justify-start relative sq-column text-xl 
+              ${isCoppiaSelected(squadra.nome) ? "bg-gray-700" : ""}
+              ${isTeamMarkedWithX(squadra.nome)
+                ? "underline-yello text-yellow-500/40"
+                : sqSelected.includes(squadra.nome + "Z")
+                  ? "underline-gree text-green-500/50"
                   : sqSelected.includes(squadra.nome + "Y")
-                  ? "text-gray-500"
-                  : ""
+                    ? "text-gray-500/70"
+                    : ""
               }`}
             >
-              <div className="flex items-center bg-black">
-                <img src={squadra.logo} alt={`${squadra.nome} Logo`} className="w-5 h-7 mr-4" />
+              <div className={`flex items-center bg-black ${isCoppiaSelected(squadra.nome) ? "bg-gray-700" : ""}`}>
+                <img src={squadra.logo} alt={`${squadra.nome} Logo`} className="w-7 h-7 mr-4" />
                 <span>{squadra.nome.replace("X", "").replace("Y", "").replace("Z", "")}</span>
               </div>
             </td>
             <td
-              className={`py-2 xs:pl-0 sm:pr-16 md:pr-16 lg:pr-20 xl:pl-0 text-center font-extrabold bg-black text-red-700 text-lg z-4 ${
-                indiciDiffQ.includes(index) ? "borderAlto border-yellow-500" : ""
-              }`}
+              className={`sm:pr-1 md:pl-1 lg:pl-2 xl:pl-0 text-right font-extrabold bg-black text-cyan-600 text-xl z-4 
+              ${indiciDiffQ.includes(index) ? "borderAlto border-white" : ""}`}
             >
               {getPunteggioVisualizzato(squadra)}
             </td>
             <td
-              className={`xs:pl-0 sm:pl-16 lg:pl-28 xl:px-3 xl:mr-4 xs:pr-0 sm:pr-16 lg:pr-12 xl:pr-3 py-2 text-left font-bold bg-black text-pink-500 text-lg ${
-                indiciDiffPts.includes(index) ? "borderAlto border-pink-500" : ""
-              }`}
+              className={`sm:pl-16 lg:pl-2  xl:mr-4 sm:pr-2 text-left font-bold bg-black text-cyan-600 text-xl
+              ${isCoppiaSelected(squadra.nome) ? "bg-gray-700" : ""}
+              ${indiciDiffPts.includes(index) ? "borderAlto border-gray-500/80 " : ""}
+              ${getPunteggioVisualizzato(squadra) !== " " ? "text-gray-600/80 text-md" : ""}`}
             >
-              <div className="absolute transform -translate-x-1/2 -translate-y-8 text-left text-2xl text-white mx-8 my-[-10]">{differenzePunti[index]}</div>
+              <div class="innerBorder"></div>
+              <div className="absolute transform -translate-x-4/3 -translate-y-8 text-center text-lg text-gray-600 mx-8 my-[-10]">{differenzePunti[index]}</div>
               {squadra.punteggio}
             </td>
             {/* Altri TD possono essere inseriti qui se necessario */}
           </tr>
         ))}
       </tbody>
-    </table>
+    </table >
   );
 };
 

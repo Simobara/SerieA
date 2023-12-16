@@ -1,3 +1,21 @@
 .underline-thick {
-    text-decoration-thickness: 3px; /* o qualsiasi altro valore che preferisci */
+    text-decoration-thickness: 2px; /* o qualsiasi altro valore che preferisci */
+}
+
+.underline-red {
+    text-decoration: underline;
+    text-decoration-color: red; /* Colore rosso per l'underline */
+    text-decoration-thickness: 2px
+}
+
+.underline-green {
+    text-decoration: underline;
+    text-decoration-color: green; /* Colore rosso per l'underline */
+    text-decoration-thickness: 2px
+}
+
+.underline-yellow {
+    text-decoration: underline;
+    text-decoration-color: rgb(198, 165, 47); /* Colore rosso per l'underline */
+    text-decoration-thickness: 2px
 }
