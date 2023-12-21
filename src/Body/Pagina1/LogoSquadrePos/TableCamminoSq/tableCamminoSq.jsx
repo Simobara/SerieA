@@ -24,7 +24,7 @@ const TableCamminoSq = ({ squadra, datiSquadra }) => {
 
   const getTextTeam = (teamName) => {
     if (isATeam(teamName)) {
-      return "font-bold";
+      return "font-extrabold";
     } else if (isBTeam(teamName)) {
       return "font-normal text-gray-300/60";
     }
@@ -34,9 +34,9 @@ const TableCamminoSq = ({ squadra, datiSquadra }) => {
   const getBgHoverClass = (partita) => {
     const conditions = ["+", "-", "=", "..."];
     if (conditions.includes(partita.casa)) {
-      return "hover:bg-fuchsia-900";
+      return "hover:bg-fuchsia-800";
     } else if (conditions.includes(partita.fuori)) {
-      return "hover:bg-fuchsia-600";
+      return "hover:bg-fuchsia-600/60";
     }
     return "";
   };
@@ -48,7 +48,7 @@ const TableCamminoSq = ({ squadra, datiSquadra }) => {
       case "=":
         return "bg-sky-500 text-white";
       case "-":
-        return "bg-gray-300 border border-2 border-gray-100 text-white";
+        return "bg-gray-300 border border-2 border-white text-white";
       default:
         return "bg-white";
     }
@@ -63,9 +63,9 @@ const TableCamminoSq = ({ squadra, datiSquadra }) => {
       case "=":
         return "bg-sky-500 text-white";
       case "-":
-        return "bg-gray-300 border border-2 border-gray-100 text-white";
+        return "bg-gray-300 border border-2 border-white text-white";
       default:
-        return "";
+        return "bg-white";
     }
   };
 
@@ -80,7 +80,7 @@ const TableCamminoSq = ({ squadra, datiSquadra }) => {
   }, []);
 
   return (
-    <div className="border border-black border-2">
+    <div className="">
       <h1 className={`{ text-center md:text-2xl scale-150 ${getTextTeam(nomeSquadra)}`}>{nomeSquadra}</h1>
       <table>
         <thead>
@@ -100,15 +100,20 @@ const TableCamminoSq = ({ squadra, datiSquadra }) => {
             {datiSquadra.map((partita, index) => {
               const casaClass = getClassForCasa(partita.casa);
               const fuoriClass = getClassForFuori(partita.fuori);
-              const sqVsClass = isATeam(partita.sqVs) ? "text-black font-extrabold " : isBTeam(partita.sqVs) ? "text-gray-300 font-bold" : "";
+
+              // Converti il nome della squadra: prima lettera maiuscola, resto minuscolo
+              const formattedSqVs = partita.sqVs.toLowerCase();
+              const sqVsFormatted = formattedSqVs.charAt(0).toUpperCase() + formattedSqVs.slice(1);
+
+              const sqVsClass = isATeam(partita.sqVs) ? "text-black font-extrabold " : isBTeam(partita.sqVs) ? "text-gray-400/50 font-semibold" : "";
               const bgHoverClass = getBgHoverClass(partita);
               return (
-                <tr key={index} className={`overflow-x-hidden xs:text-lg sm:text-2xl ${bgHoverClass}`}>
-                  <td className="w-[5%] sm:w-[15%] xl:w-[5%] text-center bg-black">{partita.risultato}</td>
+                <tr key={index} className={`overflow-x-hidden xs:text-lg sm:text-xl ${bgHoverClass}`}>
+                  <td className="w-[5%] sm:w-[15%] xl:w-[5%] text-center font-bold text-sky-600 bg-black">{partita.risultato}</td>
                   <td className={`w-[7%] sm:w-[15%] xl:w-[10%] text-center xs:text-xs sm:text-base ${casaClass}`}>{partita.casa}</td>
                   <td className={`w-[7%] sm:w-[15%] xl:w-[10%] text-center xs:text-xs sm:text-base  ${fuoriClass}`}>{partita.fuori}</td>
                   <td className={` sm:w-[50%] pl-4 text-xl ${sqVsClass}`}>
-                    {isMobile == true ? partita.sqVs.slice(0, 3) : partita.sqVs}</td>
+                    {isMobile == true ? sqVsFormatted.slice(0, 3) : sqVsFormatted}</td>
                 </tr>
               );
             })}

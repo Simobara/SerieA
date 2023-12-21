@@ -1,53 +1,147 @@
-export const lazio = [
-    //* 1
-    { risultato: '✔️', casa: ' ', fuori: '-', sqVs: 'LECCE' },
-    { risultato: ' ', casa: '-', fuori: ' ', sqVs: 'GENOA' },
-    { risultato: ' ', casa: ' ', fuori: '+', sqVs: 'NAPOLI' },
-    { risultato: ' ', casa: ' ', fuori: '-', sqVs: 'JUVE' },
-    //* 2
-    { risultato: ' ', casa: '=', fuori: ' ', sqVs: 'MONZA' },
-    { risultato: ' ', casa: '+', fuori: ' ', sqVs: 'TORINO' },
-    { risultato: ' ', casa: ' ', fuori: '-', sqVs: 'MILAN' },
-    { risultato: ' ', casa: '+', fuori: ' ', sqVs: 'ATALANTA' },
-    //* 3
-    { risultato: ' ', casa: ' ', fuori: '+', sqVs: 'SASSUOLO' },
-    { risultato: ' ', casa: '+', fuori: ' ', sqVs: 'FIORENTINA' },
-    { risultato: ' ', casa: ' ', fuori: '-', sqVs: 'BOLOGNA' },
-    { risultato: ' ', casa: '=', fuori: ' ', sqVs: 'ROMA' },
-    //* 4
-    { risultato: ' ', casa: ' ', fuori: '-', sqVs: 'SALERNITANA' },
-    { risultato: ' ', casa: '+', fuori: ' ', sqVs: 'CAGLIARI' },
-    { risultato: ' ', casa: ' ', fuori: '=', sqVs: 'VERONA' },
-    { risultato: ' ', casa: '...', fuori: ' ', sqVs: 'INTER' },
-    //* 5
-    { risultato: ' ', casa: ' ', fuori: '...', sqVs: 'EMPOLI' },
-    { risultato: ' ', casa: '...', fuori: ' ', sqVs: 'FROSINONE' },
-    { risultato: ' ', casa: ' ', fuori: '...', sqVs: 'UDINESE' },
+import { calendario } from "../Calendario/calendario";
 
-    { risultato: '***', casa: '***', fuori: '***', sqVs: '*** *** ***' },
-    //* --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---A/R
-    //* 1
-    { risultato: ' ', casa: '...', fuori: '', sqVs: 'LECCE' },
-    { risultato: ' ', casa: '', fuori: '...', sqVs: 'TORINO' },
-    { risultato: ' ', casa: '...', fuori: '', sqVs: 'NAPOLI' },
-    { risultato: ' ', casa: '', fuori: '...', sqVs: 'ATALANTA' },
+function creaRisultatiLazio(calendario) {
+    const squadra = 'Lazio';
+    const risultatiLazio = [];
+    let giornataSpeciale = false;
 
-    { risultato: ' ', casa: '', fuori: '...', sqVs: 'CAGLIARI' },
-    { risultato: ' ', casa: '...', fuori: '', sqVs: 'BOLOGNA' },
-    { risultato: ' ', casa: '', fuori: '...', sqVs: 'FIORENTINA' },
-    { risultato: ' ', casa: '...', fuori: '', sqVs: 'MILAN' },
+    for (let i = 1; i <= 38; i++) {
+        const giornata = calendario[`giornata${i}`];
 
-    { risultato: ' ', casa: '...', fuori: '', sqVs: 'UDINESE' },
-    { risultato: ' ', casa: '', fuori: '...', sqVs: 'FROSINONE' },
-    { risultato: ' ', casa: '...', fuori: '', sqVs: 'JUVE' },
-    { risultato: ' ', casa: '', fuori: '...', sqVs: 'ROMA' },
+        giornata.forEach(partita => {
+            if (partita.team1 === squadra || partita.team2 === squadra) {
+                const isCasa = partita.team1 === squadra;
 
-    { risultato: ' ', casa: '...', fuori: '', sqVs: 'SALERNITANA' },
-    { risultato: ' ', casa: '', fuori: '...', sqVs: 'GENOA' },
-    { risultato: ' ', casa: '...', fuori: '', sqVs: 'VERONA' },
-    { risultato: ' ', casa: '', fuori: '...', sqVs: 'MONZA' },
+                if (i <= 19) {
+                    if (partita.results === ' ') {
+                        risultatiLazio.push({
+                            risultato: ' ',
+                            casa: isCasa ? '...' : ' ',
+                            fuori: isCasa ? ' ' : '...',
+                            sqVs: isCasa ? partita.team2 : partita.team1
+                        });
+                    } else {
+                        const risultatoSplit = partita.results.split('-');
+                        const golLazio = isCasa ? risultatoSplit[0] : risultatoSplit[1];
+                        const golAvversari = isCasa ? risultatoSplit[1] : risultatoSplit[0];
 
-    { risultato: ' ', casa: '...', fuori: '', sqVs: 'EMPOLI' },
-    { risultato: ' ', casa: '', fuori: '...', sqVs: 'INTER' },
-    { risultato: ' ', casa: '...', fuori: '', sqVs: 'SASSUOLO' },
-];
+                        let segno;
+                        if (golLazio > golAvversari) segno = '+';
+                        else if (golLazio < golAvversari) segno = '-';
+                        else segno = '=';
+
+                        // Inverti il risultato se la Lazio gioca fuori
+                        const risultatoInvertito = isCasa ? partita.results : partita.results.split('-').reverse().join('-');
+
+                        risultatiLazio.push({
+                            risultato: risultatoInvertito,
+                            casa: isCasa ? segno : ' ',
+                            fuori: isCasa ? ' ' : segno,
+                            sqVs: isCasa ? partita.team2 : partita.team1
+                        });
+                    }
+                } else {
+                    if (!giornataSpeciale) {
+                        // Creazione dei risultati con il formato richiesto
+                        risultatiLazio.push({
+                            risultato: ' ',
+                            casa: '***',
+                            fuori: '***',
+                            sqVs: '*** *** ***'
+                        });
+                        giornataSpeciale = true;
+                    } else {
+                        // Continua con la logica normale dalla giornata 20
+                        if (partita.results === ' ') {
+                            risultatiLazio.push({
+                                risultato: ' ',
+                                casa: isCasa ? '...' : ' ',
+                                fuori: isCasa ? ' ' : '...',
+                                sqVs: isCasa ? partita.team2 : partita.team1
+                            });
+                        } else {
+                            const risultatoSplit = partita.results.split('-');
+                            const golLazio = isCasa ? risultatoSplit[0] : risultatoSplit[1];
+                            const golAvversari = isCasa ? risultatoSplit[1] : risultatoSplit[0];
+
+                            let segno;
+                            if (golLazio > golAvversari) segno = '+';
+                            else if (golLazio < golAvversari) segno = '-';
+                            else segno = '=';
+
+                            // Inverti il risultato se la Lazio gioca fuori
+                            const risultatoInvertito = isCasa ? partita.results : partita.results.split('-').reverse().join('-');
+
+                            risultatiLazio.push({
+                                risultato: risultatoInvertito,
+                                casa: isCasa ? segno : ' ',
+                                fuori: isCasa ? ' ' : segno,
+                                sqVs: isCasa ? partita.team2 : partita.team1
+                            });
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    return risultatiLazio;
+}
+
+const risultatiLazio = creaRisultatiLazio(calendario);
+export const lazio = risultatiLazio;
+
+
+// export const lazio = [
+//     //* 1
+//     { risultato: '✔️', casa: ' ', fuori: '-', sqVs: 'LECCE' },
+//     { risultato: ' ', casa: '-', fuori: ' ', sqVs: 'GENOA' },
+//     { risultato: ' ', casa: ' ', fuori: '+', sqVs: 'NAPOLI' },
+//     { risultato: ' ', casa: ' ', fuori: '-', sqVs: 'JUVE' },
+//     //* 2
+//     { risultato: ' ', casa: '=', fuori: ' ', sqVs: 'MONZA' },
+//     { risultato: ' ', casa: '+', fuori: ' ', sqVs: 'TORINO' },
+//     { risultato: ' ', casa: ' ', fuori: '-', sqVs: 'MILAN' },
+//     { risultato: ' ', casa: '+', fuori: ' ', sqVs: 'ATALANTA' },
+//     //* 3
+//     { risultato: ' ', casa: ' ', fuori: '+', sqVs: 'SASSUOLO' },
+//     { risultato: ' ', casa: '+', fuori: ' ', sqVs: 'FIORENTINA' },
+//     { risultato: ' ', casa: ' ', fuori: '-', sqVs: 'BOLOGNA' },
+//     { risultato: ' ', casa: '=', fuori: ' ', sqVs: 'ROMA' },
+//     //* 4
+//     { risultato: ' ', casa: ' ', fuori: '-', sqVs: 'SALERNITANA' },
+//     { risultato: ' ', casa: '+', fuori: ' ', sqVs: 'CAGLIARI' },
+//     { risultato: ' ', casa: ' ', fuori: '=', sqVs: 'VERONA' },
+//     { risultato: ' ', casa: '-', fuori: ' ', sqVs: 'INTER' },
+//     //* 5
+//     { risultato: ' ', casa: ' ', fuori: '...', sqVs: 'EMPOLI' },
+//     { risultato: ' ', casa: '...', fuori: ' ', sqVs: 'FROSINONE' },
+//     { risultato: ' ', casa: ' ', fuori: '...', sqVs: 'UDINESE' },
+
+//     { risultato: '***', casa: '***', fuori: '***', sqVs: '*** *** ***' },
+//     //* --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---A/R
+//     //* 1
+//     { risultato: ' ', casa: '...', fuori: '', sqVs: 'LECCE' },
+//     { risultato: ' ', casa: '', fuori: '...', sqVs: 'TORINO' },
+//     { risultato: ' ', casa: '...', fuori: '', sqVs: 'NAPOLI' },
+//     { risultato: ' ', casa: '', fuori: '...', sqVs: 'ATALANTA' },
+
+//     { risultato: ' ', casa: '', fuori: '...', sqVs: 'CAGLIARI' },
+//     { risultato: ' ', casa: '...', fuori: '', sqVs: 'BOLOGNA' },
+//     { risultato: ' ', casa: '', fuori: '...', sqVs: 'FIORENTINA' },
+//     { risultato: ' ', casa: '...', fuori: '', sqVs: 'MILAN' },
+
+//     { risultato: ' ', casa: '...', fuori: '', sqVs: 'UDINESE' },
+//     { risultato: ' ', casa: '', fuori: '...', sqVs: 'FROSINONE' },
+//     { risultato: ' ', casa: '...', fuori: '', sqVs: 'JUVE' },
+//     { risultato: ' ', casa: '', fuori: '...', sqVs: 'ROMA' },
+
+//     { risultato: ' ', casa: '...', fuori: '', sqVs: 'SALERNITANA' },
+//     { risultato: ' ', casa: '', fuori: '...', sqVs: 'GENOA' },
+//     { risultato: ' ', casa: '...', fuori: '', sqVs: 'VERONA' },
+//     { risultato: ' ', casa: '', fuori: '...', sqVs: 'MONZA' },
+
+//     { risultato: ' ', casa: '...', fuori: '', sqVs: 'EMPOLI' },
+//     { risultato: ' ', casa: '', fuori: '...', sqVs: 'INTER' },
+//     { risultato: ' ', casa: '...', fuori: '', sqVs: 'SASSUOLO' },
+// ];
