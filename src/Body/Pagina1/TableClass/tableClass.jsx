@@ -159,7 +159,7 @@ const TableClass = () => {
               ${indiciDiffPts.includes(index) ? "borderAlto border-gray-500/80 " : ""}
               ${getPunteggioVisualizzato(squadra) !== " " ? "text-gray-600/80 text-md" : ""}`}
             >
-              <div class="innerBorder"></div>
+              <div className="innerBorder"></div>
               <div className="absolute transform -translate-x-4/3 -translate-y-8 text-center text-lg text-gray-600 mx-8 my-[-10]">{differenzePunti[index]}</div>
               {squadra.punteggio}
             </td>
