@@ -1,6 +1,4 @@
 import { Atalanta, Bologna, Cagliari, Empoli, Fiorentina, Frosinone, Genoa, Inter, Juve, Lazio, Lecce, Milan, Monza, Napoli, Roma, Salernitana, Sassuolo, Torino, Udinese, Verona, } from '../assets/ImportSquadre/importSquadre'
-
-// http://www.italiadelcalcio.it/i010100.htm
 import { giornataClou } from './Calendario/calendario';
 
 //* INCONTRI

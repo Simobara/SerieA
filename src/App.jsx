@@ -6,11 +6,7 @@ import Body from "./Body/Body";
 // overflow-hidden
 const App = () => {
   return (
-    <div
-      className="h-screen xl:overflow-hidden
-    
-    "
-    >
+    <div className="h-screen xl:overflow-hidden " >
       <Header />
       <Body />
       <Footer />

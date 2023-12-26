@@ -41,11 +41,18 @@ th, td {
     text-decoration-thickness: 2px;
 }
 
+.underlineCoppiaRegSel{
+    text-decoration: underline;
+    text-decoration-color: hsl(216, 45%, 34%);
+    text-decoration-thickness: 3px;
+    
+}
+
 .text-yellow {
     color: #ae7b04;
 }
 
 .borderAlto {
-    border-top-width: 1px;
+    border-top-width: 2px;
     
 }

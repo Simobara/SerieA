@@ -87,10 +87,10 @@ const LogoSquadrePos = () => {
     </div>
   );
 
-  useEffect(() => {
-    console.log("SQATTIVA 1", squadraAttiva1);
-    console.log("SQATTIVA 2", squadraAttiva2);
-  }, [squadraAttiva1, squadraAttiva2]);
+  // useEffect(() => {
+  //   console.log("SQATTIVA 1", squadraAttiva1);
+  //   console.log("SQATTIVA 2", squadraAttiva2);
+  // }, [squadraAttiva1, squadraAttiva2]);
 
   useEffect(() => {
     if (coppiaSelected) {

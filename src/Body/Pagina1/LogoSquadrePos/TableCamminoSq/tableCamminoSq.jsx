@@ -1,15 +1,14 @@
-import "./tableCamminoSq.css";
 import { useEffect, useState } from "react";
-// eslint-disable-next-line
 import { ATeams } from "../../../../START/START";
 import { BTeams } from "../../../../START/START";
-// eslint-disable-next-line
+import "./tableCamminoSq.css";
+
 const TableCamminoSq = ({ squadra, datiSquadra }) => {
   const [isMobile, setIsMobile] = useState(window.matchMedia("(max-width: 600px)").matches);
 
   // console.log("isMobile", isMobile);
 
-  // eslint-disable-next-line
+
   const nomeSquadra = typeof squadra === "string" ? squadra.toUpperCase() : "DefinireSq";
 
   const isATeam = (teamName) => {
@@ -31,14 +30,22 @@ const TableCamminoSq = ({ squadra, datiSquadra }) => {
     return "text-black";
   };
 
+  const getTextColor = (partita) => {
+    const conditions = ["+", "-", "=", "..."];
+    if (conditions.includes(partita.casa) || conditions.includes(partita.fuori)) {
+      return "text-white"; // white text when row is fuchsia
+    }
+    return "text-black"; // default text color
+  };
+
   const getBgHoverClass = (partita) => {
     const conditions = ["+", "-", "=", "..."];
     if (conditions.includes(partita.casa)) {
-      return "hover:bg-fuchsia-800";
+      return "hover:bg-fuchsia-800/90";
     } else if (conditions.includes(partita.fuori)) {
-      return "hover:bg-fuchsia-600/60";
+      return "hover:bg-fuchsia-500";
     }
-    return "";
+    return " ";
   };
 
   const getClassForCasa = (casa) => {
@@ -48,7 +55,7 @@ const TableCamminoSq = ({ squadra, datiSquadra }) => {
       case "=":
         return "bg-sky-500 text-white";
       case "-":
-        return "bg-gray-300 border border-2 border-white text-white";
+        return "bg-gray-300 text-white";
       default:
         return "bg-white";
     }
@@ -57,15 +64,18 @@ const TableCamminoSq = ({ squadra, datiSquadra }) => {
     if (fuori === "...") {
       return "bg-white";
     }
+    if (fuori === " ") {
+      return " "
+    }
     switch (fuori) {
       case "+":
         return "bg-sky-900 text-white";
       case "=":
         return "bg-sky-500 text-white";
       case "-":
-        return "bg-gray-300 border border-2 border-white text-white";
+        return "bg-gray-300 text-white";
       default:
-        return "bg-white";
+        return "bg-transparent";
     }
   };
 
@@ -105,14 +115,15 @@ const TableCamminoSq = ({ squadra, datiSquadra }) => {
               const formattedSqVs = partita.sqVs.toLowerCase();
               const sqVsFormatted = formattedSqVs.charAt(0).toUpperCase() + formattedSqVs.slice(1);
 
-              const sqVsClass = isATeam(partita.sqVs) ? "text-black font-extrabold " : isBTeam(partita.sqVs) ? "text-gray-500/40 font-semibold" : "";
+              const sqVsClass = isATeam(partita.sqVs) ? "text-black font-extrabold" : isBTeam(partita.sqVs) ? "text-gray-500/40 font-semibold" : "";
               const bgHoverClass = getBgHoverClass(partita);
+              const textColorClass = getTextColor(partita);
               return (
-                <tr key={index} className={`overflow-x-hidden xs:text-lg sm:text-xl ${bgHoverClass}`}>
+                <tr key={index} className={`overflow-x-hidden xs:text-lg sm:text-xl ${bgHoverClass} last-text-white `}>
                   <td className="w-[5%] sm:w-[15%] xl:w-[5%] text-center font-bold text-sky-600/70 bg-black">{partita.risultato}</td>
                   <td className={`w-[7%] sm:w-[15%] xl:w-[10%] text-center xs:text-xs sm:text-base ${casaClass}`}>{partita.casa}</td>
-                  <td className={`w-[7%] sm:w-[15%] xl:w-[10%] text-center xs:text-xs sm:text-base  ${fuoriClass}`}>{partita.fuori}</td>
-                  <td className={` sm:w-[50%] pl-4 text-xl ${sqVsClass}`}>
+                  <td className={`w-[7%] sm:w-[15%] xl:w-[10%] text-center xs:text-xs sm:text-base ${fuoriClass}`}>{partita.fuori}</td>
+                  <td className={`sm:w-[50%] pl-4 text-xl ${sqVsClass} `}>
                     {isMobile == true ? sqVsFormatted.slice(0, 3) : sqVsFormatted}</td>
                 </tr>
               );

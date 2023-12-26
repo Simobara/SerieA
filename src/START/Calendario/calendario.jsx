@@ -230,30 +230,30 @@ export const calendario = {
         { numero: 10, day: 'lun', time: '20:45', team1: 'Atalanta', team2: 'Salernitana', results: '4-1' },
     ],
     giornata17: [
-        { numero: 1, day: 'ven', time: '18.30', team1: 'Empoli', team2: 'Lazio', results: ' ' },
-        { numero: 2, day: 'ven', time: '18.30', team1: 'Sassuolo', team2: 'Genoa', results: ' ' },
-        { numero: 3, day: 'ven', time: '20.45', team1: 'Monza', team2: 'Fiorentina', results: ' ' },
-        { numero: 4, day: 'ven', time: '20:45', team1: 'Salernitana', team2: 'Milan', results: ' ' },
+        { numero: 1, day: 'ven', time: '18.30', team1: 'Empoli', team2: 'Lazio', results: '0-2' },
+        { numero: 2, day: 'ven', time: '18.30', team1: 'Sassuolo', team2: 'Genoa', results: '1-2' },
+        { numero: 3, day: 'ven', time: '20.45', team1: 'Monza', team2: 'Fiorentina', results: '0-1' },
+        { numero: 4, day: 'ven', time: '20:45', team1: 'Salernitana', team2: 'Milan', results: '2-2' },
 
-        { numero: 5, day: 'sab', time: '12:30', team1: 'Frosinone', team2: 'Juve', results: ' ' },
-        { numero: 6, day: 'sab', time: '15:00', team1: 'Bologna', team2: 'Atalanta', results: ' ' },
-        { numero: 7, day: 'sab', time: '15:00', team1: 'Torino', team2: 'Udinese', results: ' ' },
-        { numero: 8, day: 'sab', time: '18:00', team1: 'Verona', team2: 'Cagliari', results: ' ' },
-        { numero: 9, day: 'dom', time: '18.00', team1: 'Inter', team2: 'Lecce', results: ' ' },//sab
-        { numero: 10, day: 'lun', time: '20:45', team1: 'Roma', team2: 'Napoli', results: ' ' },//sab
+        { numero: 5, day: 'sab', time: '12:30', team1: 'Frosinone', team2: 'Juve', results: '1-2' },
+        { numero: 6, day: 'sab', time: '15:00', team1: 'Bologna', team2: 'Atalanta', results: '1-0' },
+        { numero: 7, day: 'sab', time: '15:00', team1: 'Torino', team2: 'Udinese', results: '1-1' },
+        { numero: 8, day: 'sab', time: '18:00', team1: 'Verona', team2: 'Cagliari', results: '0-0' },
+        { numero: 9, day: 'dom', time: '18.00', team1: 'Inter', team2: 'Lecce', results: '1-0' },//sab
+        { numero: 10, day: 'lun', time: '20:45', team1: 'Roma', team2: 'Napoli', results: '2-0' },//sab
     ],
     giornata18: [
-        { numero: 1, day: 'ven', time: '18.30', team1: 'Fiorentina', team2: 'Torino', results: ' ' },
-        { numero: 2, day: 'ven', time: '18.30', team1: 'Napoli', team2: 'Monza', results: ' ' },
-        { numero: 3, day: 'ven', time: '20.45', team1: 'Genoa', team2: 'Inter', results: ' ' },
-        { numero: 4, day: 'ven', time: '20:45', team1: 'Lazio', team2: 'Frosinone', results: ' ' },
+        { numero: 1, day: 'ven', time: '18.30', team1: 'Fiorentina', team2: 'Torino', results: '1-0' },
+        { numero: 2, day: 'ven', time: '18.30', team1: 'Napoli', team2: 'Monza', results: '' },
+        { numero: 3, day: 'ven', time: '20.45', team1: 'Genoa', team2: 'Inter', results: '' },
+        { numero: 4, day: 'ven', time: '20:45', team1: 'Lazio', team2: 'Frosinone', results: '' },
 
-        { numero: 5, day: 'sab', time: '12:30', team1: 'Atalanta', team2: 'Lecce', results: ' ' },
-        { numero: 6, day: 'sab', time: '15:00', team1: 'Cagliari', team2: 'Empoli', results: ' ' },
-        { numero: 7, day: 'sab', time: '15:00', team1: 'Udinese', team2: 'Bologna', results: ' ' },
-        { numero: 8, day: 'sab', time: '18:00', team1: 'Verona', team2: 'Salernitana', results: ' ' },
-        { numero: 9, day: 'dom', time: '18.00', team1: 'Milan', team2: 'Sassuolo', results: ' ' },//sab
-        { numero: 10, day: 'lun', time: '20:45', team1: 'Juve', team2: 'Roma', results: ' ' },//sab
+        { numero: 5, day: 'sab', time: '12:30', team1: 'Atalanta', team2: 'Lecce', results: '' },
+        { numero: 6, day: 'sab', time: '15:00', team1: 'Cagliari', team2: 'Empoli', results: '' },
+        { numero: 7, day: 'sab', time: '15:00', team1: 'Udinese', team2: 'Bologna', results: '' },
+        { numero: 8, day: 'sab', time: '18:00', team1: 'Verona', team2: 'Salernitana', results: '' },
+        { numero: 9, day: 'dom', time: '18.00', team1: 'Milan', team2: 'Sassuolo', results: '' },//sab
+        { numero: 10, day: 'lun', time: '20:45', team1: 'Juve', team2: 'Roma', results: '' },//sab
     ],
     giornata19: [
         { numero: 1, day: 'ven', time: '18.30', team1: 'Bologna', team2: 'Genoa', results: ' ' },
@@ -501,6 +501,6 @@ export const calendario = {
 }
 // -------------------------------------------------------------------------------------- -------------------
 
-export const giornataClou = calendario.giornata17;
+export const giornataClou = calendario.giornata18;
 
 // -------------------------------------------------------------------------------------- -------------------

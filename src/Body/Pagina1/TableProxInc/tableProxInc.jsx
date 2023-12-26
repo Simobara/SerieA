@@ -14,6 +14,7 @@ const TableProxInc = () => {
   const [resetAll, setResetAll] = useState([]);
   const [isModalInserOpen, setIsModalInserOpen] = useState(false);
   const { coppiaSelected } = useContext(CoppiaPartitaContext);
+
   const [squadreAttive, setSquadreAttive] = useState({ team1: "", team2: "" });
 
 
@@ -48,7 +49,7 @@ const TableProxInc = () => {
           const sharedStyle = {
             width: "35px",
             height: "35px",
-            backgroundColor: " #108910",
+            backgroundColor: " #3372f0",
             borderRadius: "50%",
             position: "absolute",
             top: squadra.style.top,
@@ -62,8 +63,8 @@ const TableProxInc = () => {
           const innerCircleStyle = {
             width: "25px",
             height: "25px",
-            backgroundColor: " #FDFFFF",
-            opacity: 0.5, // Regola l'opacità per il bianco trasparente
+            backgroundColor: " #e8e8fa",
+            opacity: 0.9, // Regola l'opacità per il bianco trasparente
             borderRadius: "50%"
           };
 
@@ -134,13 +135,6 @@ const TableProxInc = () => {
   };
 
 
-
-
-
-
-
-
-
   useEffect(() => {
     // console.log("squadreConfig:", squadreConfig);
     if (coppiaSelected) {
@@ -150,6 +144,8 @@ const TableProxInc = () => {
     }
   }, [coppiaSelected]);
 
+
+
   return (
     <>
       <div className="relative ">
@@ -157,7 +153,7 @@ const TableProxInc = () => {
           <div className="relative overflow-hidden w-[120rem] ml-[-3rem]">
             <img src={serieAItalia} alt="serieAItalia" className="relative h-[47rem] w-[100%] mt-[-4.4rem]" />
             {coppiaSelected && renderSquadre()}
-            <button className="absolute top-[27.5%] left-[44.5%] p-2 font-bold bg-transparent rounded-lg hover:bg-red-400"
+            <button className="absolute top-[26.5%] left-[44.5%] p-2 font-bold bg-transparent rounded-lg hover:bg-red-400"
               // style={{ transform: "rotate(180deg)" }}
               onClick={() => setResetAll([])}
             >
@@ -183,7 +179,7 @@ const TableProxInc = () => {
         </div>
         {/* </div> */}
       </div >
-      <ModalInserimento isOpen={isModalInserOpen} isClose={() => setIsModalInserOpen(false)} />
+      {/* <ModalInserimento isOpen={isModalInserOpen} isClose={() => setIsModalInserOpen(false)} /> */}
     </>
   );
 };

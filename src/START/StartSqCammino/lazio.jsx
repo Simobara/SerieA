@@ -11,17 +11,18 @@ function creaRisultatiLazio(calendario) {
         giornata.forEach(partita => {
             if (partita.team1 === squadra || partita.team2 === squadra) {
                 const isCasa = partita.team1 === squadra;
+                let resultsTrimmed = partita.results.trim(); // Applicazione del metodo .trim() ai risultati della partita
 
                 if (i <= 19) {
-                    if (partita.results === ' ') {
+                    if (resultsTrimmed === '') {
                         risultatiLazio.push({
-                            risultato: ' ',
-                            casa: isCasa ? '...' : ' ',
-                            fuori: isCasa ? ' ' : '...',
+                            risultato: '',
+                            casa: isCasa ? '...' : '',
+                            fuori: isCasa ? '' : '...',
                             sqVs: isCasa ? partita.team2 : partita.team1
                         });
                     } else {
-                        const risultatoSplit = partita.results.split('-');
+                        const risultatoSplit = resultsTrimmed.split('-');
                         const golLazio = isCasa ? risultatoSplit[0] : risultatoSplit[1];
                         const golAvversari = isCasa ? risultatoSplit[1] : risultatoSplit[0];
 
@@ -30,37 +31,34 @@ function creaRisultatiLazio(calendario) {
                         else if (golLazio < golAvversari) segno = '-';
                         else segno = '=';
 
-                        // Inverti il risultato se la Lazio gioca fuori
                         const risultatoInvertito = isCasa ? partita.results : partita.results.split('-').reverse().join('-');
 
                         risultatiLazio.push({
                             risultato: risultatoInvertito,
-                            casa: isCasa ? segno : ' ',
-                            fuori: isCasa ? ' ' : segno,
+                            casa: isCasa ? segno : '',
+                            fuori: isCasa ? '' : segno,
                             sqVs: isCasa ? partita.team2 : partita.team1
                         });
                     }
                 } else {
                     if (!giornataSpeciale) {
-                        // Creazione dei risultati con il formato richiesto
                         risultatiLazio.push({
-                            risultato: ' ',
+                            risultato: '',
                             casa: '***',
                             fuori: '***',
                             sqVs: '*** *** ***'
                         });
                         giornataSpeciale = true;
                     } else {
-                        // Continua con la logica normale dalla giornata 20
-                        if (partita.results === ' ') {
+                        if (resultsTrimmed === '') {
                             risultatiLazio.push({
-                                risultato: ' ',
-                                casa: isCasa ? '...' : ' ',
-                                fuori: isCasa ? ' ' : '...',
+                                risultato: '',
+                                casa: isCasa ? '...' : '',
+                                fuori: isCasa ? '' : '...',
                                 sqVs: isCasa ? partita.team2 : partita.team1
                             });
                         } else {
-                            const risultatoSplit = partita.results.split('-');
+                            const risultatoSplit = resultsTrimmed.split('-');
                             const golLazio = isCasa ? risultatoSplit[0] : risultatoSplit[1];
                             const golAvversari = isCasa ? risultatoSplit[1] : risultatoSplit[0];
 
@@ -69,13 +67,12 @@ function creaRisultatiLazio(calendario) {
                             else if (golLazio < golAvversari) segno = '-';
                             else segno = '=';
 
-                            // Inverti il risultato se la Lazio gioca fuori
                             const risultatoInvertito = isCasa ? partita.results : partita.results.split('-').reverse().join('-');
 
                             risultatiLazio.push({
                                 risultato: risultatoInvertito,
-                                casa: isCasa ? segno : ' ',
-                                fuori: isCasa ? ' ' : segno,
+                                casa: isCasa ? segno : '',
+                                fuori: isCasa ? '' : segno,
                                 sqVs: isCasa ? partita.team2 : partita.team1
                             });
                         }

@@ -31,3 +31,16 @@ export const CoppiaPartitaProvider = ({ children }) => {
 
 //-----------------------------------------------------------------------
 
+export const CoppiaPartitaRegistrataContext = createContext();
+// eslint-disable-next-line
+export const CoppiaPartitaRegistrataProvider = ({ children }) => {
+    const [coppiaRegSelected, setCoppiaRegSelected] = useState([]);
+
+    return (
+        <CoppiaPartitaRegistrataContext.Provider value={{ coppiaRegSelected, setCoppiaRegSelected }}>
+            {children}
+        </CoppiaPartitaRegistrataContext.Provider>
+    )
+};
+
+//-----------------------------------------------------------------------

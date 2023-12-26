@@ -1,10 +1,9 @@
-
-
 import { useState, useContext, useEffect } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import { SquadraContext } from "../../../../../Global/global";
 import { CoppiaPartitaContext } from "../../../../../Global/global";
-// import { NewPartiteContext } from "../../../../../Global/global";
+import { CoppiaPartitaRegistrataContext } from "../../../../../Global/global";
+import { giornataClou } from "../../../../../../START/Calendario/calendario";
 import "./partita.css";
 
 const Partita = ({ partita, movePartita, resetAll, coppiaSquadre, occhioApertoPartita, setOcchioApertoPartita }) => {
@@ -15,6 +14,22 @@ const Partita = ({ partita, movePartita, resetAll, coppiaSquadre, occhioApertoPa
     const [selection, setSelection] = useState("");
     const { sqSelected, setSqSelected } = useContext(SquadraContext);
     const { coppiaSelected, setCoppiaSelected } = useContext(CoppiaPartitaContext);
+    const { coppiaRegSelected, setCoppiaRegSelected } = useContext(CoppiaPartitaRegistrataContext);
+
+
+
+    const isPartitaInCoppiaRegSelected = coppiaRegSelected.some(coppia =>
+        coppia.team1 === partita.team1 && coppia.team2 === partita.team2
+    );
+
+    const handleToggleSymbol = () => {
+        if (!isPartitaInCoppiaRegSelected) {
+            toggleSymbol();
+        }
+    };
+
+    const marginLeftClass = isPartitaInCoppiaRegSelected ? "mr-[2rem]" : "ml-[1rem]";
+
 
     const toggleSymbol = () => {
         setIsKQBtnActive(!isKQBtnActive);//true
@@ -26,7 +41,7 @@ const Partita = ({ partita, movePartita, resetAll, coppiaSquadre, occhioApertoPa
     };
 
     const toggleEye = () => {
-        console.log("Toggle Eye - Current State: ", occhioApertoPartita);
+        // console.log("Toggle Eye - Current State: ", occhioApertoPartita);
         if (occhioApertoPartita === partita.numero) {
             setOcchioApertoPartita(null);
         } else {
@@ -37,18 +52,41 @@ const Partita = ({ partita, movePartita, resetAll, coppiaSquadre, occhioApertoPa
     const isEyeOpen = occhioApertoPartita === partita.numero;
 
     // console.log("PARTITA/COPPIA SQUADRE", coppiaSquadre)
-    const handleSelection = (selectedTeam, selectionType) => {
-        if (!isKQBtnActive) {
+    const handleSelection = (selectedTeam, selectionType, numeroPartita = '') => {
+        if (numeroPartita !== 0 && numeroPartita === partita.numero) {
+            setIsKQBtnActive(true);
             setSelection(selectionType);
-            if (selectionType === "1" || selectionType === "X" || selectionType === "2") {
-                setIsButtonClickable(true)
-            }
+            setIsButtonClickable(true);
+
             setSqSelected((currentSelected) => {
-                let updatedSelection = currentSelected;
-                const nonSelectedTeam = selectedTeam === partita.team1 ? partita.team2 : partita.team1;
-                updatedSelection = updatedSelection.filter(
-                    (//Rimuovi sempre entrambe le squadre
-                        squadra) =>
+                let updatedSelection = currentSelected.filter(
+                    (squadra) => squadra !== partita.team1 && squadra !== partita.team2
+                );
+
+                if (selectionType === "1") {
+                    // Aggiungi la squadra vincente (team1 o team2) per la partita specifica
+                    updatedSelection.push(selectedTeam === partita.team1 ? partita.team1 : partita.team2);
+                } else if (selectionType === "2") {
+                    // Aggiungi la squadra perdente per la partita specifica
+                    updatedSelection.push(selectedTeam === partita.team1 ? partita.team2 : partita.team1);
+                } else if (selectionType === "X") {
+                    // Aggiungi entrambe le squadre per la partita specifica in caso di pareggio
+                    updatedSelection.push(partita.team1, partita.team2);
+                }
+
+                return updatedSelection;
+            });
+        } else if (numeroPartita === '') {
+            if (!isKQBtnActive) {
+                setSelection(selectionType);
+                if (selectionType === "1" || selectionType === "X" || selectionType === "2") {
+                    setIsButtonClickable(true)
+                }
+                setSqSelected((currentSelected) => {
+                    let updatedSelection = currentSelected;
+                    const nonSelectedTeam = selectedTeam === partita.team1 ? partita.team2 : partita.team1;
+                    //Rimuovi sempre entrambe le squadre
+                    updatedSelection = updatedSelection.filter((squadra) =>
                         squadra !== partita.team1 &&
                         squadra !== partita.team1 + "X" &&
                         squadra !== partita.team1 + "Y" &&
@@ -57,14 +95,15 @@ const Partita = ({ partita, movePartita, resetAll, coppiaSquadre, occhioApertoPa
                         squadra !== partita.team2 + "X" &&
                         squadra !== partita.team2 + "Y" &&
                         squadra !== partita.team2 + "Z"
-                );
-                if (selectionType === "X") {
-                    updatedSelection = [...updatedSelection, partita.team1 + "X", partita.team2 + "X"]; // Aggiungi entrambe le squadre con 'X'
-                } else {
-                    updatedSelection = [...updatedSelection, selectedTeam + "Z", nonSelectedTeam + "Y"]; // Aggiungi la squadra selezionata con 'Z' e 'Y'
-                }
-                return updatedSelection;
-            });
+                    );
+                    if (selectionType === "X") {
+                        updatedSelection = [...updatedSelection, partita.team1 + "X", partita.team2 + "X"]; // Aggiungi entrambe le squadre con 'X'
+                    } else {
+                        updatedSelection = [...updatedSelection, selectedTeam + "Z", nonSelectedTeam + "Y"]; // Aggiungi la squadra selezionata con 'Z' e 'Y'
+                    }
+                    return updatedSelection;
+                });
+            };
         };
     };
 
@@ -97,7 +136,8 @@ const Partita = ({ partita, movePartita, resetAll, coppiaSquadre, occhioApertoPa
             numeroPartita: partita.numero
         };
 
-        if (coppiaSelected && coppiaSelected.team1 === selectedTeams.team1 && coppiaSelected.team2 === selectedTeams.team2) {//Control sq correnti sn gia'selez
+        if (coppiaSelected && coppiaSelected.team1 === selectedTeams.team1 && coppiaSelected.team2 === selectedTeams.team2) {
+            //Control sq correnti sn gia'selez
             setCoppiaSelected([]); // Deseleziona se la coppia di squadre è già selezionata
         } else {
             setCoppiaSelected(selectedTeams); // Altrimenti, seleziona la nuova coppia di squadre
@@ -138,7 +178,6 @@ const Partita = ({ partita, movePartita, resetAll, coppiaSquadre, occhioApertoPa
         // eslint-disable-next-line
         item: { numero: partita.numero, day: partita.day },
     });
-
     const [, drop] = useDrop({
         accept: "PARTITA",
         hover: (draggedItem) => {
@@ -157,18 +196,58 @@ const Partita = ({ partita, movePartita, resetAll, coppiaSquadre, occhioApertoPa
         },
     });
 
+
+
+    // ------------------------------------------------------------------------------------------------
     useEffect(() => {
-        // console.log("PIPPOLO RESETALL,");
-        setSelection(resetAll);
-        // console.log("selection", selection)
-        setSqSelected(resetAll);
-        // console.log("sqSelected", sqSelected)
-        setCoppiaSelected(resetAll);
-        // console.log("coppiaSelected", coppiaSelected);
-        setOcchioApertoPartita(null);
-        setIsButtonClickable(false)
-        setIsKQBtnActive(false);
-    }, [resetAll]);
+        if (resetAll) {
+            // Chiudi l'occhio per tutte le partite
+            setOcchioApertoPartita(null);
+
+            setIsKQBtnActive(false);
+            setIsSignOk(false);
+            setIsButtonClickable(false);
+
+            const numeriPartiteConRisultati = giornataClou
+                .filter(partita => partita.results !== '')
+                .map(partita => partita.numero);
+
+            giornataClou.forEach(partitaClou => {
+                if (!numeriPartiteConRisultati.includes(partitaClou.numero)) {
+                    if (partita.numero === partitaClou.numero) {
+                        setSelection("");
+                        setSqSelected(currentSelected => {
+                            if (Array.isArray(currentSelected)) {
+                                return currentSelected.filter(squadra =>
+                                    squadra !== partita.team1 &&
+                                    squadra !== partita.team2 &&
+                                    !squadra.includes(partita.team1) &&
+                                    !squadra.includes(partita.team2)
+                                );
+                            } else {
+                                console.error('currentSelected is not an array:', currentSelected);
+                                return [];
+                            }
+                        });
+                        setCoppiaSelected(currentSelected => {
+                            if (Array.isArray(currentSelected)) {
+                                return currentSelected.filter(coppia =>
+                                    coppia.numeroPartita !== partitaClou.numero
+                                );
+                            } else {
+                                console.error('currentSelected is not an array:', currentSelected);
+                                return [];
+                            }
+                        });
+                    }
+                }
+            });
+        }
+    }, [resetAll, giornataClou, partita]);
+
+
+
+
 
     useEffect(() => {
         const handleResize = () => {
@@ -180,9 +259,35 @@ const Partita = ({ partita, movePartita, resetAll, coppiaSquadre, occhioApertoPa
         };
     }, []);
 
+    useEffect(() => {
+        const partiteRegistrata = []; // Array temporaneo per le partite registrate
+        giornataClou.forEach((partitaGiornataClou) => {
+            if (/^\d+-\d+$/.test(partitaGiornataClou.results)) {
+                const score = partitaGiornataClou.results.split('-').map(Number);
+                let selectionType;
+                if (score[0] > score[1]) {
+                    selectionType = "1";
+                } else if (score[0] < score[1]) {
+                    selectionType = "2";
+                } else {
+                    selectionType = "X";
+                }
+                handleSelection(partitaGiornataClou.team1, selectionType, partitaGiornataClou.numero);
+                partiteRegistrata.push({
+                    team1: partitaGiornataClou.team1,
+                    team2: partitaGiornataClou.team2,
+                    numeroPartita: partitaGiornataClou.numero,
+                    risultato: partitaGiornataClou.results
+                });
+            }
+        });
+        setCoppiaRegSelected(partiteRegistrata);
+    }, [giornataClou]);
+
+
     return (
         <>
-            <div className="text-cyan-600 font-bold flex items-center justify-center sm:mx-[1rem]"
+            <div className={`text-cyan-600 font-bold flex items-center justify-center sm:mx-[1rem]`}
                 ref={(node) => drag(drop(node))}>
                 <div className="flex items-center justify-center xs:text-xs sm:text-lg relative">
                     <div className="ml-[5%] sm:ml-0 sm:mr-1 p-2 w-30 ml-[1%] text-gray-600">
@@ -202,24 +307,24 @@ const Partita = ({ partita, movePartita, resetAll, coppiaSquadre, occhioApertoPa
                             {/* {partita.numero} */}
                         </div>
                     </div>
-                    <div className="flex ml-2 sm:pl-1 hover:cursor-context-menu z-10" >
-                        <div className="sm:pr-1">
-                            <span role="img" aria-label="Double Arrow" onClick={() => handleResetColors()}
-                            // style={{ transform: "rotate(180deg)" }}
-                            >
-                                〰️
-                            </span>
-                        </div>
+                    <div className={`{flex ml-2 sm:pl-1 hover:cursor-context-menu z-10 ${marginLeftClass}`} >
+                        {!isPartitaInCoppiaRegSelected && (
+                            <div className="sm:pr-1">
+                                <span role="img" aria-label="Double Arrow" onClick={() => handleResetColors()}>
+                                    〰️
+                                </span>
+                            </div>
+                        )}
                     </div>
                 </div>
                 <div className="relative flex flex-col sm:ml-[2rem] justify-start w-[90rem] max-w-[70%] sm:mx-2">
                     <div className="relative flex flex-row items-center ml-[1rem] xs:text-xs sm:text-xl ">
                         <div className="absolute ml-[-10%] sm:pl-1 sm: ml-[-2rem] z-[20] bg-black">
-                            {isButtonClickable &&
+                            {isButtonClickable && !isPartitaInCoppiaRegSelected && (
                                 <div className="" onClick={toggleSymbol} >
                                     {isKQBtnActive ? '☑️' : '✔️'}
                                 </div>
-                            }
+                            )}
                         </div>
                         <div className={`absolute flex flex-row ml-[6%]
                             ${(isKQBtnActive) ? 'hover:cursor-not-allowed' : 'hover:cursor-pointer'}`}>
@@ -267,4 +372,5 @@ const Partita = ({ partita, movePartita, resetAll, coppiaSquadre, occhioApertoPa
     );
 };
 export default Partita;
+
 
