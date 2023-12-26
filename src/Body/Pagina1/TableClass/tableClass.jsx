@@ -34,14 +34,16 @@ const TableClass = () => {
     return " ";
   }, [sqSelected, getPunteggioVirtuale]);
 
-  const squadreConPunteggioVirtuale = squadre.map((squadra) => ({
-    ...squadra,
-    punteggioVirtuale: getPunteggioVirtuale(squadra),
-  }));
+  const squadreConPunteggioVirtuale = useMemo(() => {
+    return squadre.map(squadra => ({
+      ...squadra,
+      punteggioVirtuale: getPunteggioVirtuale(squadra),
+    }));
+  }, [squadre, getPunteggioVirtuale]);
 
-  const squadreOrdinate = useMemo(() =>
-    [...squadreConPunteggioVirtuale].sort((a, b) => b.punteggioVirtuale - a.punteggioVirtuale)
-    , [squadreConPunteggioVirtuale]);
+  const squadreOrdinate = useMemo(() => {
+    return [...squadreConPunteggioVirtuale].sort((a, b) => b.punteggioVirtuale - a.punteggioVirtuale);
+  }, [squadreConPunteggioVirtuale]);
 
   const getColoriColonna0 = (index) => {
     if (index < 4) {

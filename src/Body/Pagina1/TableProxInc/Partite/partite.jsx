@@ -7,7 +7,7 @@ import { initialPartite } from "../../../../START/START";
 import Day from "./Day/day";
 
 
-const Partite = ({ resetAll, coppiaSquadre }) => {
+const Partite = ({ resetAll, coppiaSelected }) => {
     const [partite, setPartite] = useState([...initialPartite]);
     const [occhioApertoPartita, setOcchioApertoPartita] = useState(null);
 
@@ -50,15 +50,15 @@ const Partite = ({ resetAll, coppiaSquadre }) => {
         <DndProvider backend={HTML5Backend}>
             <div className=" relative flex flex-col items-left overflow-x-hidden overflow-y-auto xs:text-xs sm:text-xl ">
                 <Day title="Ven" partite={partitePerGiorno.ven} day="ven" movePartita={movePartita} resetAll={resetAll}
-                    coppiaSquadre={coppiaSquadre} occhioApertoPartita={occhioApertoPartita} setOcchioApertoPartita={setOcchioApertoPartita} />
+                    coppiaSquadre={coppiaSelected} occhioApertoPartita={occhioApertoPartita} setOcchioApertoPartita={setOcchioApertoPartita} />
                 <Day title="Sab" partite={partitePerGiorno.sab} day="sab" movePartita={movePartita} resetAll={resetAll}
-                    coppiaSquadre={coppiaSquadre}
+                    coppiaSquadre={coppiaSelected}
                     occhioApertoPartita={occhioApertoPartita} setOcchioApertoPartita={setOcchioApertoPartita} />
                 <Day title="Dom" partite={partitePerGiorno.dom} day="dom" movePartita={movePartita} resetAll={resetAll}
-                    coppiaSquadre={coppiaSquadre}
+                    coppiaSquadre={coppiaSelected}
                     occhioApertoPartita={occhioApertoPartita} setOcchioApertoPartita={setOcchioApertoPartita} />
                 <Day title="Lun" partite={partitePerGiorno.lun} day="lun" movePartita={movePartita} resetAll={resetAll}
-                    coppiaSquadre={coppiaSquadre} occhioApertoPartita={occhioApertoPartita} setOcchioApertoPartita={setOcchioApertoPartita} />
+                    coppiaSquadre={coppiaSelected} occhioApertoPartita={occhioApertoPartita} setOcchioApertoPartita={setOcchioApertoPartita} />
                 {/* <div style={{ position: 'absolute', top: '0', right: '0' }}>
                     <button className="p-4 font-bold bg-gray-500 rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300 focus:ring-opacity-50 transition duration-300 ease-in-out"
                         style={{ transform: 'rotate(180deg)' }}

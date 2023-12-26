@@ -32,12 +32,8 @@ const Partita = ({ partita, movePartita, resetAll, coppiaSquadre, occhioApertoPa
 
 
     const toggleSymbol = () => {
-        setIsKQBtnActive(!isKQBtnActive);//true
-        if (isKQBtnActive) {
-            isSignOk(true)
-        } else {
-            isSignOk(false)
-        }
+        setIsKQBtnActive(!isKQBtnActive);
+        setIsSignOk(!isKQBtnActive); // Usa setIsSignOk qui
     };
 
     const toggleEye = () => {
@@ -58,19 +54,21 @@ const Partita = ({ partita, movePartita, resetAll, coppiaSquadre, occhioApertoPa
             setSelection(selectionType);
             setIsButtonClickable(true);
 
-            setSqSelected((currentSelected) => {
+            setSqSelected(currentSelected => {
+                if (!Array.isArray(currentSelected)) {
+                    console.error('Expected an array, but got:', currentSelected);
+                    return [];
+                }
+
                 let updatedSelection = currentSelected.filter(
                     (squadra) => squadra !== partita.team1 && squadra !== partita.team2
                 );
 
                 if (selectionType === "1") {
-                    // Aggiungi la squadra vincente (team1 o team2) per la partita specifica
                     updatedSelection.push(selectedTeam === partita.team1 ? partita.team1 : partita.team2);
                 } else if (selectionType === "2") {
-                    // Aggiungi la squadra perdente per la partita specifica
                     updatedSelection.push(selectedTeam === partita.team1 ? partita.team2 : partita.team1);
                 } else if (selectionType === "X") {
-                    // Aggiungi entrambe le squadre per la partita specifica in caso di pareggio
                     updatedSelection.push(partita.team1, partita.team2);
                 }
 
@@ -80,12 +78,18 @@ const Partita = ({ partita, movePartita, resetAll, coppiaSquadre, occhioApertoPa
             if (!isKQBtnActive) {
                 setSelection(selectionType);
                 if (selectionType === "1" || selectionType === "X" || selectionType === "2") {
-                    setIsButtonClickable(true)
+                    setIsButtonClickable(true);
                 }
-                setSqSelected((currentSelected) => {
+
+                setSqSelected(currentSelected => {
+                    if (!Array.isArray(currentSelected)) {
+                        console.error('Expected an array, but got:', currentSelected);
+                        return [];
+                    }
+
                     let updatedSelection = currentSelected;
                     const nonSelectedTeam = selectedTeam === partita.team1 ? partita.team2 : partita.team1;
-                    //Rimuovi sempre entrambe le squadre
+
                     updatedSelection = updatedSelection.filter((squadra) =>
                         squadra !== partita.team1 &&
                         squadra !== partita.team1 + "X" &&
@@ -96,16 +100,19 @@ const Partita = ({ partita, movePartita, resetAll, coppiaSquadre, occhioApertoPa
                         squadra !== partita.team2 + "Y" &&
                         squadra !== partita.team2 + "Z"
                     );
+
                     if (selectionType === "X") {
-                        updatedSelection = [...updatedSelection, partita.team1 + "X", partita.team2 + "X"]; // Aggiungi entrambe le squadre con 'X'
+                        updatedSelection = [...updatedSelection, partita.team1 + "X", partita.team2 + "X"];
                     } else {
-                        updatedSelection = [...updatedSelection, selectedTeam + "Z", nonSelectedTeam + "Y"]; // Aggiungi la squadra selezionata con 'Z' e 'Y'
+                        updatedSelection = [...updatedSelection, selectedTeam + "Z", nonSelectedTeam + "Y"];
                     }
+
                     return updatedSelection;
                 });
             };
         };
     };
+
 
     const underlineTeam = (team) => {
         if (selection === "") {
@@ -138,7 +145,7 @@ const Partita = ({ partita, movePartita, resetAll, coppiaSquadre, occhioApertoPa
 
         if (coppiaSelected && coppiaSelected.team1 === selectedTeams.team1 && coppiaSelected.team2 === selectedTeams.team2) {
             //Control sq correnti sn gia'selez
-            setCoppiaSelected([]); // Deseleziona se la coppia di squadre è già selezionata
+            setCoppiaSelected({}); // Deseleziona se la coppia di squadre è già selezionata
         } else {
             setCoppiaSelected(selectedTeams); // Altrimenti, seleziona la nuova coppia di squadre
         }
@@ -216,34 +223,35 @@ const Partita = ({ partita, movePartita, resetAll, coppiaSquadre, occhioApertoPa
                 if (!numeriPartiteConRisultati.includes(partitaClou.numero)) {
                     if (partita.numero === partitaClou.numero) {
                         setSelection("");
+
                         setSqSelected(currentSelected => {
-                            if (Array.isArray(currentSelected)) {
-                                return currentSelected.filter(squadra =>
-                                    squadra !== partita.team1 &&
-                                    squadra !== partita.team2 &&
-                                    !squadra.includes(partita.team1) &&
-                                    !squadra.includes(partita.team2)
-                                );
-                            } else {
+                            if (!Array.isArray(currentSelected)) {
                                 console.error('currentSelected is not an array:', currentSelected);
                                 return [];
                             }
+                            return currentSelected.filter(squadra =>
+                                squadra !== partita.team1 &&
+                                squadra !== partita.team2 &&
+                                !squadra.includes(partita.team1) &&
+                                !squadra.includes(partita.team2)
+                            );
                         });
+
                         setCoppiaSelected(currentSelected => {
-                            if (Array.isArray(currentSelected)) {
-                                return currentSelected.filter(coppia =>
-                                    coppia.numeroPartita !== partitaClou.numero
-                                );
-                            } else {
+                            if (!Array.isArray(currentSelected)) {
                                 console.error('currentSelected is not an array:', currentSelected);
                                 return [];
                             }
+                            return currentSelected.filter(coppia =>
+                                coppia.numeroPartita !== partitaClou.numero
+                            );
                         });
                     }
                 }
             });
         }
     }, [resetAll, giornataClou, partita]);
+
 
 
 
