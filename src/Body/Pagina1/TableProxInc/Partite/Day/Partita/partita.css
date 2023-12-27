@@ -19,3 +19,7 @@
     text-decoration-color: rgb(198, 165, 47); /* Colore rosso per l'underline */
     text-decoration-thickness: 2px
 }
+
+.cursor-not-allowed {
+    cursor: not-allowed;
+}

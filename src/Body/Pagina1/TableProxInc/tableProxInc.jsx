@@ -135,6 +135,13 @@ const TableProxInc = () => {
   };
 
 
+  const handleReset = () => {
+    // Azioni di reset specifiche per TableProxInc
+    setResetAll([]); // cambiare lo stato per attivare l'effetto
+    // Altre azioni di reset possono essere aggiunte qui
+  };
+
+
   useEffect(() => {
     // console.log("squadreConfig:", squadreConfig);
     if (coppiaSelected) {
@@ -155,7 +162,7 @@ const TableProxInc = () => {
             {coppiaSelected && renderSquadre()}
             <button className="absolute top-[26.5%] left-[44.5%] p-2 font-bold bg-transparent rounded-lg hover:bg-red-400"
               // style={{ transform: "rotate(180deg)" }}
-              onClick={() => setResetAll([])}
+              onClick={handleReset}
             >
               📍
             </button>
@@ -175,7 +182,7 @@ const TableProxInc = () => {
         {/* </div> */}
         {/* <div className="absolute bottom-0 w-full mt-[20rem]"> */}
         <div className="sticky flex flex-col overflow-y-hidden h-[33rem] bg-black mt-[-0.5rem] z-[4]">
-          <Partite resetAll={resetAll} coppiaSelected={squadreAttive} />
+          <Partite resetAll={resetAll} onReset={handleReset} coppiaSelected={squadreAttive} />
         </div>
         {/* </div> */}
       </div >

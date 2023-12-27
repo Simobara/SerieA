@@ -1,4 +1,4 @@
-import { calendario } from "../Calendario/calendario";
+import { calendario } from "../Matches/matches";
 
 function creaRisultatiNapoli(calendario) {
     const squadra = 'Napoli';

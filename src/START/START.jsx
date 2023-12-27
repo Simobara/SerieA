@@ -1,5 +1,5 @@
 import { Atalanta, Bologna, Cagliari, Empoli, Fiorentina, Frosinone, Genoa, Inter, Juve, Lazio, Lecce, Milan, Monza, Napoli, Roma, Salernitana, Sassuolo, Torino, Udinese, Verona, } from '../assets/ImportSquadre/importSquadre'
-import { giornataClou } from './Calendario/calendario';
+import { giornataClou } from './Matches/matches';
 
 //* INCONTRI
 export const initialPartite = [...giornataClou]

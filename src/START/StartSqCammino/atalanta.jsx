@@ -1,4 +1,4 @@
-import { calendario } from "../Calendario/calendario";
+import { calendario } from "../Matches/matches";
 
 function creaRisultatiAtalanta(calendario) {
     const squadra = 'Atalanta';

@@ -1,12 +1,12 @@
 import { useState, useContext, useEffect } from "react";
-import { useDrag, useDrop } from "react-dnd";
+// import { useDrag, useDrop } from "react-dnd";
 import { SquadraContext } from "../../../../../Global/global";
 import { CoppiaPartitaContext } from "../../../../../Global/global";
 import { CoppiaPartitaRegistrataContext } from "../../../../../Global/global";
-import { giornataClou } from "../../../../../../START/Calendario/calendario";
+import { giornataClou } from "../../../../../../START/Matches/matches";
 import "./partita.css";
 
-const Partita = ({ partita, movePartita, resetAll, coppiaSquadre, occhioApertoPartita, setOcchioApertoPartita }) => {
+const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartita }) => {
     const [isMobile, setIsMobile] = useState(window.matchMedia("(max-width: 600px)").matches);
     const [isKQBtnActive, setIsKQBtnActive] = useState(false);
     const [isSignOk, setIsSignOk] = useState(false);//not mandatory
@@ -23,6 +23,7 @@ const Partita = ({ partita, movePartita, resetAll, coppiaSquadre, occhioApertoPa
     );
 
     const handleToggleSymbol = () => {
+        if (partita.results) return;
         if (!isPartitaInCoppiaRegSelected) {
             toggleSymbol();
         }
@@ -30,14 +31,14 @@ const Partita = ({ partita, movePartita, resetAll, coppiaSquadre, occhioApertoPa
 
     const marginLeftClass = isPartitaInCoppiaRegSelected ? "mr-[2rem]" : "ml-[1rem]";
 
-
     const toggleSymbol = () => {
+        if (partita.results) return;
         setIsKQBtnActive(!isKQBtnActive);
-        setIsSignOk(!isKQBtnActive); // Usa setIsSignOk qui
+        setIsSignOk(!isKQBtnActive);
     };
 
     const toggleEye = () => {
-        // console.log("Toggle Eye - Current State: ", occhioApertoPartita);
+        // if (partita.results) return;
         if (occhioApertoPartita === partita.numero) {
             setOcchioApertoPartita(null);
         } else {
@@ -47,23 +48,22 @@ const Partita = ({ partita, movePartita, resetAll, coppiaSquadre, occhioApertoPa
     };
     const isEyeOpen = occhioApertoPartita === partita.numero;
 
-    // console.log("PARTITA/COPPIA SQUADRE", coppiaSquadre)
+
+
     const handleSelection = (selectedTeam, selectionType, numeroPartita = '') => {
+        if (partita.results) return;
         if (numeroPartita !== 0 && numeroPartita === partita.numero) {
             setIsKQBtnActive(true);
             setSelection(selectionType);
             setIsButtonClickable(true);
-
             setSqSelected(currentSelected => {
                 if (!Array.isArray(currentSelected)) {
                     console.error('Expected an array, but got:', currentSelected);
                     return [];
                 }
-
                 let updatedSelection = currentSelected.filter(
                     (squadra) => squadra !== partita.team1 && squadra !== partita.team2
                 );
-
                 if (selectionType === "1") {
                     updatedSelection.push(selectedTeam === partita.team1 ? partita.team1 : partita.team2);
                 } else if (selectionType === "2") {
@@ -71,7 +71,6 @@ const Partita = ({ partita, movePartita, resetAll, coppiaSquadre, occhioApertoPa
                 } else if (selectionType === "X") {
                     updatedSelection.push(partita.team1, partita.team2);
                 }
-
                 return updatedSelection;
             });
         } else if (numeroPartita === '') {
@@ -80,16 +79,13 @@ const Partita = ({ partita, movePartita, resetAll, coppiaSquadre, occhioApertoPa
                 if (selectionType === "1" || selectionType === "X" || selectionType === "2") {
                     setIsButtonClickable(true);
                 }
-
                 setSqSelected(currentSelected => {
                     if (!Array.isArray(currentSelected)) {
                         console.error('Expected an array, but got:', currentSelected);
                         return [];
                     }
-
                     let updatedSelection = currentSelected;
                     const nonSelectedTeam = selectedTeam === partita.team1 ? partita.team2 : partita.team1;
-
                     updatedSelection = updatedSelection.filter((squadra) =>
                         squadra !== partita.team1 &&
                         squadra !== partita.team1 + "X" &&
@@ -100,58 +96,55 @@ const Partita = ({ partita, movePartita, resetAll, coppiaSquadre, occhioApertoPa
                         squadra !== partita.team2 + "Y" &&
                         squadra !== partita.team2 + "Z"
                     );
-
                     if (selectionType === "X") {
                         updatedSelection = [...updatedSelection, partita.team1 + "X", partita.team2 + "X"];
                     } else {
                         updatedSelection = [...updatedSelection, selectedTeam + "Z", nonSelectedTeam + "Y"];
                     }
-
                     return updatedSelection;
                 });
             };
+
         };
     };
 
 
     const underlineTeam = (team) => {
         if (selection === "") {
-            return ""; // Nessuno stile applicato se non c'è selezione
+            return "";
         }
         if (selection === "1") {
             if (team === "1") {
-                return "underline underline-green text-sky-900 font-bold underline-thick z-3"; // Stile per la squadra selezionata
+                return "underline underline-green text-sky-900 font-bold underline-thick z-3";
             } else {
-                return "text-sky-900"; // Stile per l'altra squadra
+                return "text-sky-900";
             }
         } else if (selection === "2") {
             if (team === "2") {
-                return "underline underline-red text-sky-900 font-bold underline-thick z-3"; // Stile per la squadra selezionata
+                return "underline underline-red text-sky-900 font-bold underline-thick z-3";
             } else {
-                return "text-sky-900"; // Stile per l'altra squadra
+                return "text-sky-900";
             }
         } else if (selection === "X") {
-            return "underline underline-yellow text-sky-900 font-bold underline-thick z-3"; // Stile per la selezione 'X'
+            return "underline underline-yellow text-sky-900 font-bold underline-thick z-3";
         }
     };
 
     const handleCoppiaSelectTeam = (partita) => {
-        // toggleEye();
         const selectedTeams = {
             team1: partita.team1,
             team2: partita.team2,
             numeroPartita: partita.numero
         };
-
         if (coppiaSelected && coppiaSelected.team1 === selectedTeams.team1 && coppiaSelected.team2 === selectedTeams.team2) {
-            //Control sq correnti sn gia'selez
-            setCoppiaSelected({}); // Deseleziona se la coppia di squadre è già selezionata
+            setCoppiaSelected({});
         } else {
-            setCoppiaSelected(selectedTeams); // Altrimenti, seleziona la nuova coppia di squadre
+            setCoppiaSelected(selectedTeams);
         }
     };
 
     const handleResetColors = () => {
+        if (partita.results) return;
         setSelection("");
         setIsKQBtnActive(false)
         setIsButtonClickable(false)
@@ -180,37 +173,37 @@ const Partita = ({ partita, movePartita, resetAll, coppiaSquadre, occhioApertoPa
         return boldTeams.includes(teamName);
     };
 
-    const [, drag] = useDrag({
-        type: "PARTITA",
-        // eslint-disable-next-line
-        item: { numero: partita.numero, day: partita.day },
-    });
-    const [, drop] = useDrop({
-        accept: "PARTITA",
-        hover: (draggedItem) => {
-            // eslint-disable-next-line
-            if (draggedItem.day === partita.day && draggedItem.numero !== partita.numero) {
-                // eslint-disable-next-line
-                movePartita(draggedItem.day, partita.day, draggedItem.numero, partita.numero);
-            }
-        },
-        drop: (draggedItem) => {
-            // eslint-disable-next-line
-            if (draggedItem.day !== partita.day) {
-                // eslint-disable-next-line
-                movePartita(draggedItem.day, partita.day, draggedItem.numero);
-            }
-        },
-    });
+    // const [, drag] = useDrag({
+    //     type: "PARTITA",
+    //     // eslint-disable-next-line
+    //     item: { numero: partita.numero, day: partita.day },
+    // });
+    // const [, drop] = useDrop({
+    //     accept: "PARTITA",
+    //     hover: (draggedItem) => {
+    //         // eslint-disable-next-line
+    //         if (draggedItem.day === partita.day && draggedItem.numero !== partita.numero) {
+    //             // eslint-disable-next-line
+    //             movePartita(draggedItem.day, partita.day, draggedItem.numero, partita.numero);
+    //         }
+    //     },
+    //     drop: (draggedItem) => {
+    //         // eslint-disable-next-line
+    //         if (draggedItem.day !== partita.day) {
+    //             // eslint-disable-next-line
+    //             movePartita(draggedItem.day, partita.day, draggedItem.numero);
+    //         }
+    //     },
+    // });
 
 
 
     // ------------------------------------------------------------------------------------------------
+
     useEffect(() => {
         if (resetAll) {
             // Chiudi l'occhio per tutte le partite
             setOcchioApertoPartita(null);
-
             setIsKQBtnActive(false);
             setIsSignOk(false);
             setIsButtonClickable(false);
@@ -292,12 +285,29 @@ const Partita = ({ partita, movePartita, resetAll, coppiaSquadre, occhioApertoPa
         setCoppiaRegSelected(partiteRegistrata);
     }, [giornataClou]);
 
+    useEffect(() => {
+        if (partita.results) {
+            const score = partita.results.split('-').map(Number);
+            let selectionType;
+            if (score[0] > score[1]) {
+                selectionType = "1";
+            } else if (score[0] < score[1]) {
+                selectionType = "2";
+            } else {
+                selectionType = "X";
+            }
+            setSelection(selectionType);
+            setIsKQBtnActive(true);
+            setIsButtonClickable(true);
+        }
+    }, []);
 
     return (
         <>
             <div className={`text-cyan-600 font-bold flex items-center justify-center sm:mx-[1rem]`}
-                ref={(node) => drag(drop(node))}>
-                <div className="flex items-center justify-center xs:text-xs sm:text-lg relative">
+            // ref={(node) => drag(drop(node))}
+            >
+                <div className="flex items-center justify-center xs:text-xs sm:text-lg relative ">
                     <div className="ml-[5%] sm:ml-0 sm:mr-1 p-2 w-30 ml-[1%] text-gray-600">
                         <span role="img" aria-label="Menu">
                             ☰
@@ -315,7 +325,7 @@ const Partita = ({ partita, movePartita, resetAll, coppiaSquadre, occhioApertoPa
                             {/* {partita.numero} */}
                         </div>
                     </div>
-                    <div className={`{flex ml-2 sm:pl-1 hover:cursor-context-menu z-10 ${marginLeftClass}`} >
+                    <div className={`{flex ml-2 sm:pl-1 hover:cursor-pointer z-10 ${marginLeftClass}`} >
                         {!isPartitaInCoppiaRegSelected && (
                             <div className="sm:pr-1">
                                 <span role="img" aria-label="Double Arrow" onClick={() => handleResetColors()}>
@@ -326,16 +336,16 @@ const Partita = ({ partita, movePartita, resetAll, coppiaSquadre, occhioApertoPa
                     </div>
                 </div>
                 <div className="relative flex flex-col sm:ml-[2rem] justify-start w-[90rem] max-w-[70%] sm:mx-2">
-                    <div className="relative flex flex-row items-center ml-[1rem] xs:text-xs sm:text-xl ">
+                    <div className='relative flex flex-row items-center ml-[1rem] xs:text-xs sm:text-xl '>
                         <div className="absolute ml-[-10%] sm:pl-1 sm: ml-[-2rem] z-[20] bg-black">
                             {isButtonClickable && !isPartitaInCoppiaRegSelected && (
-                                <div className="" onClick={toggleSymbol} >
+                                <div className="cursor-pointer" onClick={toggleSymbol} >
                                     {isKQBtnActive ? '☑️' : '✔️'}
                                 </div>
                             )}
                         </div>
                         <div className={`absolute flex flex-row ml-[6%]
-                            ${(isKQBtnActive) ? 'hover:cursor-not-allowed' : 'hover:cursor-pointer'}`}>
+                            ${(isKQBtnActive || partita.results) ? 'hover:cursor-not-allowed' : 'hover:cursor-pointer'}`}>
                             <div className={`max-w-[9rem] whitespace-nowrap overflow-hidden z-[1] 
                                 ${isBigTeam(partita.team1) ? "bg-gray-500/80 font-bold" : ""} 
                                 ${underlineTeam("1")}`}
@@ -345,13 +355,13 @@ const Partita = ({ partita, movePartita, resetAll, coppiaSquadre, occhioApertoPa
                         </div>
                         <div className={`absolute flex flex-row ml-[40%] border border-gray-700 rounded-lg
                         bg-gray-900 w-6 p-3 z-[4]
-                            ${(isKQBtnActive) ? 'hover:cursor-not-allowed' : 'hover:cursor-pointer'}
+                            ${(isKQBtnActive || partita.results) ? 'hover:cursor-not-allowed' : 'hover:cursor-pointer'}
                             ${selection === "X" ? "text-yellow-500/50" : ""}`}
                             onClick={() => (!isSignOk) && (handleSelection(partita.team1, "X"))}
                         >
                         </div>
                         <div className={`absolute flex flex-row ml-[20%] sm:ml-[50%] z-[2]
-                            ${(isKQBtnActive) ? 'hover:cursor-not-allowed' : 'hover:cursor-pointer'}`}>
+                            ${(isKQBtnActive || partita.results) ? 'hover:cursor-not-allowed' : 'hover:cursor-pointer'}`}>
                             <div className={`max-w-[9rem] whitespace-nowrap overflow-hidden md:ml-[1rem] 
                                 ${isBigTeam(partita.team2) ? "bg-gray-500/80 font-bold" : ""} 
                                 ${underlineTeam("2")}`}

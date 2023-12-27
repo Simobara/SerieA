@@ -1,11 +1,9 @@
 import { useState } from 'react';
 import Partita from "./Partita/partita";
-import Placeholder from "./Placeholder/placeholder"; //posizione per trascinare
+// import Placeholder from "./Placeholder/placeholder"; //posizione per trascinare
 
 
-const Day = ({ title, partite = [], day, movePartita, resetAll,
-  coppiaSquadre, occhioApertoPartita, setOcchioApertoPartita
-}) => {
+const Day = ({ title, partite = [], resetAll, occhioApertoPartita, setOcchioApertoPartita }) => {
   // const [occhioApertoPartita, setOcchioApertoPartita] = useState(null);
   const hasPartite = Array.isArray(partite) && partite.length > 0;
 
@@ -20,15 +18,15 @@ const Day = ({ title, partite = [], day, movePartita, resetAll,
           <Partita
             key={partita.numero}
             partita={partita}
-            movePartita={movePartita}
+            // movePartita={movePartita}
             resetAll={resetAll}
-            coppiaSquadre={coppiaSquadre}
+            // coppiaSquadre={coppiaSquadre}
             occhioApertoPartita={occhioApertoPartita}
             setOcchioApertoPartita={setOcchioApertoPartita}
           />
         )}
-      {!hasPartite &&
-        <Placeholder day={day} movePartita={movePartita} />}
+      {/* {!hasPartite &&
+        <Placeholder day={day} movePartita={movePartita} />} */}
     </>
   );
 };
