@@ -1,24 +1,27 @@
 import { useState, useContext, useEffect } from "react";
 import { CoppiaPartitaContext } from "../../Global/global";
+import { ButtonResetContext } from "../../Global/global";
 import { ATeams } from "../../../START/START";
 import { BTeams } from "../../../START/START";
 import Partite from "./Partite/partite";
+import CalGiorn from "./CalGiorn/calGiorn";
 import squadreConfig from "./PosSquadreChart/posSquadreChart";
 import serieAItalia from "../../../assets/serieAItalia/serieAItalia.png";
+import { calendario } from "../../../START/Matches/matches"
 // import { giornataClou } from "../../../START/Matches/matches";
 // import { GiornataClouContext } from "../../Global/global";
 // import { PartiteDefinNoModContext } from "../../Global/global";
 // import ModalInserimento from "./ModalInserimento/modalInser";
 // import "./tableProxInc.css";
+// import Calendario from "./Calendario/calendario";
 
-
-import CalGiorn from "./CalGiorn/calGiorn";
 
 
 const TableProxInc = () => {
   const [resetAll, setResetAll] = useState([]);
   // const [isModalInserOpen, setIsModalInserOpen] = useState(false);
   const { coppiaSelected } = useContext(CoppiaPartitaContext);
+  const { buttonResetIsResetting, setButtonResetIsResetting } = useContext(ButtonResetContext);
   // const { giornataClouSelected, setGiornataClouSelected } = useContext(GiornataClouContext);
   // const { partiteDefinNoMod, setPartiteDefinNoMod } = useContext(PartiteDefinNoModContext);
 
@@ -142,17 +145,22 @@ const TableProxInc = () => {
   };
 
   const handleReset = () => {
-
-    setResetAll([]);
-
-    // return;
-    // setGiornataClouSelected(giornataClou)
+    // setButtonResetIsResetting(prevState => !prevState);
+    setResetAll([]); // Aumenta il contatore per indicare un reset
+    setTimeout(() => {
+      setButtonResetIsResetting(false);
+    }, 300); // 2000 millisecondi equivalgono a 2 secondi
   };
+  // return;
+  // setGiornataClouSelected(giornataClou)
+  // };
 
   // useEffect(() => {
-  //   if (resetAll.length === 0) {
-  //     return;
+  //   if (!buttonResetIsResetting) {
+  //     setButtonResetIsResetting(false)
   //   }
+  // }, [buttonResetIsResetting])
+
   //   const updatedPartiteDefinNoMod = new Set();
   //   giornataClouSelected.forEach(partita => {
   //     // Se la partita ha un risultato, aggiungila a updatedPartiteDefinNoMod
@@ -186,12 +194,14 @@ const TableProxInc = () => {
           <div className="relative overflow-hidden w-[120rem] ml-[-3rem]">
             <img src={serieAItalia} alt="serieAItalia" className="relative h-[47rem] w-[100%] mt-[-4.4rem]" />
             {coppiaSelected && renderSquadre()}
-            <button className="absolute top-[26.5%] left-[44.5%] p-2 font-bold bg-transparent rounded-lg hover:bg-red-400"
-              // style={{ transform: "rotate(180deg)" }}
-              onClick={handleReset}
-            >
-              📍
-            </button>
+            {buttonResetIsResetting &&
+              <button className="absolute top-[26.5%] left-[44.5%] p-2 font-bold bg-transparent rounded-lg hover:bg-red-400"
+                // style={{ transform: "rotate(180deg)" }}
+                onClick={handleReset}
+              >
+                📍
+              </button>
+            }
           </div>
         </div>
         {/* <div> */}

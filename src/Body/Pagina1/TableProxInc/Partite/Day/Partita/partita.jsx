@@ -5,6 +5,7 @@ import { CoppiaPartitaContext } from "../../../../../Global/global";
 import { CoppiaPartitaRegistrataContext } from "../../../../../Global/global";
 import { GiornataClouContext } from "../../../../../Global/global";
 import { PartiteDefinNoModContext } from "../../../../../Global/global";
+import { ButtonResetContext } from "../../../../../Global/global";
 // import { giornataClou } from "../../../../../../START/Matches/matches";
 import "./partita.css";
 
@@ -15,6 +16,8 @@ const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartit
     const { coppiaSelected, setCoppiaSelected } = useContext(CoppiaPartitaContext);
     const { coppiaRegSelected, setCoppiaRegSelected } = useContext(CoppiaPartitaRegistrataContext);
     const { partiteDefinNoMod, setPartiteDefinNoMod } = useContext(PartiteDefinNoModContext);
+    const { buttonResetIsResetting, setButtonResetIsResetting } = useContext(ButtonResetContext);
+
     const [isButtonClickable, setIsButtonClickable] = useState(false);
     const [isKQBtnActive, setIsKQBtnActive] = useState(false);
     const [isSignOk, setIsSignOk] = useState(false);
@@ -34,6 +37,7 @@ const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartit
 
     const handleToggleSymbol = () => {
         if (partita.results) return;
+        setButtonResetIsResetting(true)
         if (!isPartitaInCoppiaRegSelected) {
             toggleSymbol();
         }
@@ -43,6 +47,7 @@ const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartit
 
     const toggleSymbol = () => {
         if (!isPartitaModificabile || partita.results) return;
+        setButtonResetIsResetting(true)
         setIsKQBtnActive(!isKQBtnActive);
         setIsSignOk(!isKQBtnActive);
     };
@@ -54,15 +59,15 @@ const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartit
         } else {
             setOcchioApertoPartita(partita.numero);
         }
+        setButtonResetIsResetting(true)
         handleCoppiaSelectTeam(partita);
     };
     const isEyeOpen = occhioApertoPartita === partita.numero;
 
-
-
     const handleSelection = (selectedTeam, selectionType, numeroPartita = '') => {
         // if (!isPartitaModificabile) return;
         if (numeroPartita !== 0 && numeroPartita === partita.numero) {
+            setButtonResetIsResetting(true)
             setIsKQBtnActive(true);
             setSelection(selectionType);
             setIsButtonClickable(true);
@@ -84,6 +89,7 @@ const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartit
                 return updatedSelection;
             });
         } else if (numeroPartita === '') {
+            setButtonResetIsResetting(true)
             if (!isKQBtnActive) {
                 setSelection(selectionType);
                 if (selectionType === "1" || selectionType === "X" || selectionType === "2") {
@@ -138,11 +144,6 @@ const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartit
         }
     };
 
-
-
-
-
-
     const handleCoppiaSelectTeam = (partita) => {
         const selectedTeams = {
             team1: partita.team1,
@@ -189,8 +190,6 @@ const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartit
     };
 
     // const nonSelectable = partita.results ? "unselectable" : "";
-
-
     // const [, drag] = useDrag({
     //     type: "PARTITA",
     //     // eslint-disable-next-line
@@ -213,9 +212,6 @@ const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartit
     //         }
     //     },
     // });
-
-
-
     // ------------------------------------------------------------------------------------------------
 
     //resize
@@ -271,7 +267,6 @@ const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartit
         }
     }, [resetAll, giornataClouSelected, partita]);
 
-
     // useEffect(() => {
     //     setIsModifiable(!partita.results);
     // }, [partita.results]);
@@ -326,8 +321,6 @@ const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartit
             setIsButtonClickable(true);
         }
     }, []);
-
-
 
     return (
         <>

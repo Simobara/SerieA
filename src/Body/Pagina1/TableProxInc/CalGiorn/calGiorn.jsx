@@ -2,6 +2,7 @@ import React, { useRef, useState, useContext, useEffect } from 'react';
 import { calendario } from "../../../../START/Matches/matches";
 import { GiornataClouContext } from "../../../Global/global/";
 import { PartiteDefinNoModContext } from "../../../Global/global";
+import { ButtonResetContext } from "../../../Global/global";
 import { giornataClou } from '../../../../START/Matches/matches';
 import "./CalGiorn.css";
 
@@ -12,27 +13,45 @@ const CalGiorn = ({ onReset }) => {
     const [matches, setMatches] = useState([]);
     const { giornataClouSelected, setGiornataClouSelected } = useContext(GiornataClouContext);
     const { partiteDefinNoMod, setPartiteDefinNoMod } = useContext(PartiteDefinNoModContext);
+    const { buttonResetIsResetting, setButtonResetIsResetting } = useContext(ButtonResetContext);
+
+
+    //Crea un ref per ciascuna casella
+    const boxRefs = useRef([]);
+    if (boxRefs.current.length !== 38) {
+        // Inizializza l'array di refs con 38 elementi (numero delle caselle)
+        boxRefs.current = Array(38).fill().map((_, i) => boxRefs.current[i] || React.createRef());
+    }
 
     const handleSelectNumber = (number) => {
-        setSelected(number);
-        setMatches(calendario[`giornata${number}`]);
-        setGiornataClouSelected(calendario[`giornata${number}`]);
-        // resetAll()
+        if (number >= 1 && number <= 38) {
+            // Seleziona la nuova giornata e controlla se è diversa dalla corrente
+            if (number !== selected) {
+                setButtonResetIsResetting(true);
+            }
+
+            setSelected(number);
+            setMatches(calendario[`giornata${number}`]);
+            setGiornataClouSelected(calendario[`giornata${number}`]);
+            scrollIntoView(number);
+        }
     }
 
     const scroll = (direction) => {
-        if (singleBoxRef.current) {
-            const boxWidth = singleBoxRef.current.offsetWidth; // Calcola la larghezza di una casella
-            const scrollAmount = direction === 'left' ? -boxWidth : boxWidth; // Determina l'ammontare dello spostamento
-            scrollContainer.current.scrollLeft += scrollAmount;
-            // Aggiorna il numero selezionato a seconda della direzione dello scroll
-            if (direction === 'left' && selected != null && selected > 1) {
-                handleSelectNumber(selected - 1);
-                // resetAll()
-            } else if (direction === 'right' && selected != null && selected < 38) {
-                handleSelectNumber(selected + 1);
-                // resetAll()
-            }
+        let newSelected = selected;
+        if (direction === 'left' && selected > 1) {
+            newSelected = selected - 1;
+        } else if (direction === 'right' && selected < 38) {
+            newSelected = selected + 1;
+        }
+        handleSelectNumber(newSelected);
+    };
+
+    const scrollIntoView = (number) => {
+        const selectedBoxRef = boxRefs.current[number - 1];
+        if (scrollContainer.current && selectedBoxRef.current) {
+            const scrollPosition = selectedBoxRef.current.offsetLeft; // Usa la posizione left del ref selezionato
+            scrollContainer.current.scrollLeft = scrollPosition;
         }
     };
 
@@ -49,27 +68,53 @@ const CalGiorn = ({ onReset }) => {
         return Array.from({ length: end - start + 1 }, (_, i) => start + i);
     };
 
-    useEffect(() => {
-        if (giornataClouSelected) {
-            setMatches(giornataClouSelected);
-            const giornataNumber = Object.keys(calendario).findIndex(key => calendario[key] === giornataClouSelected) + 1;
-            if (giornataNumber) {
-                setSelected(giornataNumber);
-            }
-        }
-    }, [giornataClouSelected, calendario]);// resetAll,
 
+    // -------------------------------------------------------------------------------------------------------------
+    //QUESTO USE EFFECT TROVA LA CASELLA DELLA GIORNATA CLOU INIZIALMENTE
+    useEffect(() => {
+        const giornataClouIndex = Object.keys(calendario).findIndex(giornata => calendario[giornata] === giornataClou) + 1;
+        setButtonResetIsResetting(false)
+        if (giornataClouIndex) {
+            setSelected(giornataClouIndex);
+            scrollIntoView(giornataClouIndex);
+        }
+    }, []);
+
+    // QUESTO USE EFFECT REIMPOSTA LO STATO E LE PARTITE ALLO STADIO ORIGINALE
     useEffect(() => {
         if (onReset) {
-            // Esegui la logica di reset
-            setGiornataClouSelected(giornataClou);
-            setSelected(null);
-            setMatches([]);
-            // Altre azioni di reset
+            const giornataClouIndex = Object.keys(calendario).findIndex(giornata => calendario[giornata] === giornataClou) + 1;
+            setButtonResetIsResetting(false);
+            if (selected === giornataClouIndex) {
+                // Se sei nella giornata clou, mantieni la selezione corrente
+                // Esempio: potresti voler aggiornare solo parte dello stato
+                setMatches(calendario[`giornata${selected}`]);
+                setGiornataClouSelected(calendario[`giornata${selected}`]);
+            } else {
+                // Se sei in una giornata diversa dalla clou, reimposta tutto
+                setSelected(null);
+                setMatches([]);
+                setGiornataClouSelected(giornataClou);
+            }
         }
     }, [onReset]);
 
+    //QUESTO USE EFFECT REIMPOSTA LA GIORNATA CLOU DOPO CHE CI SONO SCORRIMENTI NEL CALENDARIO
+    useEffect(() => {
+        if (giornataClouSelected) {
+            const nuovaGiornataClou = Object.keys(calendario).findIndex(key => calendario[key] === giornataClouSelected) + 1;
 
+            setMatches(giornataClouSelected);
+            setSelected(nuovaGiornataClou);
+            scrollIntoView(nuovaGiornataClou);
+
+            if (nuovaGiornataClou !== selected) {
+                setButtonResetIsResetting(true);
+            }
+        }
+    }, [giornataClouSelected, calendario]); //resetAll
+
+    // -------------------------------------------------------------------------------------------------------------
     return (
         <div className="flex items-center justify-center bg-gray-800">
             <button
@@ -84,7 +129,7 @@ const CalGiorn = ({ onReset }) => {
                     {getVisibleMatches().map((number, index) => (
                         <div
                             key={number}
-                            ref={index === 0 ? singleBoxRef : null} // Assegna ref alla prima casella
+                            ref={boxRefs.current[number - 1]} // Assegna il ref corrispondente
                             onClick={() => handleSelectNumber(number)}
                             className={`w-12 h-12 flex items-center justify-center m-1 cursor-pointer 
                             ${selected === number ? 'bg-sky-900' : 'bg-black'}`}

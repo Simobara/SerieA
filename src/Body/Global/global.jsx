@@ -71,3 +71,19 @@ export const PartiteDefinNoModProvider = ({ children }) => {
         </PartiteDefinNoModContext.Provider>
     )
 };
+
+//-----------------------------------------------------------------------
+
+export const ButtonResetContext = createContext();
+// eslint-disable-next-line
+export const ButtonResetProvider = ({ children }) => {
+    const [buttonResetIsResetting, setButtonResetIsResetting] = useState(false);
+
+    return (
+        <ButtonResetContext.Provider value={{ buttonResetIsResetting, setButtonResetIsResetting }}>
+            {children}
+        </ButtonResetContext.Provider>
+    )
+};
+
+//-----------------------------------------------------------------------
