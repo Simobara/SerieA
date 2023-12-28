@@ -22,8 +22,9 @@ const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartit
     // const [isModifiable, setIsModifiable] = useState(true);
 
 
-    const isPartitaModificabile = !partiteDefinNoMod.has(partita.numero);
-    const partitaClass = isPartitaModificabile ? '' : 'unselectable';
+    const isPartitaModificabile = giornataClouSelected.some(p => p.numero === partita.numero && !p.results);
+
+    // const partitaClass = isPartitaModificabile ? '' : 'unselectable';
 
 
 
@@ -266,17 +267,11 @@ const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartit
 
 
     useEffect(() => {
-        // Crea un nuovo Set per le partite non modificabili
+        // Aggiorna partiteDefinNoMod quando cambia giornataClouSelected
         const newPartiteDefinNoMod = new Set();
-
-        // Aggiungi al Set le partite di `giornataClouSelected` che hanno un risultato
         giornataClouSelected.forEach(partita => {
-            if (partita.results) {
-                newPartiteDefinNoMod.add(partita.numero);
-            }
+            if (partita.results) newPartiteDefinNoMod.add(partita.numero);
         });
-
-        // Aggiorna lo stato di `partiteDefinNoMod` con il nuovo Set
         setPartiteDefinNoMod(newPartiteDefinNoMod);
     }, [giornataClouSelected, setPartiteDefinNoMod]);
 
@@ -339,69 +334,50 @@ const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartit
 
     return (
         <>
-            <div className={`text-cyan-600 font-bold flex items-center justify-center sm:mx-[1rem] ${partitaClass}`}
-            // ref={(node) => drag(drop(node))}
-            >
-                <div className="flex items-center justify-center xs:text-xs sm:text-lg relative ">
+            <div className={`text-cyan-600 font-bold flex items-center justify-center sm:mx-[1rem] ${isPartitaModificabile ? '' : 'unselectable'}`}>
+                <div className="flex items-center justify-center xs:text-xs sm:text-lg relative">
                     <div className="ml-[5%] sm:ml-0 sm:mr-1 p-[0.354rem] w-30 ml-[1%] text-gray-600">
-                        <span role="img" aria-label="Menu">
-                            ☰
-                        </span>
+                        <span role="img" aria-label="Menu">☰</span>
                     </div>
-                    <div className=" w-15 ml-[2px] text-gray-600 font-normal">
-                        {/* eslint-disable-next-line */}
+                    <div className="w-15 ml-[2px] text-gray-600 font-normal">
                         <span>{partita.time}</span>
                     </div>
                     {/* <div className="p-2 w-15">
                         <span role="img" aria-label="Calendario">📅</span>
                     </div> */}
                     <div className="absolute ml-[4rem]">
-                        <div className="text-xl font-bold">
-                            {/* {partita.numero} */}
-                        </div>
+                        <div className="text-xl font-bold"></div>
                     </div>
-                    <div className={`{flex ml-2 sm:pl-1 hover:cursor-pointer z-10 ${marginLeftClass}`} >
-                        {!isPartitaInCoppiaRegSelected && (
+                    {!isPartitaInCoppiaRegSelected && !isPartitaModificabile && (
+                        <div className={`flex ml-2 sm:pl-1 hover:cursor-pointer z-10 ${marginLeftClass}`}>
                             <div className="sm:pr-1">
-                                <span role="img" aria-label="Double Arrow" onClick={() => handleResetColors()}>
-                                    〰️
-                                </span>
+                                <span role="img" aria-label="Double Arrow" onClick={() => handleResetColors()}>〰️</span>
                             </div>
-                        )}
-                    </div>
+                        </div>
+                    )}
                 </div>
                 <div className="relative flex flex-col sm:ml-[2rem] justify-start w-[90rem] max-w-[70%] sm:mx-2">
-                    <div className='relative flex flex-row items-center ml-[1rem] xs:text-xs sm:text-xl '>
-                        <div className={`{absolute ml-[-10%] sm:pl-1 sm: ml-[-2rem] z-[20] bg-black `}>
-                            {isButtonClickable && !isPartitaInCoppiaRegSelected && (
-                                <div className="cursor-pointer" onClick={toggleSymbol} >
+                    <div className='relative flex flex-row items-center ml-[1rem] xs:text-xs sm:text-xl'>
+                        {isButtonClickable && !isPartitaInCoppiaRegSelected && (
+                            <div className={`absolute ml-[-10%] sm:pl-1 sm:ml-[-2rem] z-[20] bg-black ${!isPartitaModificabile ? 'unselectable' : ''}`}>
+                                <div className="cursor-pointer" onClick={toggleSymbol}>
                                     {isKQBtnActive ? '☑️' : '✔️'}
                                 </div>
-                            )}
-                        </div>
-                        <div className={`absolute flex flex-row ml-[6%]
-
-                        ${(isKQBtnActive || partita.results) ? 'hover:cursor-not-allowed' : 'hover:cursor-pointer'}`}>
-                            <div className={`max-w-[9rem] whitespace-nowrap overflow-hidden z-[1] 
-                                ${isBigTeam(partita.team1) ? "bg-sky-800/80 text-sky-950 font-bold" : ""} 
-                                ${underlineTeam("1")}`}
-                                onClick={() => (!isSignOk) && handleSelection(partita.team1, "1")}>
+                            </div>
+                        )}
+                        <div className={`{absolute flex flex-row ml-[6%] ${!isPartitaModificabile ? 'hover:cursor-not-allowed unselectable' : 'hover:cursor-pointer'}`}>
+                            <div className={`max-w-[9rem] whitespace-nowrap overflow-hidden z-[1] ${isBigTeam(partita.team1) ? "bg-sky-800/80 text-sky-950 font-bold" : ""} ${underlineTeam("1")}`}
+                                onClick={() => (!isSignOk && isPartitaModificabile) ? handleSelection(partita.team1, "1") : undefined}>
                                 {isMobile ? partita.team1.slice(0, 3) : partita.team1}
                             </div>
                         </div>
-                        <div className={`absolute flex flex-row ml-[40%] border border-sky-900 rounded-lg bg-gray-900 w-6 p-3 z-[4] 
-                            
-                            ${(isKQBtnActive || partita.results) ? 'hover:cursor-not-allowed' : 'hover:cursor-pointer'}
-                            ${selection === "X" ? "text-yellow-500/50" : ""}`}
-                            onClick={() => (!isSignOk) && (handleSelection(partita.team1, "X"))}
+                        <div className={`absolute flex flex-row ml-[40%] border border-sky-900 rounded-lg bg-gray-900 w-6 p-3 z-[4] ${!isPartitaModificabile ? 'hover:cursor-not-allowed unselectable' : 'hover:cursor-pointer'} ${selection === "X" ? "text-yellow-500/50" : ""}`}
+                            onClick={() => (!isSignOk && isPartitaModificabile) ? handleSelection(partita.team1, "X") : undefined}
                         >
                         </div>
-                        <div className={`absolute flex flex-row ml-[20%] sm:ml-[50%] z-[2]
-                            ${(isKQBtnActive || partita.results) ? 'hover:cursor-not-allowed' : 'hover:cursor-pointer'}`}>
-                            <div className={`max-w-[9rem] whitespace-nowrap overflow-hidden md:ml-[1rem] 
-                                ${isBigTeam(partita.team2) ? "bg-sky-800/80 text-sky-950 font-bold" : ""} 
-                                ${underlineTeam("2")}`}
-                                onClick={() => (!isSignOk) && (handleSelection(partita.team2, "2"))}>
+                        <div className={`absolute flex flex-row ml-[20%] sm:ml-[50%] z-[2] ${!isPartitaModificabile ? 'hover:cursor-not-allowed unselectable' : 'hover:cursor-pointer'}`}>
+                            <div className={`max-w-[9rem] whitespace-nowrap overflow-hidden md:ml-[1rem] ${isBigTeam(partita.team2) ? "bg-sky-800/80 text-sky-950 font-bold" : ""} ${underlineTeam("2")}`}
+                                onClick={() => (!isSignOk && isPartitaModificabile) ? handleSelection(partita.team2, "2") : undefined}>
                                 {isMobile == true ? partita.team2.slice(0, 3) : partita.team2}
                                 {/* {partita.team2} */}
                             </div>
@@ -426,5 +402,3 @@ const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartit
     );
 };
 export default Partita;
-
-

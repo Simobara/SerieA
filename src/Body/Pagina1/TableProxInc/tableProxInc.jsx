@@ -119,6 +119,7 @@ const TableProxInc = () => {
           );
         }
       } else {
+
         const defaultStyle = {
           width: "11px",
           height: "11px",
@@ -128,7 +129,6 @@ const TableProxInc = () => {
           top: squadra.style.top,
           left: squadra.style.left
         };
-
         return (
           <div
             key={squadra.id}
@@ -140,31 +140,24 @@ const TableProxInc = () => {
     });
   };
 
-
   const handleReset = () => {
     setResetAll([]);
-
-
   };
-  useEffect(() => {
-    if (resetAll.length === 0) {
-      return;
-    }
 
-    // Crea un nuovo Set per partiteDefinNoMod
-    const updatedPartiteDefinNoMod = new Set();
+  // useEffect(() => {
+  //   if (resetAll.length === 0) {
+  //     return;
+  //   }
+  //   const updatedPartiteDefinNoMod = new Set();
+  //   giornataClouSelected.forEach(partita => {
+  //     // Se la partita ha un risultato, aggiungila a updatedPartiteDefinNoMod
+  //     if (partita.results) {
+  //       updatedPartiteDefinNoMod.add(partita.numero);
+  //     }
+  //   });
+  //   setPartiteDefinNoMod(updatedPartiteDefinNoMod);
 
-    // Itera sulle partite della giornata corrente
-    giornataClouSelected.forEach(partita => {
-      // Se la partita ha un risultato, aggiungila a updatedPartiteDefinNoMod
-      if (partita.results) {
-        updatedPartiteDefinNoMod.add(partita.numero);
-      }
-    });
-
-    // Aggiorna lo stato di partiteDefinNoMod
-    setPartiteDefinNoMod(updatedPartiteDefinNoMod);
-  }, [giornataClouSelected, setPartiteDefinNoMod]);
+  // }, [resetAll, giornataClouSelected, setPartiteDefinNoMod]);
 
 
 
