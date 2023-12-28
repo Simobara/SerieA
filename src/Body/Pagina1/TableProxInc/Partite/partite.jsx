@@ -1,16 +1,17 @@
 
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useContext } from "react";
 // import { DndProvider } from "react-dnd";
 // import { HTML5Backend } from "react-dnd-html5-backend";
-import { initialPartite } from "../../../../START/START";
+// import { initialPartite } from "../../../../START/START";
+import { GiornataClouContext } from "../../../Global/global";
 import Day from "./Day/day";
 
 
-const Partite = ({ resetAll, onReset, coppiaSelected }) => {
-    const [partite, setPartite] = useState([...initialPartite]);
+const Partite = ({ resetAll, onReset }) => {
+    const { giornataClouSelected } = useContext(GiornataClouContext);
+    const [partite, setPartite] = useState([...giornataClouSelected]);
     const [occhioApertoPartita, setOcchioApertoPartita] = useState(null);
-
     // const reassignNumbers = (updatedPartite) => {
     //     return updatedPartite.map((partita, index) => ({ ...partita, numero: index + 1 }));
     // };
@@ -27,7 +28,7 @@ const Partite = ({ resetAll, onReset, coppiaSelected }) => {
     //     setPartite(reassignNumbers(updatedPartite));
     // };
 
-    const partitePerGiorno = useMemo(// Memorizza il risultato del filtraggio per ridurre i calcoli
+    const partitePerGiorno = useMemo(
         () => ({
             ven: partite.filter((p) => p.day === "ven"),
             sab: partite.filter((p) => p.day === "sab"),
@@ -38,13 +39,8 @@ const Partite = ({ resetAll, onReset, coppiaSelected }) => {
     );
 
     useEffect(() => {
-        // eslint-disable-next-line
-        if (resetAll.length === 0) {
-            // Azione da eseguire per resettare
-            // Ad esempio, potresti voler resettare lo stato `partite` al suo stato iniziale
-            setPartite([...initialPartite]);
-        }
-    }, [resetAll, onReset]); // Dipendenza da `resetAll`
+        setPartite([...giornataClouSelected]);
+    }, [resetAll, onReset, giornataClouSelected]);
 
     return (
         // <DndProvider backend={HTML5Backend}>

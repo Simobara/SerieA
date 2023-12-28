@@ -1,7 +1,6 @@
-import { useState } from 'react';
-import Partita from "./Partita/partita";
+// import { useState } from 'react';
 // import Placeholder from "./Placeholder/placeholder"; //posizione per trascinare
-
+import Partita from "./Partita/partita";
 
 const Day = ({ title, partite = [], resetAll, occhioApertoPartita, setOcchioApertoPartita }) => {
   // const [occhioApertoPartita, setOcchioApertoPartita] = useState(null);
@@ -9,7 +8,7 @@ const Day = ({ title, partite = [], resetAll, occhioApertoPartita, setOcchioAper
 
   return (
     <>
-      <div className=" bg-gray-700/70 text-sky-800 text-lg font-bold text-sm uppercase text-start ml-[3%] mr-[3%] pl-12">
+      <div className=" bg-gray-700/70 text-sky-800 text-lg font-bold text-sm uppercase text-start ml-[3%] mr-[3%] pl-12 my-[0rem]">
         {title}
         {/* <div className="h-px bg-transparent "></div> */}
       </div>

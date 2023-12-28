@@ -44,3 +44,16 @@ export const CoppiaPartitaRegistrataProvider = ({ children }) => {
 };
 
 //-----------------------------------------------------------------------
+
+import { giornataClou } from '../../START/Matches/matches';
+export const GiornataClouContext = createContext();
+// eslint-disable-next-line
+export const GiornataClouProvider = ({ children }) => {
+    const [giornataClouSelected, setGiornataClouSelected] = useState(giornataClou);
+
+    return (
+        <GiornataClouContext.Provider value={{ giornataClouSelected, setGiornataClouSelected }}>
+            {children}
+        </GiornataClouContext.Provider>
+    )
+};

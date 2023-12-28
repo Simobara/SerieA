@@ -308,7 +308,7 @@ const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartit
             // ref={(node) => drag(drop(node))}
             >
                 <div className="flex items-center justify-center xs:text-xs sm:text-lg relative ">
-                    <div className="ml-[5%] sm:ml-0 sm:mr-1 p-2 w-30 ml-[1%] text-gray-600">
+                    <div className="ml-[5%] sm:ml-0 sm:mr-1 p-[0.354rem] w-30 ml-[1%] text-gray-600">
                         <span role="img" aria-label="Menu">
                             ☰
                         </span>

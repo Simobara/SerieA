@@ -1,18 +1,20 @@
 import { useState, useContext, useEffect } from "react";
-// import Calendario from "./Calendario/calendario";
-import Partite from "./Partite/partite";
-import ModalInserimento from "./ModalInserimento/modalInser";
-import serieAItalia from "../../../assets/serieAItalia/serieAItalia.png";
-// import "./tableProxInc.css";
 import { CoppiaPartitaContext } from "../../Global/global";
-import squadreConfig from "./PosSquadreChart/posSquadreChart";
 import { ATeams } from "../../../START/START";
 import { BTeams } from "../../../START/START";
+import Partite from "./Partite/partite";
+import squadreConfig from "./PosSquadreChart/posSquadreChart";
+import serieAItalia from "../../../assets/serieAItalia/serieAItalia.png";
+// import ModalInserimento from "./ModalInserimento/modalInser";
+// import "./tableProxInc.css";
+// import Calendario from "./Calendario/calendario";
+
+import CalGiorn from "./CalGiorn/calGiorn";
 
 
 const TableProxInc = () => {
   const [resetAll, setResetAll] = useState([]);
-  const [isModalInserOpen, setIsModalInserOpen] = useState(false);
+  // const [isModalInserOpen, setIsModalInserOpen] = useState(false);
   const { coppiaSelected } = useContext(CoppiaPartitaContext);
 
   const [squadreAttive, setSquadreAttive] = useState({ team1: "", team2: "" });
@@ -181,8 +183,9 @@ const TableProxInc = () => {
         {/* <Calendario /> */}
         {/* </div> */}
         {/* <div className="absolute bottom-0 w-full mt-[20rem]"> */}
-        <div className="sticky flex flex-col overflow-y-hidden h-[33rem] bg-black mt-[-0.5rem] z-[4]">
-          <Partite resetAll={resetAll} onReset={handleReset} coppiaSelected={squadreAttive} />
+        <div className="sticky flex flex-col overflow-y-hidden h-[33rem] bg-black mt-[-1rem] z-[4]">
+          <CalGiorn resetAll={resetAll} />
+          <Partite resetAll={resetAll} />
         </div>
         {/* </div> */}
       </div >
