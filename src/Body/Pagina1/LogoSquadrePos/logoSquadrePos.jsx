@@ -109,7 +109,7 @@ const LogoSquadrePos = () => {
           {/* Aggiunta di max-h-[3rem] e overflow-y-auto */}
           <div className=" max-h-[3.3rem] sm:max-h-[5rem] xl:max-h-[5rem] overflow-y-hidden">{renderLinea(0, SqEndGruppo1)}</div>
         </div>
-        <div className="mt-[-2rem] mb-[2rem] overflow-hidden z-3 sticky ">
+        <div className="mt-[-2rem] mb-[2.1rem] overflow-hidden z-3 sticky ">
           <div className="w-[40rem] mx-auto items-center h-1 bg-gray-600 text-gray-900">
             <div className="border border-2 border-sky-900/75 w-5 bg-gray-700 text-white text-base sm:text-md font-extrabold uppercase">2</div>
           </div>

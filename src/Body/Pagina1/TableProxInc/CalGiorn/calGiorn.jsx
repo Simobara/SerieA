@@ -1,11 +1,11 @@
 import React, { useRef, useState, useContext, useEffect } from 'react';
-// eslint-disable-next-line
 import { calendario } from "../../../../START/Matches/matches";
 import { GiornataClouContext } from "../../../Global/global/";
 import { PartiteDefinNoModContext } from "../../../Global/global";
+import { giornataClou } from '../../../../START/Matches/matches';
 import "./CalGiorn.css";
 
-const CalGiorn = ({ resetAll }) => {
+const CalGiorn = ({ onReset }) => {
     const scrollContainer = useRef(null);
     const singleBoxRef = useRef(null); // Aggiunto ref per la larghezza della casella
     const [selected, setSelected] = useState(null);
@@ -17,7 +17,7 @@ const CalGiorn = ({ resetAll }) => {
         setSelected(number);
         setMatches(calendario[`giornata${number}`]);
         setGiornataClouSelected(calendario[`giornata${number}`]);
-        resetAll()
+        // resetAll()
     }
 
     const scroll = (direction) => {
@@ -28,10 +28,10 @@ const CalGiorn = ({ resetAll }) => {
             // Aggiorna il numero selezionato a seconda della direzione dello scroll
             if (direction === 'left' && selected != null && selected > 1) {
                 handleSelectNumber(selected - 1);
-                resetAll()
+                // resetAll()
             } else if (direction === 'right' && selected != null && selected < 38) {
                 handleSelectNumber(selected + 1);
-                resetAll()
+                // resetAll()
             }
         }
     };
@@ -57,11 +57,26 @@ const CalGiorn = ({ resetAll }) => {
                 setSelected(giornataNumber);
             }
         }
-    }, [resetAll, giornataClouSelected, calendario]);
+    }, [giornataClouSelected, calendario]);// resetAll,
+
+    useEffect(() => {
+        if (onReset) {
+            // Esegui la logica di reset
+            setGiornataClouSelected(giornataClou);
+            setSelected(null);
+            setMatches([]);
+            // Altre azioni di reset
+        }
+    }, [onReset]);
+
 
     return (
         <div className="flex items-center justify-center bg-gray-800">
-            <button onClick={() => scroll('left')} className="text-white p-2 hover:bg-gray-700 focus:outline-none">
+            <button
+                onClick={() => scroll('left')}
+                disabled={selected === 1} // Disabilita se selected è 1
+                className={`text-sky-600 p-2 hover:bg-gray-700 focus:outline-none ${selected === 1 ? 'opacity-20 cursor-not-allowed' : ''}`}
+            >
                 &#9664;
             </button>
             <div ref={scrollContainer} className="flex overflow-x-auto scrollbar-hide">
@@ -80,7 +95,11 @@ const CalGiorn = ({ resetAll }) => {
                     ))}
                 </div>
             </div>
-            <button onClick={() => scroll('right')} className="text-white p-2 hover:bg-gray-700 focus:outline-none">
+            <button
+                onClick={() => scroll('right')}
+                disabled={selected === 38} // Disabilita se selected è 38
+                className={`text-sky-600 p-2 hover:bg-gray-700 focus:outline-none ${selected === 38 ? 'opacity-20 cursor-not-allowed' : ''}`}
+            >
                 &#9654;
             </button>
         </div>

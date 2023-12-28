@@ -38,6 +38,7 @@ const Partite = ({ resetAll }) => {
         [partite]
     );
 
+    //AGGIORNA IL COMPONENTE ALLA GIORNATA DI RIFERIMENTO CON LE PARTITE DI QUELLA GIORNATA
     useEffect(() => {
         setPartite([...giornataClouSelected]);
     }, [giornataClouSelected]);

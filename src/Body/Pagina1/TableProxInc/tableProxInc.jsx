@@ -5,11 +5,12 @@ import { BTeams } from "../../../START/START";
 import Partite from "./Partite/partite";
 import squadreConfig from "./PosSquadreChart/posSquadreChart";
 import serieAItalia from "../../../assets/serieAItalia/serieAItalia.png";
-import { GiornataClouContext } from "../../Global/global";
-import { PartiteDefinNoModContext } from "../../Global/global";
+// import { giornataClou } from "../../../START/Matches/matches";
+// import { GiornataClouContext } from "../../Global/global";
+// import { PartiteDefinNoModContext } from "../../Global/global";
 // import ModalInserimento from "./ModalInserimento/modalInser";
 // import "./tableProxInc.css";
-// import Calendario from "./Calendario/calendario";
+
 
 import CalGiorn from "./CalGiorn/calGiorn";
 
@@ -18,8 +19,8 @@ const TableProxInc = () => {
   const [resetAll, setResetAll] = useState([]);
   // const [isModalInserOpen, setIsModalInserOpen] = useState(false);
   const { coppiaSelected } = useContext(CoppiaPartitaContext);
-  const { giornataClouSelected } = useContext(GiornataClouContext);
-  const { partiteDefinNoMod, setPartiteDefinNoMod } = useContext(PartiteDefinNoModContext);
+  // const { giornataClouSelected, setGiornataClouSelected } = useContext(GiornataClouContext);
+  // const { partiteDefinNoMod, setPartiteDefinNoMod } = useContext(PartiteDefinNoModContext);
 
   const [squadreAttive, setSquadreAttive] = useState({ team1: "", team2: "" });
 
@@ -141,7 +142,11 @@ const TableProxInc = () => {
   };
 
   const handleReset = () => {
+
     setResetAll([]);
+
+    // return;
+    // setGiornataClouSelected(giornataClou)
   };
 
   // useEffect(() => {
@@ -163,21 +168,21 @@ const TableProxInc = () => {
 
 
 
-  useEffect(() => {
-    // console.log("squadreConfig:", squadreConfig);
-    if (coppiaSelected) {
-      setSquadreAttive({ team1: coppiaSelected.team1, team2: coppiaSelected.team2 });
-      // console.log("T1:", coppiaSelected.team1);
-      // console.log("T2:", coppiaSelected.team2);
-    }
-  }, [coppiaSelected]);
+  // useEffect(() => {
+  //   // console.log("squadreConfig:", squadreConfig);
+  //   if (coppiaSelected) {
+  //     setSquadreAttive({ team1: coppiaSelected.team1, team2: coppiaSelected.team2 });
+  //     // console.log("T1:", coppiaSelected.team1);
+  //     // console.log("T2:", coppiaSelected.team2);
+  //   }
+  // }, [coppiaSelected]);
 
 
 
   return (
     <>
       <div className="relative ">
-        <div className="flex justify-center h-[25rem]">
+        <div className="flex justify-center h-[25.45rem]">
           <div className="relative overflow-hidden w-[120rem] ml-[-3rem]">
             <img src={serieAItalia} alt="serieAItalia" className="relative h-[47rem] w-[100%] mt-[-4.4rem]" />
             {coppiaSelected && renderSquadre()}
@@ -203,7 +208,7 @@ const TableProxInc = () => {
         {/* </div> */}
         {/* <div className="absolute bottom-0 w-full mt-[20rem]"> */}
         <div className="sticky flex flex-col overflow-y-hidden h-[33rem] bg-black mt-[-1rem] z-[4]">
-          <CalGiorn resetAll={handleReset} />
+          <CalGiorn onReset={resetAll} />
           <Partite resetAll={resetAll} />
         </div>
         {/* </div> */}

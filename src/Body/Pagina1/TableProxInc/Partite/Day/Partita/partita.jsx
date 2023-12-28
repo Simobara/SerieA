@@ -39,7 +39,7 @@ const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartit
         }
     };
 
-    const marginLeftClass = isPartitaInCoppiaRegSelected ? "mr-[2rem]" : "ml-[1rem]";
+    const marginLeftClass = isPartitaInCoppiaRegSelected ? "mr-[0rem]" : "ml-[1rem]";
 
     const toggleSymbol = () => {
         if (!isPartitaModificabile || partita.results) return;
@@ -218,6 +218,17 @@ const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartit
 
     // ------------------------------------------------------------------------------------------------
 
+    //resize
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.matchMedia("(max-width: 600px)").matches);
+        }; // Attach the event listener when the component mounts
+        window.addEventListener("resize", handleResize);
+        return () => {// Clean up the event listener when the component unmounts
+            window.removeEventListener("resize", handleResize);
+        };
+    }, []);
+
     useEffect(() => {
         setCoppiaSelected({})
         if (resetAll) {
@@ -265,7 +276,6 @@ const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartit
     //     setIsModifiable(!partita.results);
     // }, [partita.results]);
 
-
     useEffect(() => {
         // Aggiorna partiteDefinNoMod quando cambia giornataClouSelected
         const newPartiteDefinNoMod = new Set();
@@ -274,19 +284,6 @@ const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartit
         });
         setPartiteDefinNoMod(newPartiteDefinNoMod);
     }, [giornataClouSelected, setPartiteDefinNoMod]);
-
-    // ...
-
-    //resize
-    useEffect(() => {
-        const handleResize = () => {
-            setIsMobile(window.matchMedia("(max-width: 600px)").matches);
-        }; // Attach the event listener when the component mounts
-        window.addEventListener("resize", handleResize);
-        return () => {// Clean up the event listener when the component unmounts
-            window.removeEventListener("resize", handleResize);
-        };
-    }, []);
 
     useEffect(() => {
         const partiteRegistrata = []; // Array temporaneo per le partite registrate
@@ -348,13 +345,13 @@ const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartit
                     <div className="absolute ml-[4rem]">
                         <div className="text-xl font-bold"></div>
                     </div>
-                    {!isPartitaInCoppiaRegSelected && !isPartitaModificabile && (
-                        <div className={`flex ml-2 sm:pl-1 hover:cursor-pointer z-10 ${marginLeftClass}`}>
-                            <div className="sm:pr-1">
+                    {/* {!isPartitaInCoppiaRegSelected && (
+                        <div className={`flex ml-2 sm:pl-0 hover:cursor-pointer z-10 ${marginLeftClass}`}>
+                            <div className="sm:pr-1 pl-0">
                                 <span role="img" aria-label="Double Arrow" onClick={() => handleResetColors()}>〰️</span>
                             </div>
                         </div>
-                    )}
+                    )} */}
                 </div>
                 <div className="relative flex flex-col sm:ml-[2rem] justify-start w-[90rem] max-w-[70%] sm:mx-2">
                     <div className='relative flex flex-row items-center ml-[1rem] xs:text-xs sm:text-xl'>
