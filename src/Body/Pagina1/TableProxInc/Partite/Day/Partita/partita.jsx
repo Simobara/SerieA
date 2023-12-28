@@ -354,7 +354,7 @@ const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartit
                         <div className={`absolute flex flex-row ml-[6%]
                             ${(isKQBtnActive || partita.results) ? 'hover:cursor-not-allowed' : 'hover:cursor-pointer'}`}>
                             <div className={`max-w-[9rem] whitespace-nowrap overflow-hidden z-[1] 
-                                ${isBigTeam(partita.team1) ? "bg-gray-500/80 font-bold" : ""} 
+                                ${isBigTeam(partita.team1) ? "bg-sky-700/70 text-sky-950 font-bold" : ""} 
                                 ${underlineTeam("1")}`}
                                 onClick={() => (!isSignOk) && handleSelection(partita.team1, "1")}>
                                 {isMobile ? partita.team1.slice(0, 3) : partita.team1}
@@ -370,7 +370,7 @@ const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartit
                         <div className={`absolute flex flex-row ml-[20%] sm:ml-[50%] z-[2]
                             ${(isKQBtnActive || partita.results) ? 'hover:cursor-not-allowed' : 'hover:cursor-pointer'}`}>
                             <div className={`max-w-[9rem] whitespace-nowrap overflow-hidden md:ml-[1rem] 
-                                ${isBigTeam(partita.team2) ? "bg-gray-500/80 font-bold" : ""} 
+                                ${isBigTeam(partita.team2) ? "bg-sky-700/70 text-sky-950 font-bold" : ""} 
                                 ${underlineTeam("2")}`}
                                 onClick={() => (!isSignOk) && (handleSelection(partita.team2, "2"))}>
                                 {isMobile == true ? partita.team2.slice(0, 3) : partita.team2}

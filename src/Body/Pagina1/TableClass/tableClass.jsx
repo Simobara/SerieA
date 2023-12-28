@@ -239,26 +239,25 @@ const TableClass = () => {
             </td>
             {/* { COLONNA SQUADRE} */}
             <td className={`w-[100%] bg-black xs:pl-0 sm:pl-32 lg:pl-36 xl:px-6 flex justify-start relative sq-column text-xl 
-            ${isWinningTeamInCoppiaRegSelected(squadra.nome) ? `text-green-500 ${isCoppiaSelected(squadra.nome) ? "bg-gray-500" : "bg-gray-700/70"}` : ""}
-              ${isLosingTeamInCoppiaRegSelected(squadra.nome) ? `text-gray-500 ${isCoppiaSelected(squadra.nome) ? "bg-gray-500" : "bg-gray-700/70"}` : ""}
-              ${isDrawingTeamInCoppiaRegSelected(squadra.nome) ? `text-yellow-500 ${isCoppiaSelected(squadra.nome) ? "bg-gray-500" : "bg-gray-700/70"}` : ""}
-              ${isCoppiaSelected(squadra.nome) ? "bg-gray-700" : ""}
-              ${isTeamMarkedWithX(squadra.nome)
+            ${isCoppiaSelected(squadra.nome) ? "bg-gray-700" : ""}
+            ${isTeamMarkedWithX(squadra.nome)
                 ? "underline-yello text-yellow-500/40"
                 : sqSelected.includes(squadra.nome + "Z")
                   ? "underline-gree text-green-500/50"
                   : sqSelected.includes(squadra.nome + "Y")
                     ? "text-gray-500/70"
                     : ""}
-                      
+            ${isWinningTeamInCoppiaRegSelected(squadra.nome) ? `text-green-500 ${isCoppiaSelected(squadra.nome) ? "bg-gray-500" : "bg-gray-700/70"}` : ""}
+            ${isLosingTeamInCoppiaRegSelected(squadra.nome) ? `text-gray-500 ${isCoppiaSelected(squadra.nome) ? "bg-gray-500" : "bg-gray-700/70"}` : ""}
+            ${isDrawingTeamInCoppiaRegSelected(squadra.nome) ? `text-yellow-500 ${isCoppiaSelected(squadra.nome) ? "bg-gray-500" : "bg-gray-700/70"}` : ""}          
                   >
               }`}
             >
               <div className={`flex items-center bg-black 
+              ${isCoppiaSelected(squadra.nome) ? "bg-gray-700" : ""}
               ${isWinningTeamInCoppiaRegSelected(squadra.nome) ? "text-green-500/30 bg-gray-700/10" : ""}
               ${isLosingTeamInCoppiaRegSelected(squadra.nome) ? "text-gray-500/50 bg-gray-700/10" : ""}
               ${isDrawingTeamInCoppiaRegSelected(squadra.nome) ? "text-yellow-500/30 bg-gray-700/10" : ""}
-              ${isCoppiaSelected(squadra.nome) ? "bg-gray-700" : ""}
               `}>
                 <img src={squadra.logo} alt={`${squadra.nome} Logo`} className="w-7 h-7 mr-4" />
                 <span>{squadra.nome.replace("X", "").replace("Y", "").replace("Z", "")}</span>
@@ -275,11 +274,12 @@ const TableClass = () => {
             {/* { COLONNA PTS} */}
             <td
               className={`sm:pl-16 lg:pl-2 xl:mr-4 sm:pr-2 text-left font-bold bg-black text-xl
+              ${isCoppiaSelected(squadra.nome) ? "bg-gray-700" : ""}
+              ${indiciDiffPts.includes(index) ? "borderAlto border-gray-500/80 " : ""}
+              ${getPunteggioColonnaDomanda(squadra) !== " " ? "text-gray-500/70" : "text-cyan-600"}
               ${isWinningTeamInCoppiaRegSelected(squadra.nome) ? `text-gray-500 ${isCoppiaSelected(squadra.nome) ? "bg-gray-700" : "bg-gray-700/70"}` : ""}
               ${isLosingTeamInCoppiaRegSelected(squadra.nome) ? `text-gray-500 ${isCoppiaSelected(squadra.nome) ? "bg-gray-700" : "bg-gray-700/70"}` : ""}
               ${isDrawingTeamInCoppiaRegSelected(squadra.nome) ? `text-gray-500 ${isCoppiaSelected(squadra.nome) ? "bg-gray-700" : "bg-gray-700/70"}` : ""}
-              ${indiciDiffPts.includes(index) ? "borderAlto border-gray-500/80 " : ""}
-              ${getPunteggioColonnaDomanda(squadra) !== " " ? "text-gray-500/70" : "text-cyan-600"}
               `}
             >
               <div className="innerBorder"></div>
