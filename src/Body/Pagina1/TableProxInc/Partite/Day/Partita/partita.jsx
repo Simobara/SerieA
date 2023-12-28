@@ -3,18 +3,20 @@ import { useState, useContext, useEffect } from "react";
 import { SquadraContext } from "../../../../../Global/global";
 import { CoppiaPartitaContext } from "../../../../../Global/global";
 import { CoppiaPartitaRegistrataContext } from "../../../../../Global/global";
-import { giornataClou } from "../../../../../../START/Matches/matches";
+import { GiornataClouContext } from "../../../../../Global/global";
+// import { giornataClou } from "../../../../../../START/Matches/matches";
 import "./partita.css";
 
 const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartita }) => {
     const [isMobile, setIsMobile] = useState(window.matchMedia("(max-width: 600px)").matches);
-    const [isKQBtnActive, setIsKQBtnActive] = useState(false);
-    const [isSignOk, setIsSignOk] = useState(false);//not mandatory
-    const [isButtonClickable, setIsButtonClickable] = useState(false);
-    const [selection, setSelection] = useState("");
+    const { giornataClouSelected } = useContext(GiornataClouContext);
     const { sqSelected, setSqSelected } = useContext(SquadraContext);
     const { coppiaSelected, setCoppiaSelected } = useContext(CoppiaPartitaContext);
     const { coppiaRegSelected, setCoppiaRegSelected } = useContext(CoppiaPartitaRegistrataContext);
+    const [isButtonClickable, setIsButtonClickable] = useState(false);
+    const [isKQBtnActive, setIsKQBtnActive] = useState(false);
+    const [isSignOk, setIsSignOk] = useState(false);
+    const [selection, setSelection] = useState("");
 
 
 
@@ -51,7 +53,7 @@ const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartit
 
 
     const handleSelection = (selectedTeam, selectionType, numeroPartita = '') => {
-        if (partita.results) return;
+        // if (partita.results) return;
         if (numeroPartita !== 0 && numeroPartita === partita.numero) {
             setIsKQBtnActive(true);
             setSelection(selectionType);
@@ -129,6 +131,11 @@ const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartit
             return "underline underline-yellow text-sky-900 font-bold underline-thick z-3";
         }
     };
+
+
+
+
+
 
     const handleCoppiaSelectTeam = (partita) => {
         const selectedTeams = {
@@ -208,11 +215,11 @@ const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartit
             setIsSignOk(false);
             setIsButtonClickable(false);
 
-            const numeriPartiteConRisultati = giornataClou
+            const numeriPartiteConRisultati = giornataClouSelected
                 .filter(partita => partita.results !== '')
                 .map(partita => partita.numero);
 
-            giornataClou.forEach(partitaClou => {
+            giornataClouSelected.forEach(partitaClou => {
                 if (!numeriPartiteConRisultati.includes(partitaClou.numero)) {
                     if (partita.numero === partitaClou.numero) {
                         setSelection("");
@@ -243,7 +250,7 @@ const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartit
                 }
             });
         }
-    }, [resetAll, giornataClou, partita]);
+    }, [resetAll, giornataClouSelected, partita]);
 
 
 
@@ -262,7 +269,7 @@ const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartit
 
     useEffect(() => {
         const partiteRegistrata = []; // Array temporaneo per le partite registrate
-        giornataClou.forEach((partitaGiornataClou) => {
+        giornataClouSelected.forEach((partitaGiornataClou) => {
             if (/^\d+-\d+$/.test(partitaGiornataClou.results)) {
                 const score = partitaGiornataClou.results.split('-').map(Number);
                 let selectionType;
@@ -283,7 +290,7 @@ const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartit
             }
         });
         setCoppiaRegSelected(partiteRegistrata);
-    }, [giornataClou]);
+    }, [giornataClouSelected]);
 
     useEffect(() => {
         if (partita.results) {

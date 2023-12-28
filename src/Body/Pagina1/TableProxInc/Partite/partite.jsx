@@ -8,7 +8,7 @@ import { GiornataClouContext } from "../../../Global/global";
 import Day from "./Day/day";
 
 
-const Partite = ({ resetAll, onReset }) => {
+const Partite = ({ resetAll }) => {
     const { giornataClouSelected } = useContext(GiornataClouContext);
     const [partite, setPartite] = useState([...giornataClouSelected]);
     const [occhioApertoPartita, setOcchioApertoPartita] = useState(null);
@@ -40,7 +40,7 @@ const Partite = ({ resetAll, onReset }) => {
 
     useEffect(() => {
         setPartite([...giornataClouSelected]);
-    }, [resetAll, onReset, giornataClouSelected]);
+    }, [giornataClouSelected]);
 
     return (
         // <DndProvider backend={HTML5Backend}>

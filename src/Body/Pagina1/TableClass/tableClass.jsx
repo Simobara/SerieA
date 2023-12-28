@@ -18,7 +18,6 @@ const TableClass = () => {
 
 
 
-
   const getPunteggioVirtuale = useCallback((squadra) => {
     let aggiuntaPunti = 0;
     if (sqSelected.includes(squadra.nome + "Z")) aggiuntaPunti = 3;
@@ -79,7 +78,6 @@ const TableClass = () => {
         const scores = match.risultato.split('-').map(Number);
         const scoreTeam1 = scores[0];
         const scoreTeam2 = scores[1];
-
         let winningTeam;
         if (scoreTeam1 > scoreTeam2) {
           winningTeam = match.team1;
@@ -105,7 +103,6 @@ const TableClass = () => {
     const isPartOfSelectedMatch = coppiaRegSelected.some(match =>
       match.team1 === squadra.nome || match.team2 === squadra.nome
     );
-
     return isPartOfSelectedMatch ? squadra.punteggio : getPunteggioVisualizzato(squadra);
   };
 
@@ -158,16 +155,13 @@ const TableClass = () => {
     });
   };
 
-
   // ------------------------------------------------------------------------------------
   useEffect(() => {
     let nuoviIndici = [];
     let numeriCorrispondenti = {};
-
     for (let i = 1; i < squadreOrdinate.length; i++) {
       const punteggioAttuale = getPunteggioColonnaDomanda(squadreOrdinate[i]);
       const punteggioPrecedente = getPunteggioColonnaDomanda(squadreOrdinate[i - 1]);
-
       if (isPureNumber(punteggioAttuale) && isPureNumber(punteggioPrecedente)) {
         const differenzaPunteggio = Math.abs(punteggioAttuale - punteggioPrecedente);
         if (differenzaPunteggio >= 3) {
@@ -176,7 +170,6 @@ const TableClass = () => {
         }
       }
     }
-
     setIndiciDiffQ(nuoviIndici);
     setNumeriIndiciBorderWhite(numeriCorrispondenti);
   }, [squadreOrdinate, coppiaRegSelected]);
@@ -195,7 +188,6 @@ const TableClass = () => {
         nuoveDifferenze[i] = differenza;
       }
     }
-
     setIndiciDiffPts(nuoviIndici);
     setDifferenzePunti(nuoveDifferenze);
   }, [punteggiAggiornati]);
@@ -213,9 +205,7 @@ const TableClass = () => {
       ...squadra,
       punteggioAggiornato: getPunteggioColonnaPTS(squadra)
     }));
-
     setPunteggiAggiornati(nuoviPunteggi);
-
     // Calcola le differenze di punteggio tra le squadre adiacenti basandoti sui nuovi punteggi
     let nuoveDifferenze = {};
     for (let i = 1; i < nuoviPunteggi.length; i++) {
@@ -224,7 +214,6 @@ const TableClass = () => {
         nuoveDifferenze[i] = differenza;
       }
     }
-
     setDifferenzePunti(nuoveDifferenze);
   }, [coppiaRegSelected]); // Aggiungi le dipendenze necessarie qui
 
@@ -249,23 +238,18 @@ const TableClass = () => {
               <div className="w-full h-full flex items-center justify-center ">{/* {index + 1} */}</div>
             </td>
             {/* { COLONNA SQUADRE} */}
-            <td
-              className={`w-[100%] bg-black xs:pl-0 sm:pl-32 lg:pl-36 xl:px-6 flex justify-start relative sq-column text-xl 
-              ${isWinningTeamInCoppiaRegSelected(squadra.nome)
-                  ? `text-green-500 ${isCoppiaSelected(squadra.nome) ? "bg-gray-500" : "bg-gray-700/70"}`
-                  : ""}
-              ${isLosingTeamInCoppiaRegSelected(squadra.nome) ? `text-gray-500 ${isCoppiaSelected(squadra.nome) ? "bg-gray-500" : "bg-gray-700/70"}`
-                  : ""}
-              ${isDrawingTeamInCoppiaRegSelected(squadra.nome) ? `text-yellow-500 ${isCoppiaSelected(squadra.nome) ? "bg-gray-500" : "bg-gray-700/70"}`
-                  : ""}
+            <td className={`w-[100%] bg-black xs:pl-0 sm:pl-32 lg:pl-36 xl:px-6 flex justify-start relative sq-column text-xl 
+            ${isWinningTeamInCoppiaRegSelected(squadra.nome) ? `text-green-500 ${isCoppiaSelected(squadra.nome) ? "bg-gray-500" : "bg-gray-700/70"}` : ""}
+              ${isLosingTeamInCoppiaRegSelected(squadra.nome) ? `text-gray-500 ${isCoppiaSelected(squadra.nome) ? "bg-gray-500" : "bg-gray-700/70"}` : ""}
+              ${isDrawingTeamInCoppiaRegSelected(squadra.nome) ? `text-yellow-500 ${isCoppiaSelected(squadra.nome) ? "bg-gray-500" : "bg-gray-700/70"}` : ""}
               ${isCoppiaSelected(squadra.nome) ? "bg-gray-700" : ""}
               ${isTeamMarkedWithX(squadra.nome)
-                  ? "underline-yello text-yellow-500/40"
-                  : sqSelected.includes(squadra.nome + "Z")
-                    ? "underline-gree text-green-500/50"
-                    : sqSelected.includes(squadra.nome + "Y")
-                      ? "text-gray-500/70"
-                      : ""}
+                ? "underline-yello text-yellow-500/40"
+                : sqSelected.includes(squadra.nome + "Z")
+                  ? "underline-gree text-green-500/50"
+                  : sqSelected.includes(squadra.nome + "Y")
+                    ? "text-gray-500/70"
+                    : ""}
                       
                   >
               }`}
@@ -284,19 +268,16 @@ const TableClass = () => {
             <td
               className={`sm:pr-1 md:pl-1 lg:pl-2 xl:pl-0 text-right font-extrabold bg-black text-cyan-600 text-xl z-4 
               ${indiciDiffQ.includes(index) ? "borderAlto border-white" : ""}`}>
-              <div className="absolute transform -translate-x-4/3 -translate-y-7 text-center text-lg text-white mx-8 my-[-10]"> {numeriIndiciBorderWhite[index]}</div>
+              <div className="absolute transform -translate-x-4/3 -translate-y-7 text-center text-lg text-white mx-8 my-[-10]">
+                {numeriIndiciBorderWhite[index]}</div>
               {getPunteggioColonnaDomanda(squadra)}
             </td>
             {/* { COLONNA PTS} */}
             <td
               className={`sm:pl-16 lg:pl-2 xl:mr-4 sm:pr-2 text-left font-bold bg-black text-xl
-              ${isWinningTeamInCoppiaRegSelected(squadra.nome)
-                  ? `text-gray-500 ${isCoppiaSelected(squadra.nome) ? "bg-gray-700" : "bg-gray-700/70"}`
-                  : ""}
-              ${isLosingTeamInCoppiaRegSelected(squadra.nome) ? `text-gray-500 ${isCoppiaSelected(squadra.nome) ? "bg-gray-700" : "bg-gray-700/70"}`
-                  : ""}
-              ${isDrawingTeamInCoppiaRegSelected(squadra.nome) ? `text-gray-500 ${isCoppiaSelected(squadra.nome) ? "bg-gray-700" : "bg-gray-700/70"}`
-                  : ""}
+              ${isWinningTeamInCoppiaRegSelected(squadra.nome) ? `text-gray-500 ${isCoppiaSelected(squadra.nome) ? "bg-gray-700" : "bg-gray-700/70"}` : ""}
+              ${isLosingTeamInCoppiaRegSelected(squadra.nome) ? `text-gray-500 ${isCoppiaSelected(squadra.nome) ? "bg-gray-700" : "bg-gray-700/70"}` : ""}
+              ${isDrawingTeamInCoppiaRegSelected(squadra.nome) ? `text-gray-500 ${isCoppiaSelected(squadra.nome) ? "bg-gray-700" : "bg-gray-700/70"}` : ""}
               ${indiciDiffPts.includes(index) ? "borderAlto border-gray-500/80 " : ""}
               ${getPunteggioColonnaDomanda(squadra) !== " " ? "text-gray-500/70" : "text-cyan-600"}
               `}

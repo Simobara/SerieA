@@ -184,7 +184,7 @@ const TableProxInc = () => {
         {/* </div> */}
         {/* <div className="absolute bottom-0 w-full mt-[20rem]"> */}
         <div className="sticky flex flex-col overflow-y-hidden h-[33rem] bg-black mt-[-1rem] z-[4]">
-          <CalGiorn resetAll={resetAll} />
+          <CalGiorn resetAll={handleReset} />
           <Partite resetAll={resetAll} />
         </div>
         {/* </div> */}

@@ -3,7 +3,7 @@ import { calendario } from "../../../../START/Matches/matches";
 import { GiornataClouContext } from "../../../Global/global/";
 import "./CalGiorn.css";
 
-const CalGiorn = () => {
+const CalGiorn = ({ resetAll }) => {
     const scrollContainer = useRef(null);
     const singleBoxRef = useRef(null); // Aggiunto ref per la larghezza della casella
     const [selected, setSelected] = useState(null);
@@ -14,6 +14,7 @@ const CalGiorn = () => {
         setSelected(number);
         setMatches(calendario[`giornata${number}`]);
         setGiornataClouSelected(calendario[`giornata${number}`]);
+        resetAll()
     }
 
     const scroll = (direction) => {
@@ -24,8 +25,10 @@ const CalGiorn = () => {
             // Aggiorna il numero selezionato a seconda della direzione dello scroll
             if (direction === 'left' && selected != null && selected > 1) {
                 handleSelectNumber(selected - 1);
+                resetAll()
             } else if (direction === 'right' && selected != null && selected < 38) {
                 handleSelectNumber(selected + 1);
+                resetAll()
             }
         }
     };
@@ -51,7 +54,7 @@ const CalGiorn = () => {
                 setSelected(giornataNumber);
             }
         }
-    }, [giornataClouSelected, calendario]);
+    }, [resetAll, giornataClouSelected, calendario]);
 
     return (
         <div className="flex items-center justify-center bg-gray-800">
