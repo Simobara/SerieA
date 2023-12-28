@@ -43,7 +43,7 @@ const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartit
         }
     };
 
-    const marginLeftClass = isPartitaInCoppiaRegSelected ? "mr-[0rem]" : "ml-[1rem]";
+
 
     const toggleSymbol = () => {
         if (!isPartitaModificabile || partita.results) return;
@@ -158,7 +158,7 @@ const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartit
     };
 
     const handleResetColors = () => {
-        if (partita.results) return;
+        // if (partita.results) return;
         setSelection("");
         setIsKQBtnActive(false)
         setIsButtonClickable(false)
@@ -167,7 +167,7 @@ const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartit
             handleCoppiaSelectTeam(partita);
         }
         setSqSelected((currentSelected) => {
-            if (!Array.isArray(currentSelected)) {
+            if (currentSelected) {
                 return currentSelected.filter(
                     (squadra) =>
                         // Rimuovi entrambe le squadre e le loro varianti con 'X', 'Y', e 'Z' se presenti
@@ -327,29 +327,30 @@ const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartit
             <div className={`text-cyan-600 font-bold flex items-center justify-center sm:mx-[1rem] ${isPartitaModificabile ? '' : 'unselectable'}`}>
                 <div className="flex items-center justify-center xs:text-xs sm:text-lg relative">
                     <div className="ml-[5%] sm:ml-0 sm:mr-1 p-[0.354rem] w-30 ml-[1%] text-gray-600">
-                        <span role="img" aria-label="Menu">☰</span>
+                        {/* <span role="img" aria-label="Menu">☰</span> */}
+                        <span>{partita.time}</span>
                     </div>
                     <div className="w-15 ml-[2px] text-gray-600 font-normal">
-                        <span>{partita.time}</span>
+
                     </div>
                     {/* <div className="p-2 w-15">
                         <span role="img" aria-label="Calendario">📅</span>
                     </div> */}
-                    <div className="absolute ml-[4rem]">
+                    {/* <div className="absolute ml-[4rem]">
                         <div className="text-xl font-bold"></div>
-                    </div>
-                    {/* {!isPartitaInCoppiaRegSelected && (
-                        <div className={`flex ml-2 sm:pl-0 hover:cursor-pointer z-10 ${marginLeftClass}`}>
-                            <div className="sm:pr-1 pl-0">
-                                <span role="img" aria-label="Double Arrow" onClick={() => handleResetColors()}>〰️</span>
+                    </div> */}
+                    {!isPartitaInCoppiaRegSelected && (
+                        <div className={`{flex sm:pl-0 hover:cursor-pointer z-10 }`}>
+                            <div className={`{sm:pr-1 pl-0 ${!isPartitaInCoppiaRegSelected} ? ml-[-0.5rem] mr-[-2rem] : 'pl-4'}`}>
+                                <span role="img" aria-label="" onClick={() => handleResetColors()}>〰️</span>
                             </div>
                         </div>
-                    )} */}
+                    )}
                 </div>
                 <div className="relative flex flex-col sm:ml-[2rem] justify-start w-[90rem] max-w-[70%] sm:mx-2">
                     <div className='relative flex flex-row items-center ml-[1rem] xs:text-xs sm:text-xl'>
                         {isButtonClickable && !isPartitaInCoppiaRegSelected && (
-                            <div className={`absolute ml-[-10%] sm:pl-1 sm:ml-[-2rem] z-[20] bg-black ${!isPartitaModificabile ? 'unselectable' : ''}`}>
+                            <div className={`absolute ml-[-3%] sm:pl-1 sm:ml-[-1.5rem] z-[20] bg-black ${!isPartitaModificabile ? 'unselectable' : ''}`}>
                                 <div className="cursor-pointer" onClick={toggleSymbol}>
                                     {isKQBtnActive ? '☑️' : '✔️'}
                                 </div>

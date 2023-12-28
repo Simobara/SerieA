@@ -151,6 +151,12 @@ const TableProxInc = () => {
       setButtonResetIsResetting(false);
     }, 300); // 2000 millisecondi equivalgono a 2 secondi
   };
+
+  useEffect(() => {
+    if (!buttonResetIsResetting) {
+      setButtonResetIsResetting(false);
+    }
+  }, []);
   // return;
   // setGiornataClouSelected(giornataClou)
   // };
@@ -197,7 +203,7 @@ const TableProxInc = () => {
             {buttonResetIsResetting &&
               <button className="absolute top-[26.5%] left-[44.5%] p-2 font-bold bg-transparent rounded-lg hover:bg-red-400"
                 // style={{ transform: "rotate(180deg)" }}
-                onClick={handleReset}
+                onClick={() => handleReset()}
               >
                 📍
               </button>

@@ -72,19 +72,20 @@ const CalGiorn = ({ onReset }) => {
     // -------------------------------------------------------------------------------------------------------------
     //QUESTO USE EFFECT TROVA LA CASELLA DELLA GIORNATA CLOU INIZIALMENTE
     useEffect(() => {
-        const giornataClouIndex = Object.keys(calendario).findIndex(giornata => calendario[giornata] === giornataClou) + 1;
         setButtonResetIsResetting(false)
+        const giornataClouIndex = Object.keys(calendario).findIndex(giornata => calendario[giornata] === giornataClou) + 1;
         if (giornataClouIndex) {
             setSelected(giornataClouIndex);
             scrollIntoView(giornataClouIndex);
+            setButtonResetIsResetting(false)
         }
     }, []);
 
     // QUESTO USE EFFECT REIMPOSTA LO STATO E LE PARTITE ALLO STADIO ORIGINALE
     useEffect(() => {
+        setButtonResetIsResetting(false);
         if (onReset) {
             const giornataClouIndex = Object.keys(calendario).findIndex(giornata => calendario[giornata] === giornataClou) + 1;
-            setButtonResetIsResetting(false);
             if (selected === giornataClouIndex) {
                 // Se sei nella giornata clou, mantieni la selezione corrente
                 // Esempio: potresti voler aggiornare solo parte dello stato
@@ -108,9 +109,9 @@ const CalGiorn = ({ onReset }) => {
             setSelected(nuovaGiornataClou);
             scrollIntoView(nuovaGiornataClou);
 
-            if (nuovaGiornataClou !== selected) {
-                setButtonResetIsResetting(true);
-            }
+            // if (nuovaGiornataClou !== selected) {
+            //     setButtonResetIsResetting(true);
+            // }
         }
     }, [giornataClouSelected, calendario]); //resetAll
 
