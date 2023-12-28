@@ -5,6 +5,8 @@ import { BTeams } from "../../../START/START";
 import Partite from "./Partite/partite";
 import squadreConfig from "./PosSquadreChart/posSquadreChart";
 import serieAItalia from "../../../assets/serieAItalia/serieAItalia.png";
+import { GiornataClouContext } from "../../Global/global";
+import { PartiteDefinNoModContext } from "../../Global/global";
 // import ModalInserimento from "./ModalInserimento/modalInser";
 // import "./tableProxInc.css";
 // import Calendario from "./Calendario/calendario";
@@ -16,6 +18,8 @@ const TableProxInc = () => {
   const [resetAll, setResetAll] = useState([]);
   // const [isModalInserOpen, setIsModalInserOpen] = useState(false);
   const { coppiaSelected } = useContext(CoppiaPartitaContext);
+  const { giornataClouSelected } = useContext(GiornataClouContext);
+  const { partiteDefinNoMod, setPartiteDefinNoMod } = useContext(PartiteDefinNoModContext);
 
   const [squadreAttive, setSquadreAttive] = useState({ team1: "", team2: "" });
 
@@ -138,10 +142,32 @@ const TableProxInc = () => {
 
 
   const handleReset = () => {
-    // Azioni di reset specifiche per TableProxInc
-    setResetAll([]); // cambiare lo stato per attivare l'effetto
-    // Altre azioni di reset possono essere aggiunte qui
+    setResetAll([]);
+
+
   };
+  useEffect(() => {
+    if (resetAll.length === 0) {
+      return;
+    }
+
+    // Crea un nuovo Set per partiteDefinNoMod
+    const updatedPartiteDefinNoMod = new Set();
+
+    // Itera sulle partite della giornata corrente
+    giornataClouSelected.forEach(partita => {
+      // Se la partita ha un risultato, aggiungila a updatedPartiteDefinNoMod
+      if (partita.results) {
+        updatedPartiteDefinNoMod.add(partita.numero);
+      }
+    });
+
+    // Aggiorna lo stato di partiteDefinNoMod
+    setPartiteDefinNoMod(updatedPartiteDefinNoMod);
+  }, [giornataClouSelected, setPartiteDefinNoMod]);
+
+
+
 
 
   useEffect(() => {

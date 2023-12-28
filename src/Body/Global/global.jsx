@@ -57,3 +57,17 @@ export const GiornataClouProvider = ({ children }) => {
         </GiornataClouContext.Provider>
     )
 };
+
+//-----------------------------------------------------------------------
+
+export const PartiteDefinNoModContext = createContext();
+// eslint-disable-next-line
+export const PartiteDefinNoModProvider = ({ children }) => {
+    const [partiteDefinNoMod, setPartiteDefinNoMod] = useState(new Set());
+
+    return (
+        <PartiteDefinNoModContext.Provider value={{ partiteDefinNoMod, setPartiteDefinNoMod }}>
+            {children}
+        </PartiteDefinNoModContext.Provider>
+    )
+};

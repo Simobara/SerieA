@@ -1,6 +1,8 @@
 import React, { useRef, useState, useContext, useEffect } from 'react';
+// eslint-disable-next-line
 import { calendario } from "../../../../START/Matches/matches";
 import { GiornataClouContext } from "../../../Global/global/";
+import { PartiteDefinNoModContext } from "../../../Global/global";
 import "./CalGiorn.css";
 
 const CalGiorn = ({ resetAll }) => {
@@ -9,6 +11,7 @@ const CalGiorn = ({ resetAll }) => {
     const [selected, setSelected] = useState(null);
     const [matches, setMatches] = useState([]);
     const { giornataClouSelected, setGiornataClouSelected } = useContext(GiornataClouContext);
+    const { partiteDefinNoMod, setPartiteDefinNoMod } = useContext(PartiteDefinNoModContext);
 
     const handleSelectNumber = (number) => {
         setSelected(number);

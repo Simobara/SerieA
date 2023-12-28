@@ -1,4 +1,3 @@
-
 export const calendario = {
     giornata1: [
         { numero: 1, day: 'sab', time: '18.30', team1: 'Empoli', team2: 'Verona', results: '0-1' },

@@ -4,6 +4,7 @@ import { SquadraContext } from "../../../../../Global/global";
 import { CoppiaPartitaContext } from "../../../../../Global/global";
 import { CoppiaPartitaRegistrataContext } from "../../../../../Global/global";
 import { GiornataClouContext } from "../../../../../Global/global";
+import { PartiteDefinNoModContext } from "../../../../../Global/global";
 // import { giornataClou } from "../../../../../../START/Matches/matches";
 import "./partita.css";
 
@@ -13,10 +14,16 @@ const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartit
     const { sqSelected, setSqSelected } = useContext(SquadraContext);
     const { coppiaSelected, setCoppiaSelected } = useContext(CoppiaPartitaContext);
     const { coppiaRegSelected, setCoppiaRegSelected } = useContext(CoppiaPartitaRegistrataContext);
+    const { partiteDefinNoMod, setPartiteDefinNoMod } = useContext(PartiteDefinNoModContext);
     const [isButtonClickable, setIsButtonClickable] = useState(false);
     const [isKQBtnActive, setIsKQBtnActive] = useState(false);
     const [isSignOk, setIsSignOk] = useState(false);
     const [selection, setSelection] = useState("");
+    // const [isModifiable, setIsModifiable] = useState(true);
+
+
+    const isPartitaModificabile = !partiteDefinNoMod.has(partita.numero);
+    const partitaClass = isPartitaModificabile ? '' : 'unselectable';
 
 
 
@@ -34,7 +41,7 @@ const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartit
     const marginLeftClass = isPartitaInCoppiaRegSelected ? "mr-[2rem]" : "ml-[1rem]";
 
     const toggleSymbol = () => {
-        if (partita.results) return;
+        if (!isPartitaModificabile || partita.results) return;
         setIsKQBtnActive(!isKQBtnActive);
         setIsSignOk(!isKQBtnActive);
     };
@@ -53,7 +60,7 @@ const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartit
 
 
     const handleSelection = (selectedTeam, selectionType, numeroPartita = '') => {
-        // if (partita.results) return;
+        // if (!isPartitaModificabile) return;
         if (numeroPartita !== 0 && numeroPartita === partita.numero) {
             setIsKQBtnActive(true);
             setSelection(selectionType);
@@ -106,10 +113,8 @@ const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartit
                     return updatedSelection;
                 });
             };
-
         };
     };
-
 
     const underlineTeam = (team) => {
         if (selection === "") {
@@ -160,18 +165,20 @@ const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartit
             handleCoppiaSelectTeam(partita);
         }
         setSqSelected((currentSelected) => {
-            return currentSelected.filter(
-                (squadra) =>
-                    // Rimuovi entrambe le squadre e le loro varianti con 'X', 'Y', e 'Z' se presenti
-                    squadra !== partita.team1 &&
-                    squadra !== partita.team1 + "X" &&
-                    squadra !== partita.team1 + "Y" &&
-                    squadra !== partita.team1 + "Z" &&
-                    squadra !== partita.team2 &&
-                    squadra !== partita.team2 + "X" &&
-                    squadra !== partita.team2 + "Y" &&
-                    squadra !== partita.team2 + "Z"
-            );
+            if (!Array.isArray(currentSelected)) {
+                return currentSelected.filter(
+                    (squadra) =>
+                        // Rimuovi entrambe le squadre e le loro varianti con 'X', 'Y', e 'Z' se presenti
+                        squadra !== partita.team1 &&
+                        squadra !== partita.team1 + "X" &&
+                        squadra !== partita.team1 + "Y" &&
+                        squadra !== partita.team1 + "Z" &&
+                        squadra !== partita.team2 &&
+                        squadra !== partita.team2 + "X" &&
+                        squadra !== partita.team2 + "Y" &&
+                        squadra !== partita.team2 + "Z"
+                );
+            }
         });
     };
 
@@ -179,6 +186,9 @@ const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartit
         const boldTeams = ["Milan", "Juve", "Inter", "Atalanta", "Napoli", "Roma"];
         return boldTeams.includes(teamName);
     };
+
+    // const nonSelectable = partita.results ? "unselectable" : "";
+
 
     // const [, drag] = useDrag({
     //     type: "PARTITA",
@@ -208,22 +218,20 @@ const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartit
     // ------------------------------------------------------------------------------------------------
 
     useEffect(() => {
+        setCoppiaSelected({})
         if (resetAll) {
             // Chiudi l'occhio per tutte le partite
             setOcchioApertoPartita(null);
             setIsKQBtnActive(false);
             setIsSignOk(false);
             setIsButtonClickable(false);
-
             const numeriPartiteConRisultati = giornataClouSelected
                 .filter(partita => partita.results !== '')
                 .map(partita => partita.numero);
-
             giornataClouSelected.forEach(partitaClou => {
                 if (!numeriPartiteConRisultati.includes(partitaClou.numero)) {
                     if (partita.numero === partitaClou.numero) {
                         setSelection("");
-
                         setSqSelected(currentSelected => {
                             if (!Array.isArray(currentSelected)) {
                                 console.error('currentSelected is not an array:', currentSelected);
@@ -236,7 +244,6 @@ const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartit
                                 !squadra.includes(partita.team2)
                             );
                         });
-
                         setCoppiaSelected(currentSelected => {
                             if (!Array.isArray(currentSelected)) {
                                 console.error('currentSelected is not an array:', currentSelected);
@@ -253,10 +260,29 @@ const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartit
     }, [resetAll, giornataClouSelected, partita]);
 
 
+    // useEffect(() => {
+    //     setIsModifiable(!partita.results);
+    // }, [partita.results]);
 
 
+    useEffect(() => {
+        // Crea un nuovo Set per le partite non modificabili
+        const newPartiteDefinNoMod = new Set();
 
+        // Aggiungi al Set le partite di `giornataClouSelected` che hanno un risultato
+        giornataClouSelected.forEach(partita => {
+            if (partita.results) {
+                newPartiteDefinNoMod.add(partita.numero);
+            }
+        });
 
+        // Aggiorna lo stato di `partiteDefinNoMod` con il nuovo Set
+        setPartiteDefinNoMod(newPartiteDefinNoMod);
+    }, [giornataClouSelected, setPartiteDefinNoMod]);
+
+    // ...
+
+    //resize
     useEffect(() => {
         const handleResize = () => {
             setIsMobile(window.matchMedia("(max-width: 600px)").matches);
@@ -309,9 +335,11 @@ const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartit
         }
     }, []);
 
+
+
     return (
         <>
-            <div className={`text-cyan-600 font-bold flex items-center justify-center sm:mx-[1rem]`}
+            <div className={`text-cyan-600 font-bold flex items-center justify-center sm:mx-[1rem] ${partitaClass}`}
             // ref={(node) => drag(drop(node))}
             >
                 <div className="flex items-center justify-center xs:text-xs sm:text-lg relative ">
@@ -344,7 +372,7 @@ const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartit
                 </div>
                 <div className="relative flex flex-col sm:ml-[2rem] justify-start w-[90rem] max-w-[70%] sm:mx-2">
                     <div className='relative flex flex-row items-center ml-[1rem] xs:text-xs sm:text-xl '>
-                        <div className="absolute ml-[-10%] sm:pl-1 sm: ml-[-2rem] z-[20] bg-black">
+                        <div className={`{absolute ml-[-10%] sm:pl-1 sm: ml-[-2rem] z-[20] bg-black `}>
                             {isButtonClickable && !isPartitaInCoppiaRegSelected && (
                                 <div className="cursor-pointer" onClick={toggleSymbol} >
                                     {isKQBtnActive ? '☑️' : '✔️'}
@@ -352,16 +380,17 @@ const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartit
                             )}
                         </div>
                         <div className={`absolute flex flex-row ml-[6%]
-                            ${(isKQBtnActive || partita.results) ? 'hover:cursor-not-allowed' : 'hover:cursor-pointer'}`}>
+
+                        ${(isKQBtnActive || partita.results) ? 'hover:cursor-not-allowed' : 'hover:cursor-pointer'}`}>
                             <div className={`max-w-[9rem] whitespace-nowrap overflow-hidden z-[1] 
-                                ${isBigTeam(partita.team1) ? "bg-sky-700/70 text-sky-950 font-bold" : ""} 
+                                ${isBigTeam(partita.team1) ? "bg-sky-800/80 text-sky-950 font-bold" : ""} 
                                 ${underlineTeam("1")}`}
                                 onClick={() => (!isSignOk) && handleSelection(partita.team1, "1")}>
                                 {isMobile ? partita.team1.slice(0, 3) : partita.team1}
                             </div>
                         </div>
-                        <div className={`absolute flex flex-row ml-[40%] border border-gray-700 rounded-lg
-                        bg-gray-900 w-6 p-3 z-[4]
+                        <div className={`absolute flex flex-row ml-[40%] border border-sky-900 rounded-lg bg-gray-900 w-6 p-3 z-[4] 
+                            
                             ${(isKQBtnActive || partita.results) ? 'hover:cursor-not-allowed' : 'hover:cursor-pointer'}
                             ${selection === "X" ? "text-yellow-500/50" : ""}`}
                             onClick={() => (!isSignOk) && (handleSelection(partita.team1, "X"))}
@@ -370,7 +399,7 @@ const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartit
                         <div className={`absolute flex flex-row ml-[20%] sm:ml-[50%] z-[2]
                             ${(isKQBtnActive || partita.results) ? 'hover:cursor-not-allowed' : 'hover:cursor-pointer'}`}>
                             <div className={`max-w-[9rem] whitespace-nowrap overflow-hidden md:ml-[1rem] 
-                                ${isBigTeam(partita.team2) ? "bg-sky-700/70 text-sky-950 font-bold" : ""} 
+                                ${isBigTeam(partita.team2) ? "bg-sky-800/80 text-sky-950 font-bold" : ""} 
                                 ${underlineTeam("2")}`}
                                 onClick={() => (!isSignOk) && (handleSelection(partita.team2, "2"))}>
                                 {isMobile == true ? partita.team2.slice(0, 3) : partita.team2}
