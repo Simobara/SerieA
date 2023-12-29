@@ -1,5 +1,7 @@
 import { useContext, useState, useEffect, useCallback, useMemo } from "react";
 import { squadre } from "../../../START/START";
+import { ATeams } from "../../../START/START";
+import { BTeams } from "../../../START/START";
 import { SquadraContext } from "../../Global/global";
 import { CoppiaPartitaContext } from "../../Global/global";
 import { CoppiaPartitaRegistrataContext } from "../../Global/global";
@@ -17,6 +19,26 @@ const TableClass = () => {
   const [punteggiAggiornati, setPunteggiAggiornati] = useState([]);
 
 
+
+  const isATeam = (teamName) => {
+    //    const ATeams = ['INTER', 'JUVE', 'MILAN', 'ATALANTA', 'NAPOLI', 'ROMA'];
+    return ATeams.includes(teamName.toUpperCase());
+  };
+
+  const isBTeam = (teamName) => {
+    // const BTeams = ['MONZA', 'FROSINONE', 'LECCE', 'CAGLIARI', 'EMPOLI', 'VERONA', 'SALERNITANA'];
+    return BTeams.includes(teamName.toUpperCase());
+  };
+
+  const getTextTeam = (teamName) => {
+    if (isATeam(teamName)) {
+      return "font-black text-sky-600/90";
+    } else if (isBTeam(teamName)) {
+      return "font-light text-gray-600";
+    } else {
+      return "text-medium text-cyan-800";
+    }
+  };
 
   const getPunteggioVirtuale = useCallback((squadra) => {
     let aggiuntaPunti = 0;
@@ -247,20 +269,20 @@ const TableClass = () => {
                   : sqSelected.includes(squadra.nome + "Y")
                     ? "text-gray-500/70"
                     : ""}
-            ${isWinningTeamInCoppiaRegSelected(squadra.nome) ? `text-green-500 ${isCoppiaSelected(squadra.nome) ? "bg-gray-500" : "bg-gray-700/70"}` : ""}
-            ${isLosingTeamInCoppiaRegSelected(squadra.nome) ? `text-gray-500 ${isCoppiaSelected(squadra.nome) ? "bg-gray-500" : "bg-gray-700/70"}` : ""}
-            ${isDrawingTeamInCoppiaRegSelected(squadra.nome) ? `text-yellow-500 ${isCoppiaSelected(squadra.nome) ? "bg-gray-500" : "bg-gray-700/70"}` : ""}          
+            ${isWinningTeamInCoppiaRegSelected(squadra.nome) ? `text-green-500 ${isCoppiaSelected(squadra.nome) ? "bg-gray-500" : "bg-gray-700/60"}` : ""}
+            ${isLosingTeamInCoppiaRegSelected(squadra.nome) ? `text-gray-500 ${isCoppiaSelected(squadra.nome) ? "bg-gray-500" : "bg-gray-700/60"}` : ""}
+            ${isDrawingTeamInCoppiaRegSelected(squadra.nome) ? `text-yellow-500 ${isCoppiaSelected(squadra.nome) ? "bg-gray-500" : "bg-gray-700/60"}` : ""}          
                   >
               }`}
             >
               <div className={`flex items-center bg-black 
               ${isCoppiaSelected(squadra.nome) ? "bg-gray-700" : ""}
-              ${isWinningTeamInCoppiaRegSelected(squadra.nome) ? "text-green-500/30 bg-gray-700/10" : ""}
+              ${isWinningTeamInCoppiaRegSelected(squadra.nome) ? "text-green-600/50 bg-gray-700/10" : ""}
               ${isLosingTeamInCoppiaRegSelected(squadra.nome) ? "text-gray-500/50 bg-gray-700/10" : ""}
               ${isDrawingTeamInCoppiaRegSelected(squadra.nome) ? "text-yellow-500/30 bg-gray-700/10" : ""}
               `}>
                 <img src={squadra.logo} alt={`${squadra.nome} Logo`} className="w-7 h-7 mr-4" />
-                <span>{squadra.nome.replace("X", "").replace("Y", "").replace("Z", "")}</span>
+                <span className={getTextTeam(squadra.nome)}>{squadra.nome.replace("X", "").replace("Y", "").replace("Z", "")}</span>
               </div>
             </td>
             {/* { COLONNA ?} */}
@@ -277,9 +299,9 @@ const TableClass = () => {
               ${isCoppiaSelected(squadra.nome) ? "bg-gray-700" : ""}
               ${indiciDiffPts.includes(index) ? "borderAlto border-gray-600/80 " : ""}
               ${getPunteggioColonnaDomanda(squadra) !== " " ? "text-gray-600/70" : "text-cyan-700/80"}
-              ${isWinningTeamInCoppiaRegSelected(squadra.nome) ? `text-gray-500 ${isCoppiaSelected(squadra.nome) ? "bg-gray-700" : "bg-gray-700/70"}` : ""}
-              ${isLosingTeamInCoppiaRegSelected(squadra.nome) ? `text-gray-500 ${isCoppiaSelected(squadra.nome) ? "bg-gray-700" : "bg-gray-700/70"}` : ""}
-              ${isDrawingTeamInCoppiaRegSelected(squadra.nome) ? `text-gray-500 ${isCoppiaSelected(squadra.nome) ? "bg-gray-700" : "bg-gray-700/70"}` : ""}
+              ${isWinningTeamInCoppiaRegSelected(squadra.nome) ? `text-gray-500 ${isCoppiaSelected(squadra.nome) ? "bg-gray-700" : "bg-gray-700/60"}` : ""}
+              ${isLosingTeamInCoppiaRegSelected(squadra.nome) ? `text-gray-500 ${isCoppiaSelected(squadra.nome) ? "bg-gray-700" : "bg-gray-700/60"}` : ""}
+              ${isDrawingTeamInCoppiaRegSelected(squadra.nome) ? `text-gray-500 ${isCoppiaSelected(squadra.nome) ? "bg-gray-700" : "bg-gray-700/60"}` : ""}
               `}
             >
               <div className="innerBorder"></div>

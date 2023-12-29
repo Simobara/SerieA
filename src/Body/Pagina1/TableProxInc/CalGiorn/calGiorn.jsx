@@ -137,7 +137,7 @@ const CalGiorn = ({ onReset }) => {
                             ${selected === number ? 'bg-sky-900' : 'bg-black'}`}
                         >
                             <span className={`text-md font-semibold 
-                            ${selected === number ? 'text-black font-bold text-2xl' : 'text-cyan-800'}`}>{number}</span>
+                            ${selected === number ? 'text-black font-bold text-3xl' : 'text-cyan-800'}`}>{number}</span>
                         </div>
                     ))}
                 </div>

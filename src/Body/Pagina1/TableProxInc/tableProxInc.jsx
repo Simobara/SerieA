@@ -59,7 +59,7 @@ const TableProxInc = () => {
           const sharedStyle = {
             width: "35px",
             height: "35px",
-            backgroundColor: " #3372f0",
+            backgroundColor: " #584194",
             borderRadius: "50%",
             position: "absolute",
             top: squadra.style.top,
@@ -73,7 +73,7 @@ const TableProxInc = () => {
           const innerCircleStyle = {
             width: "25px",
             height: "25px",
-            backgroundColor: " #e8e8fa",
+            backgroundColor: " #9191cc",
             opacity: 0.9, // Regola l'opacità per il bianco trasparente
             borderRadius: "50%"
           };
@@ -96,17 +96,17 @@ const TableProxInc = () => {
             zIndex: 4,
           };
 
-          const teamColorClass = coppiaSelected.team1 === squadra.id ? "bg-sky-800" : "bg-sky-500";
+          const teamColorClass = coppiaSelected.team1 === squadra.id ? "bg-sky-800/90" : "bg-sky-500";
 
-          let textStyleClass = "text-black font-normal text-lg"; // Default style
+          let textStyleClass = "text-black font-medium text-lg"; // Default style
           if (coppiaSelected.team1 === squadra.id && ATeams.includes(coppiaSelected.team1.toUpperCase())) {
-            textStyleClass = "text-black font-extrabold text-md";
+            textStyleClass = "text-black font-black text-lg";
           } else if (coppiaSelected.team1 === squadra.id && BTeams.includes(coppiaSelected.team1.toUpperCase())) {
-            textStyleClass = "text-blue-200 font-normal text-md";
+            textStyleClass = "text-gray-700/80 font-light text-lg";
           } else if (coppiaSelected.team2 === squadra.id && ATeams.includes(coppiaSelected.team2.toUpperCase())) {
-            textStyleClass = "text-black font-extrabold text-md";
+            textStyleClass = "text-black font-black text-lg";
           } else if (coppiaSelected.team2 === squadra.id && BTeams.includes(coppiaSelected.team2.toUpperCase())) {
-            textStyleClass = "text-blue-200 font-normal text-md";
+            textStyleClass = "text-gray-600/60 font-light text-lg";
           }
 
           const teamName = coppiaSelected.team1 === squadra.id ? coppiaSelected.team1 : coppiaSelected.team2;

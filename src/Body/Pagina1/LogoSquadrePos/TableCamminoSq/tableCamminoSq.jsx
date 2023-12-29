@@ -26,8 +26,9 @@ const TableCamminoSq = ({ squadra, datiSquadra }) => {
       return "font-black";
     } else if (isBTeam(teamName)) {
       return "font-light text-gray-500/70";
+    } else {
+      return "text-medium";
     }
-    return "text-black";
   };
 
   const getTextColor = (partita) => {
@@ -120,7 +121,7 @@ const TableCamminoSq = ({ squadra, datiSquadra }) => {
               const textColorClass = getTextColor(partita);
               return (
                 <tr key={index} className={`overflow-x-hidden xs:text-lg sm:text-xl ${bgHoverClass} last-text-white `}>
-                  <td className="w-[5%] sm:w-[15%] xl:w-[5%] text-center font-bold text-sky-600/70 bg-black">{partita.risultato}</td>
+                  <td className="w-[5%] sm:w-[15%] xl:w-[5%] text-center font-bold text-sky-600/80 bg-black">{partita.risultato}</td>
                   <td className={`w-[7%] sm:w-[15%] xl:w-[10%] text-center xs:text-xs sm:text-base ${casaClass}`}>{partita.casa}</td>
                   <td className={`w-[7%] sm:w-[15%] xl:w-[10%] text-center xs:text-xs sm:text-base ${fuoriClass}`}>{partita.fuori}</td>
                   <td className={`sm:w-[50%] pl-4 text-xl ${sqVsClass} `}>

@@ -3,13 +3,13 @@ import './header.css';
 
 const Header = () => {
     const openLink = () => {
-        window.open("https://www.snai.it/sport/CALCIO/SERIE%20A", "_blank", "noopener,noreferrer");        
+        window.open("https://www.snai.it/sport/CALCIO/SERIE%20A", "_blank", "noopener,noreferrer");
         window.open("https://www.tuttosport.com/live/calendario-serie-a", "_blank", "noopener,noreferrer");
         window.open("http://www.italiadelcalcio.it/i010100.htm", "_blank", "noopener,noreferrer");
     };
-    
+
     return (
-        <header className="flex items-center p-1 text-white text-2xl bg-blue-900">
+        <header className="flex items-center p-1 text-white text-2xl bg-sky-900/60">
             SERIE A
             <div className="pl-12 flex flex-col items-center">
                 <button
