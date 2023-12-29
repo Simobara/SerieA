@@ -46,7 +46,7 @@ const TableClass = () => {
 
   const getColoriColonna0 = (index) => {
     if (index < 4) {
-      return "bg-gray-800 text-white font-extrabold";
+      return "bg-gray-700/70 text-white font-extrabold";
     } else if (index >= 4 && index < 6) {
       return "bg-sky-800 text-white font-extrabold";
     } else if (index === 6) {
@@ -222,7 +222,7 @@ const TableClass = () => {
   return (
     <table className="relative h-[57.5rem] w-full max-w-[100%] mb-[-4]">
       <thead>
-        <tr className="bg-black text-gray-500 py-1 text-center">
+        <tr className="bg-black text-gray-600 py-1 text-center">
           <th className=" w-[2%]" style={{ whiteSpace: "nowrap" }}> # </th>
           <th className=" w-[10%]">---  SQUADRA ---</th>
           <th className=" w-[1%] xs:pl-0">?</th>
@@ -231,7 +231,7 @@ const TableClass = () => {
           {/* Altre colonne commentate */}
         </tr>
       </thead>
-      <tbody className="bg-black text-cyan-600">
+      <tbody className="bg-black text-cyan-700/80">
         {squadreOrdinate.map((squadra, index) => (
           <tr key={index}>
             <td className={`text-center relative ${getColoriColonna0(index)}`}>
@@ -265,7 +265,7 @@ const TableClass = () => {
             </td>
             {/* { COLONNA ?} */}
             <td
-              className={`sm:pr-1 md:pl-1 lg:pl-2 xl:pl-0 text-right font-extrabold bg-black text-cyan-600 text-xl z-4 
+              className={`sm:pr-1 md:pl-1 lg:pl-2 xl:pl-0 text-right font-extrabold bg-black text-cyan-700/80 text-xl z-4 
               ${indiciDiffQ.includes(index) ? "borderAlto border-white" : ""}`}>
               <div className="absolute transform -translate-x-4/3 -translate-y-7 text-center text-lg text-white mx-8 my-[-10]">
                 {numeriIndiciBorderWhite[index]}</div>
@@ -275,15 +275,15 @@ const TableClass = () => {
             <td
               className={`sm:pl-16 lg:pl-2 xl:mr-4 sm:pr-2 text-left font-bold bg-black text-xl
               ${isCoppiaSelected(squadra.nome) ? "bg-gray-700" : ""}
-              ${indiciDiffPts.includes(index) ? "borderAlto border-gray-500/80 " : ""}
-              ${getPunteggioColonnaDomanda(squadra) !== " " ? "text-gray-500/70" : "text-cyan-600"}
+              ${indiciDiffPts.includes(index) ? "borderAlto border-gray-600/80 " : ""}
+              ${getPunteggioColonnaDomanda(squadra) !== " " ? "text-gray-600/70" : "text-cyan-700/80"}
               ${isWinningTeamInCoppiaRegSelected(squadra.nome) ? `text-gray-500 ${isCoppiaSelected(squadra.nome) ? "bg-gray-700" : "bg-gray-700/70"}` : ""}
               ${isLosingTeamInCoppiaRegSelected(squadra.nome) ? `text-gray-500 ${isCoppiaSelected(squadra.nome) ? "bg-gray-700" : "bg-gray-700/70"}` : ""}
               ${isDrawingTeamInCoppiaRegSelected(squadra.nome) ? `text-gray-500 ${isCoppiaSelected(squadra.nome) ? "bg-gray-700" : "bg-gray-700/70"}` : ""}
               `}
             >
               <div className="innerBorder"></div>
-              <div className={`absolute transform -translate-x-4/3 -translate-y-8 text-center text-md text-gray-500/80 mx-8 my-[-10]`}>
+              <div className={`absolute transform -translate-x-4/3 -translate-y-8 text-center text-md text-gray-600/80 mx-8 my-[-10]`}>
                 {differenzePunti[index]}
               </div>
               {getPunteggioColonnaPTS(squadra)}

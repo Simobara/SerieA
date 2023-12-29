@@ -12,7 +12,7 @@ import { calendario } from "../../../START/Matches/matches"
 // import { GiornataClouContext } from "../../Global/global";
 // import { PartiteDefinNoModContext } from "../../Global/global";
 // import ModalInserimento from "./ModalInserimento/modalInser";
-// import "./tableProxInc.css";
+import "./tableProxInc.css";
 // import Calendario from "./Calendario/calendario";
 
 
@@ -198,15 +198,22 @@ const TableProxInc = () => {
       <div className="relative ">
         <div className="flex justify-center h-[25.45rem]">
           <div className="relative overflow-hidden w-[120rem] ml-[-3rem]">
-            <img src={serieAItalia} alt="serieAItalia" className="relative h-[47rem] w-[100%] mt-[-4.4rem]" />
+            <img src={serieAItalia} alt="serieAItalia" className="relative h-[47rem] w-[100%] mt-[-4.4rem] filter brightness-25" />
             {coppiaSelected && renderSquadre()}
             {buttonResetIsResetting &&
-              <button className="absolute top-[26.5%] left-[44.5%] p-2 font-bold bg-transparent rounded-lg hover:bg-red-400"
-                // style={{ transform: "rotate(180deg)" }}
+              <button
+                className="absolute top-[30.5%] left-[46%] p-1 font-bold bg-transparent rounded-full hover:bg-red-400"
                 onClick={() => handleReset()}
+                style={{ width: '12px', height: '12px', backgroundColor: 'black' }}
               >
-                📍
+                {/* Nessun contenuto all'interno del bottone, solo lo stile del cerchio */}
               </button>
+              // <button className="absolute top-[26.5%] left-[44.5%] p-2 font-bold bg-transparent rounded-lg hover:bg-red-400"
+              //   // style={{ transform: "rotate(180deg)" }}
+              //   onClick={() => handleReset()}
+              // >
+              //   📍
+              // </button>
             }
           </div>
         </div>

@@ -24,12 +24,8 @@ const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartit
     const [selection, setSelection] = useState("");
     // const [isModifiable, setIsModifiable] = useState(true);
 
-
     const isPartitaModificabile = giornataClouSelected.some(p => p.numero === partita.numero && !p.results);
-
     // const partitaClass = isPartitaModificabile ? '' : 'unselectable';
-
-
 
     const isPartitaInCoppiaRegSelected = coppiaRegSelected.some(coppia =>
         coppia.team1 === partita.team1 && coppia.team2 === partita.team2
@@ -42,8 +38,6 @@ const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartit
             toggleSymbol();
         }
     };
-
-
 
     const toggleSymbol = () => {
         if (!isPartitaModificabile || partita.results) return;
@@ -129,18 +123,20 @@ const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartit
         }
         if (selection === "1") {
             if (team === "1") {
-                return "underline underline-green text-sky-900 font-bold underline-thick z-3";
+                return "underline underline-green text-sky-800/70 font-bold underline-thick z-3";
             } else {
-                return "text-sky-900";
+                return "text-sky-800/70";
             }
         } else if (selection === "2") {
             if (team === "2") {
-                return "underline underline-red text-sky-900 font-bold underline-thick z-3";
+                return "underline underline-red text-sky-800/70 font-bold underline-thick z-3";
             } else {
-                return "text-sky-900";
+                return "text-sky-800/70";
             }
         } else if (selection === "X") {
-            return "underline underline-yellow text-sky-900 font-bold underline-thick z-3";
+            return "underline underline-yellow text-sky-800/70 font-bold underline-thick z-3";
+        } else {
+            return "text-sky-800/70";
         }
     };
 
@@ -324,15 +320,14 @@ const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartit
 
     return (
         <>
-            <div className={`text-cyan-600 font-bold flex items-center justify-center sm:mx-[1rem] ${isPartitaModificabile ? '' : 'unselectable'}`}>
+            <div className={`text-cyan-600/70  font-bold flex items-center justify-center sm:mx-[1rem] 
+                ${isPartitaModificabile ? '' : 'unselectable'}`}>
                 <div className="flex items-center justify-center xs:text-xs sm:text-lg relative">
                     <div className="ml-[5%] sm:ml-0 sm:mr-1 p-[0.354rem] w-30 ml-[1%] text-gray-600">
                         {/* <span role="img" aria-label="Menu">☰</span> */}
                         <span>{partita.time}</span>
                     </div>
-                    <div className="w-15 ml-[2px] text-gray-600 font-normal">
-
-                    </div>
+                    <div className="w-15 ml-[2px] text-gray-600 font-normal"> </div>
                     {/* <div className="p-2 w-15">
                         <span role="img" aria-label="Calendario">📅</span>
                     </div> */}
@@ -341,7 +336,8 @@ const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartit
                     </div> */}
                     {!isPartitaInCoppiaRegSelected && (
                         <div className={`{flex sm:pl-0 hover:cursor-pointer z-10 }`}>
-                            <div className={`{sm:pr-1 pl-0 ${!isPartitaInCoppiaRegSelected} ? ml-[-0.5rem] mr-[-2rem] : 'pl-4'}`}>
+                            <div className={`{sm:pr-1 pl-0 
+                                ${!isPartitaInCoppiaRegSelected} ? ml-[-0.5rem] mr-[-2rem] : 'pl-4'}`}>
                                 <span role="img" aria-label="" onClick={() => handleResetColors()}>〰️</span>
                             </div>
                         </div>
@@ -350,24 +346,33 @@ const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartit
                 <div className="relative flex flex-col sm:ml-[2rem] justify-start w-[90rem] max-w-[70%] sm:mx-2">
                     <div className='relative flex flex-row items-center ml-[1rem] xs:text-xs sm:text-xl'>
                         {isButtonClickable && !isPartitaInCoppiaRegSelected && (
-                            <div className={`absolute ml-[-3%] sm:pl-1 sm:ml-[-1.5rem] z-[20] bg-black ${!isPartitaModificabile ? 'unselectable' : ''}`}>
+                            <div className={`absolute ml-[-3%] sm:pl-1 sm:ml-[-1.5rem] z-[20] bg-black 
+                                ${!isPartitaModificabile ? 'unselectable' : ''}`}>
                                 <div className="cursor-pointer" onClick={toggleSymbol}>
                                     {isKQBtnActive ? '☑️' : '✔️'}
                                 </div>
                             </div>
                         )}
-                        <div className={`{absolute flex flex-row ml-[6%] ${!isPartitaModificabile ? 'hover:cursor-not-allowed unselectable' : 'hover:cursor-pointer'}`}>
-                            <div className={`max-w-[9rem] whitespace-nowrap overflow-hidden z-[1] ${isBigTeam(partita.team1) ? "bg-sky-800/80 text-sky-950 font-bold" : ""} ${underlineTeam("1")}`}
+                        <div className={`{absolute flex flex-row ml-[6%] 
+                                ${!isPartitaModificabile ? 'hover:cursor-not-allowed unselectable' : 'hover:cursor-pointer'}`}>
+                            <div className={`max-w-[9rem] whitespace-nowrap overflow-hidden z-[1] 
+                                ${isBigTeam(partita.team1) ? "border border-4 border-sky-600/70 rounded-md font-bold" : ""} 
+                                ${underlineTeam("1")}`}
                                 onClick={() => (!isSignOk && isPartitaModificabile) ? handleSelection(partita.team1, "1") : undefined}>
                                 {isMobile ? partita.team1.slice(0, 3) : partita.team1}
                             </div>
                         </div>
-                        <div className={`absolute flex flex-row ml-[40%] border border-sky-900 rounded-lg bg-gray-900 w-6 p-3 z-[4] ${!isPartitaModificabile ? 'hover:cursor-not-allowed unselectable' : 'hover:cursor-pointer'} ${selection === "X" ? "text-yellow-500/50" : ""}`}
+                        <div className={`absolute flex flex-row ml-[40%] border border-sky-900 rounded-lg bg-gray-950 w-6 p-3 z-[4] 
+                            ${!isPartitaModificabile ? 'hover:cursor-not-allowed unselectable' : 'hover:cursor-pointer'} 
+                            ${selection === "X" ? "text-yellow-500/50" : ""}`}
                             onClick={() => (!isSignOk && isPartitaModificabile) ? handleSelection(partita.team1, "X") : undefined}
                         >
                         </div>
-                        <div className={`absolute flex flex-row ml-[20%] sm:ml-[50%] z-[2] ${!isPartitaModificabile ? 'hover:cursor-not-allowed unselectable' : 'hover:cursor-pointer'}`}>
-                            <div className={`max-w-[9rem] whitespace-nowrap overflow-hidden md:ml-[1rem] ${isBigTeam(partita.team2) ? "bg-sky-800/80 text-sky-950 font-bold" : ""} ${underlineTeam("2")}`}
+                        <div className={`absolute flex flex-row ml-[20%] sm:ml-[50%] z-[2] 
+                            ${!isPartitaModificabile ? 'hover:cursor-not-allowed unselectable' : 'hover:cursor-pointer'}`}>
+                            <div className={`max-w-[9rem] whitespace-nowrap overflow-hidden md:ml-[1rem] 
+                                ${isBigTeam(partita.team2) ? " border border-4 border-sky-600/70 rounded-md font-bold" : ""} 
+                                ${underlineTeam("2")}`}
                                 onClick={() => (!isSignOk && isPartitaModificabile) ? handleSelection(partita.team2, "2") : undefined}>
                                 {isMobile == true ? partita.team2.slice(0, 3) : partita.team2}
                                 {/* {partita.team2} */}

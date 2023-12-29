@@ -11,3 +11,6 @@
   display: inline-block;
 } */
 
+.brightness-25 {
+  filter: brightness(0.30); /* Riduce la luminosità al 25% */
+}

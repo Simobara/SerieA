@@ -4,20 +4,23 @@
 
 .underline-red {
     text-decoration: underline;
-    text-decoration-color: red; /* Colore rosso per l'underline */
-    text-decoration-thickness: 2px
+    text-decoration-color: rgb(145, 16, 16); /* Colore rosso per l'underline */
+    text-decoration-thickness: 3px;
+    overflow:hidden;
 }
 
 .underline-green {
     text-decoration: underline;
-    text-decoration-color: green; /* Colore rosso per l'underline */
-    text-decoration-thickness: 2px
+    text-decoration-color: rgb(21, 163, 21); /* Colore rosso per l'underline */
+    text-decoration-thickness: 3px;
+    overflow:hidden;
 }
 
 .underline-yellow {
     text-decoration: underline;
-    text-decoration-color: rgb(198, 165, 47); /* Colore rosso per l'underline */
-    text-decoration-thickness: 2px
+    text-decoration-color: rgb(148, 119, 16); /* Colore rosso per l'underline */
+    text-decoration-thickness: 3px;
+    overflow:hidden;
 }
 
 .cursor-not-allowed {

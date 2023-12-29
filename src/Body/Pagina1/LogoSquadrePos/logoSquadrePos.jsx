@@ -72,20 +72,25 @@ const LogoSquadrePos = () => {
         const isActive1 = squadra.nome === squadraAttiva1;
         const isActive2 = squadra.nome === squadraAttiva2;
         let className = "px-1 sm:px-2 py-1 cursor-pointer grayscale";
+        let inlineStyle = {};
+
         if (isActive1) {
           className = "px-2 cursor-pointer rounded-3xl grayscale-0 bg-sky-900 pt-1 sm:pt-2";
+          inlineStyle = { filter: "brightness(125%)" }; // Aumenta la luminosità del 25%
         } else if (isActive2) {
-          // Aggiungi qui la classe per la seconda squadra attiva
           className = "px-2 cursor-pointer rounded-3xl p-1 grayscale-0 bg-sky-500 pt-1 sm:pt-2";
+          inlineStyle = { filter: "brightness(125%)" }; // Aumenta la luminosità del 25%
         }
+
         return (
-          <div key={index} ref={(el) => (logoRefs.current[index] = el)} className={className}>
-            <img src={squadra.logo} alt={`${squadra.nome} Logo`} className=" w-7 h-7 sm:w-14 sm:h-14" />
+          <div key={index} ref={(el) => (logoRefs.current[index] = el)} className={className} style={inlineStyle}>
+            <img src={squadra.logo} alt={`${squadra.nome} Logo`} className="w-7 h-7 sm:w-14 sm:h-14" />
           </div>
         );
       })}
     </div>
   );
+
 
   // useEffect(() => {
   //   console.log("SQATTIVA 1", squadraAttiva1);
@@ -107,21 +112,22 @@ const LogoSquadrePos = () => {
             <div className="border border-2 border-sky-900/75 w-5 bg-gray-700 text-white text-base sm:text-md font-extrabold uppercase">1</div>
           </div>
           {/* Aggiunta di max-h-[3rem] e overflow-y-auto */}
-          <div className=" max-h-[3.3rem] sm:max-h-[5rem] xl:max-h-[5rem] overflow-y-hidden">{renderLinea(0, SqEndGruppo1)}</div>
+          <div className="filter brightness-75 max-h-[3.3rem] sm:max-h-[5rem] xl:max-h-[5rem] overflow-y-hidden">{renderLinea(0, SqEndGruppo1)}
+          </div>
         </div>
         <div className="mt-[-2rem] mb-[2.1rem] overflow-hidden z-3 sticky ">
           <div className="w-[40rem] mx-auto items-center h-1 bg-gray-600 text-gray-900">
             <div className="border border-2 border-sky-900/75 w-5 bg-gray-700 text-white text-base sm:text-md font-extrabold uppercase">2</div>
           </div>
           {/* Aggiunta di max-h-[3rem] e overflow-y-auto */}
-          <div className=" max-h-[3.3rem] sm:max-h-[5rem] xl:max-h-[5rem] overflow-y-hidden">{renderLinea(SqEndGruppo1, SqEndGruppo2)}</div>
+          <div className="filter brightness-75 max-h-[3.3rem] sm:max-h-[5rem] xl:max-h-[5rem] overflow-y-hidden">{renderLinea(SqEndGruppo1, SqEndGruppo2)}</div>
         </div>
         <div className="mt-[-2rem] mb-[0rem] overflow-visible z-4 sticky">
           <div className="w-[40rem] mx-auto items-center h-1 bg-gray-600 text-gray-900">
             <div className="border border-2 border-sky-900/75 w-5 bg-gray-700 text-white sm:text-md font-extrabold uppercase">3</div>
           </div>
           {/* Aggiunta di max-h-[3rem] e overflow-y-auto */}
-          <div className=" max-h-[3.3rem] sm:max-h-[5rem] xl:max-h-[5rem] overflow-y-hidden">{renderLinea(SqEndGruppo2, squadre.length)}</div>
+          <div className="filter brightness-75 max-h-[3.3rem] sm:max-h-[5rem] xl:max-h-[5rem] overflow-y-hidden">{renderLinea(SqEndGruppo2, squadre.length)}</div>
         </div>
       </div>
       <div ref={refContainer} className=" flex sticky mt-[5px] ">

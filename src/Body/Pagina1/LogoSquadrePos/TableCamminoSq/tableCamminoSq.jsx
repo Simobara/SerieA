@@ -9,7 +9,7 @@ const TableCamminoSq = ({ squadra, datiSquadra }) => {
   // console.log("isMobile", isMobile);
 
 
-  const nomeSquadra = typeof squadra === "string" ? squadra.toUpperCase() : "DefinireSq";
+  const nomeSquadra = typeof squadra === "string" ? squadra : "DefinireSq";
 
   const isATeam = (teamName) => {
     //    const ATeams = ['INTER', 'JUVE', 'MILAN', 'ATALANTA', 'NAPOLI', 'ROMA'];
@@ -23,9 +23,9 @@ const TableCamminoSq = ({ squadra, datiSquadra }) => {
 
   const getTextTeam = (teamName) => {
     if (isATeam(teamName)) {
-      return "font-extrabold";
+      return "font-black";
     } else if (isBTeam(teamName)) {
-      return "font-normal text-gray-300/60";
+      return "font-light text-gray-500/70";
     }
     return "text-black";
   };
@@ -91,7 +91,7 @@ const TableCamminoSq = ({ squadra, datiSquadra }) => {
 
   return (
     <div className="">
-      <h1 className={`{ text-center md:text-2xl scale-150 ${getTextTeam(nomeSquadra)}`}>{nomeSquadra}</h1>
+      <h1 className={`{ text-center md:text-3xl scale-150 ${getTextTeam(nomeSquadra)}`}>{nomeSquadra}</h1>
       <table>
         <thead>
           <tr className="bg-black text-white border border-black overflow-x-hidden text-md">
@@ -104,7 +104,7 @@ const TableCamminoSq = ({ squadra, datiSquadra }) => {
         </thead>
       </table>
       <div className="overflow-y-auto overflow-x-hidden md:overflow-x-hidden h-[37.5rem]">
-        <table className="overflow-y-auto w-[120%] table-auto bg-white">
+        <table className=" filter brightness-75 overflow-y-auto w-[120%] table-auto bg-white">
           <tbody>
             {/* eslint-disable-next-line */}
             {datiSquadra.map((partita, index) => {
@@ -115,7 +115,7 @@ const TableCamminoSq = ({ squadra, datiSquadra }) => {
               const formattedSqVs = partita.sqVs.toLowerCase();
               const sqVsFormatted = formattedSqVs.charAt(0).toUpperCase() + formattedSqVs.slice(1);
 
-              const sqVsClass = isATeam(partita.sqVs) ? "text-black font-extrabold" : isBTeam(partita.sqVs) ? "text-gray-500/40 font-semibold" : "";
+              const sqVsClass = isATeam(partita.sqVs) ? "text-black font-black" : isBTeam(partita.sqVs) ? "text-gray-500/40 font-extralight" : "font-medium";
               const bgHoverClass = getBgHoverClass(partita);
               const textColorClass = getTextColor(partita);
               return (
