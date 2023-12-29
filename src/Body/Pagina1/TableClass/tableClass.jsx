@@ -32,11 +32,11 @@ const TableClass = () => {
 
   const getTextTeam = (teamName) => {
     if (isATeam(teamName)) {
-      return "font-black text-sky-600/90";
+      return "font-black border border-4 border-sky-700 rounded-lg";
     } else if (isBTeam(teamName)) {
-      return "font-light text-gray-600";
+      return "font-light ";
     } else {
-      return "text-medium text-cyan-800";
+      return "text-medium ";
     }
   };
 
