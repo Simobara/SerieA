@@ -121,7 +121,7 @@ const CalGiorn = ({ onReset }) => {
             <button
                 onClick={() => scroll('left')}
                 disabled={selected === 1} // Disabilita se selected è 1
-                className={`text-sky-600/60 p-2 hover:bg-gray-700 focus:outline-none ${selected === 1 ? 'opacity-20 cursor-not-allowed' : ''}`}
+                className={`text-sky-600/60 p-2 hover:bg-white/60 focus:outline-none ${selected === 1 ? 'opacity-20 cursor-not-allowed' : ''}`}
             >
                 &#9664;
             </button>
@@ -137,7 +137,7 @@ const CalGiorn = ({ onReset }) => {
                             ${selected === number ? 'bg-sky-900' : 'bg-black'}`}
                         >
                             <span className={`text-md font-semibold 
-                            ${selected === number ? 'text-black font-bold text-3xl' : 'text-cyan-800'}`}>{number}</span>
+                            ${selected === number ? 'text-white font-bold text-3xl' : 'text-cyan-800'}`}>{number}</span>
                         </div>
                     ))}
                 </div>
@@ -145,7 +145,7 @@ const CalGiorn = ({ onReset }) => {
             <button
                 onClick={() => scroll('right')}
                 disabled={selected === 38} // Disabilita se selected è 38
-                className={`text-sky-600/60 p-2 hover:bg-gray-700 focus:outline-none ${selected === 38 ? 'opacity-20 cursor-not-allowed' : ''}`}
+                className={`text-sky-600/60 p-2 hover:bg-white/60 focus:outline-none ${selected === 38 ? 'opacity-20 cursor-not-allowed' : ''}`}
             >
                 &#9654;
             </button>

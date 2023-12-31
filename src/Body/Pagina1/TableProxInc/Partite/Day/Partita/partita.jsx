@@ -41,11 +41,11 @@ const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartit
 
     const getTextTeam = (teamName) => {
         if (isATeam(teamName)) {
-            return "font-black text-sky-600/90";
+            return "font-black text-sky-600/70";
         } else if (isBTeam(teamName)) {
-            return "font-light text-gray-600";
+            return "font-light text-gray-500";
         } else {
-            return "text-medium text-cyan-800";
+            return "text-medium text-cyan-700";
         }
     };
 
@@ -150,20 +150,23 @@ const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartit
         }
         if (selection === "1") {
             if (team === "1") {
-                return "underline underline-green text-sky-800/90 font-bold underline-thick z-3";
+                return "brightnessScura underlineC font-bold underline-thick z-3";
             } else {
-                return "text-sky-800/90";
+                return "brightnessScura"
+                //text - sky - 800 / 90;
             }
         } else if (selection === "2") {
             if (team === "2") {
-                return "underline underline-red text-sky-800/90 font-bold underline-thick z-3";
+                return "brightnessScura underlineF font-bold underline-thick z-3";
             } else {
-                return "text-sky-800/90";
+                return "brightnessScura"
+                //text - sky - 800 / 90;
             }
         } else if (selection === "X") {
-            return "underline underline-yellow text-sky-800/90 font-bold underline-thick z-3";
+            return "brightnessScura underline underline-yellow font-bold underline-thick z-3";
         } else {
-            return "text-sky-800/90";
+            return "brightnessScura"
+            //text - sky - 800 / 90;
         }
     };
 
@@ -385,13 +388,13 @@ const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartit
                             <div className={`max-w-[9rem] whitespace-nowrap overflow-hidden z-[1]
                                 ${getTextTeam(partita.team1)} 
                                 ${isKQBtnActive ? "hover:cursor-not-allowed unselectable" : ""}
-                                ${isBigTeam(partita.team1) ? "border border-4 border-sky-600/70 rounded-md font-bold" : ""} 
+                                ${isBigTeam(partita.team1) ? "border border-4 border-sky-600/90 rounded-md font-bold" : ""} 
                                 ${underlineTeam("1")}`}
                                 onClick={() => (!isSignOk && isPartitaModificabile) ? handleSelection(partita.team1, "1") : undefined}>
                                 {isMobile ? partita.team1.slice(0, 3) : partita.team1}
                             </div>
                         </div>
-                        <div className={`absolute flex flex-row ml-[40%] border border-sky-900 rounded-lg bg-gray-950 w-6 p-3 z-[4] 
+                        <div className={`absolute flex flex-row ml-[40%] border border-sky-950 rounded-lg bg-gray-950 mt-3 w-6 pt-[0.7rem] z-[4] 
                                 ${isKQBtnActive || !isPartitaModificabile ? "hover:cursor-not-allowed unselectable" : "hover:cursor-pointer"} 
                                 ${selection === "X" ? "text-yellow-500/50" : ""}`}
                             onClick={() => (!isSignOk && isPartitaModificabile) ? handleSelection(partita.team1, "X") : undefined}
@@ -403,7 +406,7 @@ const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartit
                             <div className={`max-w-[9rem] whitespace-nowrap overflow-hidden md:ml-[1rem] 
                                 ${getTextTeam(partita.team2)} 
                                 ${isKQBtnActive ? "hover:cursor-not-allowed unselectable" : ""}
-                                ${isBigTeam(partita.team2) ? " border border-4 border-sky-600/70 rounded-md font-bold" : ""} 
+                                ${isBigTeam(partita.team2) ? " border border-4 border-sky-600/90 rounded-md font-bold" : ""} 
                                 ${underlineTeam("2")}`}
                                 onClick={() => (!isSignOk && isPartitaModificabile) ? handleSelection(partita.team2, "2") : undefined}>
                                 {isMobile == true ? partita.team2.slice(0, 3) : partita.team2}

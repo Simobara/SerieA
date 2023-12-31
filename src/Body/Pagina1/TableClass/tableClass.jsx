@@ -32,11 +32,11 @@ const TableClass = () => {
 
   const getTextTeam = (teamName) => {
     if (isATeam(teamName)) {
-      return "font-black border border-4 border-sky-700 rounded-lg";
+      return "font-black text-sky-600/70 border border-4 border-sky-600/90 rounded-md font-bold my-[-2rem]";
     } else if (isBTeam(teamName)) {
-      return "font-light ";
+      return "font-light text-gray-500";
     } else {
-      return "text-medium ";
+      return "text-medium text-cyan-700";
     }
   };
 
@@ -253,7 +253,7 @@ const TableClass = () => {
           {/* Altre colonne commentate */}
         </tr>
       </thead>
-      <tbody className="bg-black text-cyan-700/80">
+      <tbody className="bg-black text-cyan-800">
         {squadreOrdinate.map((squadra, index) => (
           <tr key={index}>
             <td className={`text-center relative ${getColoriColonna0(index)}`}>
@@ -262,24 +262,19 @@ const TableClass = () => {
             {/* { COLONNA SQUADRE} */}
             <td className={`w-[100%] bg-black xs:pl-0 sm:pl-32 lg:pl-36 xl:px-6 flex justify-start relative sq-column text-xl 
             ${isCoppiaSelected(squadra.nome) ? "bg-gray-700" : ""}
-            ${isTeamMarkedWithX(squadra.nome)
-                ? "underline-yello text-yellow-500/40"
-                : sqSelected.includes(squadra.nome + "Z")
-                  ? "underline-gree text-green-500/50"
-                  : sqSelected.includes(squadra.nome + "Y")
-                    ? "text-gray-500/70"
-                    : ""}
-            ${isWinningTeamInCoppiaRegSelected(squadra.nome) ? `text-green-500 ${isCoppiaSelected(squadra.nome) ? "bg-gray-500" : "bg-gray-700/60"}` : ""}
-            ${isLosingTeamInCoppiaRegSelected(squadra.nome) ? `text-gray-500 ${isCoppiaSelected(squadra.nome) ? "bg-gray-500" : "bg-gray-700/60"}` : ""}
-            ${isDrawingTeamInCoppiaRegSelected(squadra.nome) ? `text-yellow-500 ${isCoppiaSelected(squadra.nome) ? "bg-gray-500" : "bg-gray-700/60"}` : ""}          
+            ${isTeamMarkedWithX(squadra.nome) ? `underline-yellow` : sqSelected.includes(squadra.nome + "Z") ? "underlineC" : sqSelected.includes(squadra.nome + "Y") ? "" : ""}
+            
+            ${isWinningTeamInCoppiaRegSelected(squadra.nome) ? `filter brightness-[65%] underlineC ${isCoppiaSelected(squadra.nome) ? ` bg-gray-500` : "bg-gray-700/60"}` : ""}
+            ${isLosingTeamInCoppiaRegSelected(squadra.nome) ? `filter brightness-[65%]  ${isCoppiaSelected(squadra.nome) ? " bg-gray-500" : "bg-gray-700/60"}` : ""}
+            ${isDrawingTeamInCoppiaRegSelected(squadra.nome) ? `filter brightness-[65%] underline-yellow ${isCoppiaSelected(squadra.nome) ? "bg-gray-500" : "bg-gray-700/60"}` : ""}          
                   >
               }`}
             >
-              <div className={`flex items-center bg-black 
+              <div className={`flex items-center bg-black
               ${isCoppiaSelected(squadra.nome) ? "bg-gray-700" : ""}
-              ${isWinningTeamInCoppiaRegSelected(squadra.nome) ? "text-green-600/50 bg-gray-700/10" : ""}
-              ${isLosingTeamInCoppiaRegSelected(squadra.nome) ? "text-gray-500/50 bg-gray-700/10" : ""}
-              ${isDrawingTeamInCoppiaRegSelected(squadra.nome) ? "text-yellow-500/30 bg-gray-700/10" : ""}
+              ${isWinningTeamInCoppiaRegSelected(squadra.nome) ? "bg-gray-700/10" : ""}
+              ${isLosingTeamInCoppiaRegSelected(squadra.nome) ? " bg-gray-700/10" : ""}
+              ${isDrawingTeamInCoppiaRegSelected(squadra.nome) ? " bg-gray-700/10" : ""}
               `}>
                 <img src={squadra.logo} alt={`${squadra.nome} Logo`} className="w-7 h-7 mr-4" />
                 <span className={getTextTeam(squadra.nome)}>{squadra.nome.replace("X", "").replace("Y", "").replace("Z", "")}</span>
@@ -287,7 +282,7 @@ const TableClass = () => {
             </td>
             {/* { COLONNA ?} */}
             <td
-              className={`sm:pr-1 md:pl-1 lg:pl-2 xl:pl-0 text-right font-extrabold bg-black text-cyan-700/80 text-xl z-4 
+              className={`sm:pr-1 md:pl-1 lg:pl-2 xl:pl-0 text-right font-extrabold bg-black text-cyan-500/80 text-xl z-4 
               ${indiciDiffQ.includes(index) ? "borderAlto border-white" : ""}`}>
               <div className="absolute transform -translate-x-4/3 -translate-y-7 text-center text-lg text-white mx-8 my-[-10]">
                 {numeriIndiciBorderWhite[index]}</div>
@@ -299,9 +294,15 @@ const TableClass = () => {
               ${isCoppiaSelected(squadra.nome) ? "bg-gray-700" : ""}
               ${indiciDiffPts.includes(index) ? "borderAlto border-gray-600/80 " : ""}
               ${getPunteggioColonnaDomanda(squadra) !== " " ? "text-gray-600/70" : "text-cyan-700/80"}
-              ${isWinningTeamInCoppiaRegSelected(squadra.nome) ? `text-gray-500 ${isCoppiaSelected(squadra.nome) ? "bg-gray-700" : "bg-gray-700/60"}` : ""}
-              ${isLosingTeamInCoppiaRegSelected(squadra.nome) ? `text-gray-500 ${isCoppiaSelected(squadra.nome) ? "bg-gray-700" : "bg-gray-700/60"}` : ""}
-              ${isDrawingTeamInCoppiaRegSelected(squadra.nome) ? `text-gray-500 ${isCoppiaSelected(squadra.nome) ? "bg-gray-700" : "bg-gray-700/60"}` : ""}
+
+              ${isWinningTeamInCoppiaRegSelected(squadra.nome) ? `filter brightness-[65%] text-gray-500 
+              ${isCoppiaSelected(squadra.nome) ? "bg-gray-700" : " bg-gray-700/60"}` : ""}
+
+              ${isLosingTeamInCoppiaRegSelected(squadra.nome) ? `filter brightness-[65%] text-gray-500
+              ${isCoppiaSelected(squadra.nome) ? "bg-gray-700" : " bg-gray-700/60"}` : ""}
+
+              ${isDrawingTeamInCoppiaRegSelected(squadra.nome) ? `filter brightness-[65%] text-gray-500 
+              ${isCoppiaSelected(squadra.nome) ? "bg-gray-700" : "bg-gray-700/60"}` : ""}
               `}
             >
               <div className="innerBorder"></div>
@@ -311,8 +312,9 @@ const TableClass = () => {
               {getPunteggioColonnaPTS(squadra)}
             </td>
           </tr>
-        ))}
-      </tbody>
+        ))
+        }
+      </tbody >
     </table >
   );
 };

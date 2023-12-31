@@ -3,80 +3,53 @@ import { calendario } from "../Matches/matches";
 function creaRisultatiSalernitana(calendario) {
     const squadra = 'Salernitana';
     const risultatiSalernitana = [];
-    let giornataSpeciale = false;
+    let giornataSpecialeInserita = false;
 
     for (let i = 1; i <= 38; i++) {
         const giornata = calendario[`giornata${i}`];
 
+        if (i === 20 && !giornataSpecialeInserita) {
+            // Inserisci la giornata speciale una sola volta prima della 21ª giornata
+            risultatiSalernitana.push({
+                risultato: '',
+                casa: '***',
+                fuori: '***',
+                sqVs: '*** *** ***'
+            });
+            giornataSpecialeInserita = true;
+        }
+
         giornata.forEach(partita => {
             if (partita.team1 === squadra || partita.team2 === squadra) {
                 const isCasa = partita.team1 === squadra;
-                let resultsTrimmed = partita.results.trim(); // Applicazione del metodo .trim() ai risultati della partita
+                let resultsTrimmed = partita.results.trim();
 
-                if (i <= 19) {
-                    if (resultsTrimmed === '') {
-                        risultatiSalernitana.push({
-                            risultato: '',
-                            casa: isCasa ? '...' : '',
-                            fuori: isCasa ? '' : '...',
-                            sqVs: isCasa ? partita.team2 : partita.team1
-                        });
-                    } else {
-                        const risultatoSplit = resultsTrimmed.split('-');
-                        const golSalernitana = isCasa ? risultatoSplit[0] : risultatoSplit[1];
-                        const golAvversari = isCasa ? risultatoSplit[1] : risultatoSplit[0];
-
-                        let segno;
-                        if (golSalernitana > golAvversari) segno = '+';
-                        else if (golSalernitana < golAvversari) segno = '-';
-                        else segno = '=';
-
-                        const risultatoInvertito = isCasa ? partita.results : partita.results.split('-').reverse().join('-');
-
-                        risultatiSalernitana.push({
-                            risultato: risultatoInvertito,
-                            casa: isCasa ? segno : '',
-                            fuori: isCasa ? '' : segno,
-                            sqVs: isCasa ? partita.team2 : partita.team1
-                        });
-                    }
+                // Gestione delle partite per ogni giornata
+                if (resultsTrimmed === '') {
+                    risultatiSalernitana.push({
+                        risultato: '',
+                        casa: isCasa ? '...' : '',
+                        fuori: isCasa ? '' : '...',
+                        sqVs: isCasa ? partita.team2 : partita.team1
+                    });
                 } else {
-                    if (!giornataSpeciale) {
-                        risultatiSalernitana.push({
-                            risultato: '',
-                            casa: '***',
-                            fuori: '***',
-                            sqVs: '*** *** ***'
-                        });
-                        giornataSpeciale = true;
-                    } else {
-                        if (resultsTrimmed === '') {
-                            risultatiSalernitana.push({
-                                risultato: '',
-                                casa: isCasa ? '...' : '',
-                                fuori: isCasa ? '' : '...',
-                                sqVs: isCasa ? partita.team2 : partita.team1
-                            });
-                        } else {
-                            const risultatoSplit = resultsTrimmed.split('-');
-                            const golSalernitana = isCasa ? risultatoSplit[0] : risultatoSplit[1];
-                            const golAvversari = isCasa ? risultatoSplit[1] : risultatoSplit[0];
+                    const risultatoSplit = resultsTrimmed.split('-');
+                    const golSalernitana = isCasa ? risultatoSplit[0] : risultatoSplit[1];
+                    const golAvversari = isCasa ? risultatoSplit[1] : risultatoSplit[0];
 
-                            let segno;
-                            if (golSalernitana > golAvversari) segno = '+';
-                            else if (golSalernitana < golAvversari) segno = '-';
-                            else segno = '=';
+                    let segno;
+                    if (golSalernitana > golAvversari) segno = '+';
+                    else if (golSalernitana < golAvversari) segno = '-';
+                    else segno = '=';
 
-                            const risultatoInvertito = isCasa ? partita.results : partita.results.split('-').reverse().join('-');
+                    const risultatoInvertito = isCasa ? partita.results : partita.results.split('-').reverse().join('-');
 
-                            risultatiSalernitana.push({
-                                risultato: risultatoInvertito,
-                                casa: isCasa ? segno : '',
-                                fuori: isCasa ? '' : segno,
-                                sqVs: isCasa ? partita.team2 : partita.team1
-                            });
-                        }
-                    }
+                    risultatiSalernitana.push({
+                        risultato: risultatoInvertito,
+                        casa: isCasa ? segno : '',
+                        fuori: isCasa ? '' : segno,
+                        sqVs: isCasa ? partita.team2 : partita.team1
+                    });
                 }
             }
         });

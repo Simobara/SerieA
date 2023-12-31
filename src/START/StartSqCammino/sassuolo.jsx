@@ -3,80 +3,53 @@ import { calendario } from "../Matches/matches";
 function creaRisultatiSassuolo(calendario) {
     const squadra = 'Sassuolo';
     const risultatiSassuolo = [];
-    let giornataSpeciale = false;
+    let giornataSpecialeInserita = false;
 
     for (let i = 1; i <= 38; i++) {
         const giornata = calendario[`giornata${i}`];
 
+        if (i === 20 && !giornataSpecialeInserita) {
+            // Inserisci la giornata speciale una sola volta prima della 21ª giornata
+            risultatiSassuolo.push({
+                risultato: '',
+                casa: '***',
+                fuori: '***',
+                sqVs: '*** *** ***'
+            });
+            giornataSpecialeInserita = true;
+        }
+
         giornata.forEach(partita => {
             if (partita.team1 === squadra || partita.team2 === squadra) {
                 const isCasa = partita.team1 === squadra;
-                let resultsTrimmed = partita.results.trim(); // Applicazione del metodo .trim() ai risultati della partita
+                let resultsTrimmed = partita.results.trim();
 
-                if (i <= 19) {
-                    if (resultsTrimmed === '') {
-                        risultatiSassuolo.push({
-                            risultato: '',
-                            casa: isCasa ? '...' : '',
-                            fuori: isCasa ? '' : '...',
-                            sqVs: isCasa ? partita.team2 : partita.team1
-                        });
-                    } else {
-                        const risultatoSplit = resultsTrimmed.split('-');
-                        const golSassuolo = isCasa ? risultatoSplit[0] : risultatoSplit[1];
-                        const golAvversari = isCasa ? risultatoSplit[1] : risultatoSplit[0];
-
-                        let segno;
-                        if (golSassuolo > golAvversari) segno = '+';
-                        else if (golSassuolo < golAvversari) segno = '-';
-                        else segno = '=';
-
-                        const risultatoInvertito = isCasa ? partita.results : partita.results.split('-').reverse().join('-');
-
-                        risultatiSassuolo.push({
-                            risultato: risultatoInvertito,
-                            casa: isCasa ? segno : '',
-                            fuori: isCasa ? '' : segno,
-                            sqVs: isCasa ? partita.team2 : partita.team1
-                        });
-                    }
+                // Gestione delle partite per ogni giornata
+                if (resultsTrimmed === '') {
+                    risultatiSassuolo.push({
+                        risultato: '',
+                        casa: isCasa ? '...' : '',
+                        fuori: isCasa ? '' : '...',
+                        sqVs: isCasa ? partita.team2 : partita.team1
+                    });
                 } else {
-                    if (!giornataSpeciale) {
-                        risultatiSassuolo.push({
-                            risultato: '',
-                            casa: '***',
-                            fuori: '***',
-                            sqVs: '*** *** ***'
-                        });
-                        giornataSpeciale = true;
-                    } else {
-                        if (resultsTrimmed === '') {
-                            risultatiSassuolo.push({
-                                risultato: '',
-                                casa: isCasa ? '...' : '',
-                                fuori: isCasa ? '' : '...',
-                                sqVs: isCasa ? partita.team2 : partita.team1
-                            });
-                        } else {
-                            const risultatoSplit = resultsTrimmed.split('-');
-                            const golSassuolo = isCasa ? risultatoSplit[0] : risultatoSplit[1];
-                            const golAvversari = isCasa ? risultatoSplit[1] : risultatoSplit[0];
+                    const risultatoSplit = resultsTrimmed.split('-');
+                    const golSassuolo = isCasa ? risultatoSplit[0] : risultatoSplit[1];
+                    const golAvversari = isCasa ? risultatoSplit[1] : risultatoSplit[0];
 
-                            let segno;
-                            if (golSassuolo > golAvversari) segno = '+';
-                            else if (golSassuolo < golAvversari) segno = '-';
-                            else segno = '=';
+                    let segno;
+                    if (golSassuolo > golAvversari) segno = '+';
+                    else if (golSassuolo < golAvversari) segno = '-';
+                    else segno = '=';
 
-                            const risultatoInvertito = isCasa ? partita.results : partita.results.split('-').reverse().join('-');
+                    const risultatoInvertito = isCasa ? partita.results : partita.results.split('-').reverse().join('-');
 
-                            risultatiSassuolo.push({
-                                risultato: risultatoInvertito,
-                                casa: isCasa ? segno : '',
-                                fuori: isCasa ? '' : segno,
-                                sqVs: isCasa ? partita.team2 : partita.team1
-                            });
-                        }
-                    }
+                    risultatiSassuolo.push({
+                        risultato: risultatoInvertito,
+                        casa: isCasa ? segno : '',
+                        fuori: isCasa ? '' : segno,
+                        sqVs: isCasa ? partita.team2 : partita.team1
+                    });
                 }
             }
         });
@@ -87,7 +60,6 @@ function creaRisultatiSassuolo(calendario) {
 
 const risultatiSassuolo = creaRisultatiSassuolo(calendario);
 export const sassuolo = risultatiSassuolo;
-
 
 // export const sassuolo = [
 //     //* 1

@@ -25,21 +25,34 @@ th, td {
     overflow: hidden;
 }
 
-.underline-green {
+/* .underline-redd {
     text-decoration: underline;
-    text-decoration-color: green;
-    text-decoration-thickness: 2px;
-}
+    text-decoration-color: rgb(145, 16, 16); /* Colore rosso per l'underline
+    text-decoration-thickness: 3px;
+    overflow:hidden;
+} */
 
-.text-green {
-    color: green;
+.underlineC {
+    text-decoration: underline;
+    text-decoration-color: #a200ff; /* Colore rosso per l'underline */
+    text-decoration-thickness: 2px;
+    overflow:hidden;
+    /* opacity:1; */
 }
 
 .underline-yellow {
     text-decoration: underline;
-    text-decoration-color: #ae7b04;
+    text-decoration-color: rgb(116, 116, 54); /* Colore rosso per l'underline */
     text-decoration-thickness: 2px;
+    overflow:hidden;
 }
+
+/* .underlineF {
+    text-decoration: underline;
+    text-decoration-color: #f200ff; /* Colore rosso per l'underline
+    text-decoration-thickness: 2px;
+    overflow:hidden;
+} */
 
 .underlineCoppiaRegSel{
     text-decoration: underline;
@@ -48,11 +61,13 @@ th, td {
     
 }
 
-.text-yellow {
-    color: #ae7b04;
-}
 
 .borderAlto {
     border-top-width: 2px;
     
+}
+
+.brightnessScura {
+    filter: brightness(65%);
+    /* opacity: 1;  */
 }

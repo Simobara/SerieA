@@ -198,7 +198,7 @@ const TableProxInc = () => {
       <div className="relative ">
         <div className="flex justify-center h-[25.45rem]">
           <div className="relative overflow-hidden w-[120rem] ml-[-3rem]">
-            <img src={serieAItalia} alt="serieAItalia" className="relative h-[47rem] w-[100%] mt-[-4.4rem] filter brightness-25" />
+            <img src={serieAItalia} alt="serieAItalia" className="relative h-[47rem] w-[100%] mt-[-4.4rem] filter brightness-50" />
             {coppiaSelected && renderSquadre()}
             {buttonResetIsResetting &&
               <button

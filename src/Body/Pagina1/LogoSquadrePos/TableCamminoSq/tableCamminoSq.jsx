@@ -25,19 +25,19 @@ const TableCamminoSq = ({ squadra, datiSquadra }) => {
     if (isATeam(teamName)) {
       return "font-black";
     } else if (isBTeam(teamName)) {
-      return "font-light text-gray-500/70";
+      return "font-extralight text-gray-500/90";
     } else {
       return "text-medium";
     }
   };
 
-  const getTextColor = (partita) => {
-    const conditions = ["+", "-", "=", "..."];
-    if (conditions.includes(partita.casa) || conditions.includes(partita.fuori)) {
-      return "text-white"; // white text when row is fuchsia
-    }
-    return "text-black"; // default text color
-  };
+  // const getTextColor = (partita) => {
+  //   const conditions = ["+", "-", "=", "..."];
+  //   if (conditions.includes(partita.casa) || conditions.includes(partita.fuori)) {
+  //     return "text-white"; // white text when row is fuchsia
+  //   }
+  //   return "text-black"; // default text color
+  // };
 
   const getBgHoverClass = (partita) => {
     const conditions = ["+", "-", "=", "..."];
@@ -97,7 +97,7 @@ const TableCamminoSq = ({ squadra, datiSquadra }) => {
         <thead>
           <tr className="bg-black text-white border border-black overflow-x-hidden text-md">
             <th className="text-center text-white w-[12%] sm:w-[15%] xl:w-[12%] "></th>
-            <th className="text-center text-cyan-700 w-[18%] sm:w-[25%] xl:w-[20%] ml-4">C</th>
+            <th className="text-center text-cyan-700 w-[18%] sm:w-[25%] xl:w-[20%]">C</th>
             <th className="text-center text-cyan-700 w-[12%] sm:w-[15%] xl:w-[12%]">F</th>
             <th className="text-center text-white w-full "></th>
             <th className="text-left"></th>
@@ -118,10 +118,10 @@ const TableCamminoSq = ({ squadra, datiSquadra }) => {
 
               const sqVsClass = isATeam(partita.sqVs) ? "text-black font-black" : isBTeam(partita.sqVs) ? "text-gray-500/40 font-extralight" : "font-medium";
               const bgHoverClass = getBgHoverClass(partita);
-              const textColorClass = getTextColor(partita);
+              // const textColorClass = getTextColor(partita);
               return (
-                <tr key={index} className={`overflow-x-hidden xs:text-lg sm:text-xl ${bgHoverClass} last-text-white `}>
-                  <td className="w-[5%] sm:w-[15%] xl:w-[5%] text-center font-bold text-sky-600/80 bg-black">{partita.risultato}</td>
+                <tr key={index} className={`overflow-x-hidden xs:text-lg sm:text-md ${bgHoverClass} last-text-white `}>
+                  <td className="w-[5%] sm:w-[15%] xl:w-[5%] text-center font-bold text-cyan-500 bg-black">{partita.risultato}</td>
                   <td className={`w-[7%] sm:w-[15%] xl:w-[10%] text-center xs:text-xs sm:text-base ${casaClass}`}>{partita.casa}</td>
                   <td className={`w-[7%] sm:w-[15%] xl:w-[10%] text-center xs:text-xs sm:text-base ${fuoriClass}`}>{partita.fuori}</td>
                   <td className={`sm:w-[50%] pl-4 text-xl ${sqVsClass} `}>

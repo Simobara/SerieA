@@ -2,26 +2,29 @@
     text-decoration-thickness: 2px; /* o qualsiasi altro valore che preferisci */
 }
 
-.underline-red {
+.underlineC {
     text-decoration: underline;
-    text-decoration-color: rgb(145, 16, 16); /* Colore rosso per l'underline */
-    text-decoration-thickness: 3px;
+    text-decoration-color: #a200ff; /* Colore rosso per l'underline */
+    text-decoration-thickness: 4px;
     overflow:hidden;
-}
-
-.underline-green {
-    text-decoration: underline;
-    text-decoration-color: rgb(21, 163, 21); /* Colore rosso per l'underline */
-    text-decoration-thickness: 3px;
-    overflow:hidden;
+    /* opacity:1; */
 }
 
 .underline-yellow {
     text-decoration: underline;
-    text-decoration-color: rgb(148, 119, 16); /* Colore rosso per l'underline */
-    text-decoration-thickness: 3px;
+    text-decoration-color: rgb(249, 249, 81); /* Colore rosso per l'underline */
+    text-decoration-thickness: 4px;
     overflow:hidden;
 }
+
+.underlineF {
+    text-decoration: underline;
+    text-decoration-color: #a200ff; /* Colore rosso per l'underline */
+    text-decoration-thickness: 4px;
+    overflow:hidden;
+}
+
+
 
 .cursor-not-allowed {
     cursor: not-allowed;
@@ -32,4 +35,10 @@
     -moz-user-select: none;     /* Firefox */
     -ms-user-select: none;      /* IE/Edge */
     user-select: none;          /* Standard */
-  }
+}
+
+
+.brightnessScura {
+    filter: brightness(60%);
+    /* opacity: 1;  */
+}

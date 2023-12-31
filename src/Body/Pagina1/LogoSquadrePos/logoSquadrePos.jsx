@@ -74,11 +74,15 @@ const LogoSquadrePos = () => {
         let className = "px-1 sm:px-2 py-1 cursor-pointer grayscale";
         let inlineStyle = {};
 
+        // if (isActive1) {
+        //   className = "px-2 cursor-pointer rounded-3xl grayscale-0 bg-sky-700/90 pt-1 sm:pt-2 z-3";
+        //   inlineStyle = { filter: "brightness(125%)" }; // Aumenta la luminosità del 25%
+        //}
         if (isActive1) {
-          className = "px-2 cursor-pointer rounded-3xl grayscale-0 bg-sky-800 pt-1 sm:pt-2";
+          className = "px-2 cursor-pointer rounded-3xl grayscale-0 bg-sky-900 pt-1 sm:pt-2 z-3";
           inlineStyle = { filter: "brightness(125%)" }; // Aumenta la luminosità del 25%
         } else if (isActive2) {
-          className = "px-2 cursor-pointer rounded-3xl p-1 grayscale-0 bg-sky-500 pt-1 sm:pt-2";
+          className = "px-2 cursor-pointer rounded-3xl grayscale-0 bg-sky-500 pt-1 sm:pt-2 z-1";
           inlineStyle = { filter: "brightness(125%)" }; // Aumenta la luminosità del 25%
         }
 
@@ -108,26 +112,26 @@ const LogoSquadrePos = () => {
     <>
       <div className=" bg-black text-white">
         <div className="mt-[0rem] mb-[2rem] overflow-hidden z-2 sticky">
-          <div className="w-[40rem] mx-auto items-center h-1 bg-gray-600 text-gray-900 ">
-            <div className="border border-2 border-sky-800/70 w-5 bg-gray-700 text-sky-800 text-base sm:text-md font-extrabold uppercase">1</div>
+          <div className="w-[40rem] mx-auto items-center h-1 bg-gray-600/80 text-gray-900 ">
+            <div className="pl-1 border border-2 border-sky-800/70 w-5 bg-gray-700 text-sky-700/70 sm:text-md font-extrabold uppercase">1</div>
           </div>
           {/* Aggiunta di max-h-[3rem] e overflow-y-auto */}
-          <div className="filter brightness-50 max-h-[3.3rem] sm:max-h-[5rem] xl:max-h-[5rem] overflow-y-hidden">{renderLinea(0, SqEndGruppo1)}
+          <div className="filter brightness-[75%] max-h-[3.3rem] sm:max-h-[5rem] xl:max-h-[5rem] overflow-y-hidden">{renderLinea(0, SqEndGruppo1)}
           </div>
         </div>
         <div className="mt-[-2rem] mb-[1.8rem] overflow-hidden z-3 sticky ">
-          <div className="w-[40rem] mx-auto items-center h-1 bg-gray-600 text-gray-900">
-            <div className="border border-2 border-sky-800/70 w-5 bg-gray-700 text-sky-800 text-base sm:text-md font-extrabold uppercase">2</div>
+          <div className="w-[40rem] mx-auto items-center h-1 bg-gray-600/80 text-gray-900">
+            <div className="pl-1 border border-2 border-sky-800/80 w-5 bg-gray-700 text-sky-700/70 sm:text-md font-extrabold uppercase">2</div>
           </div>
           {/* Aggiunta di max-h-[3rem] e overflow-y-auto */}
-          <div className="filter brightness-50 max-h-[3.3rem] sm:max-h-[5rem] xl:max-h-[5rem] overflow-y-hidden">{renderLinea(SqEndGruppo1, SqEndGruppo2)}</div>
+          <div className="filter brightness-[75%] max-h-[3.3rem] sm:max-h-[5rem] xl:max-h-[5rem] overflow-y-hidden">{renderLinea(SqEndGruppo1, SqEndGruppo2)}</div>
         </div>
         <div className="mt-[-2rem] mb-[0rem] overflow-visible z-4 sticky">
-          <div className="w-[40rem] mx-auto items-center h-1 bg-gray-600 text-gray-900">
-            <div className="border border-2 border-sky-800/70 w-5 bg-gray-700 text-sky-800 sm:text-md font-extrabold uppercase">3</div>
+          <div className="w-[40rem] mx-auto items-center h-1 bg-gray-600/80 text-gray-900">
+            <div className="pl-1 border border-2 border-sky-800/80 w-5 bg-gray-700 text-sky-700/70 sm:text-md font-extrabold uppercase">3</div>
           </div>
           {/* Aggiunta di max-h-[3rem] e overflow-y-auto */}
-          <div className="filter brightness-50 max-h-[3.3rem] sm:max-h-[5rem] xl:max-h-[5rem] overflow-y-hidden">{renderLinea(SqEndGruppo2, squadre.length)}</div>
+          <div className="filter brightness-[75%] max-h-[3.3rem] sm:max-h-[5rem] xl:max-h-[5rem] overflow-y-hidden">{renderLinea(SqEndGruppo2, squadre.length)}</div>
         </div>
       </div>
       <div ref={refContainer} className=" flex sticky mt-[5px] ">
@@ -137,7 +141,7 @@ const LogoSquadrePos = () => {
           </div>
         )}
         {squadraAttiva2 && (
-          <div className="bg-sky-500 text-black  w-[50%] max-w-[50%] overflow-x-hidden overflow-y-auto z-1">
+          <div className="bg-sky-500/80 text-black  w-[50%] max-w-[50%] overflow-x-hidden overflow-y-auto z-1">
             <TableCamminoSq squadra={squadraAttiva2} datiSquadra={datiSquadre[squadraAttiva2]} />
           </div>
         )}
