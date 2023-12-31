@@ -25,7 +25,7 @@ const TableCamminoSq = ({ squadra, datiSquadra }) => {
     if (isATeam(teamName)) {
       return "font-black";
     } else if (isBTeam(teamName)) {
-      return "font-extralight text-gray-500/90";
+      return "font-extralight text-gray-500";
     } else {
       return "text-medium";
     }
@@ -42,9 +42,9 @@ const TableCamminoSq = ({ squadra, datiSquadra }) => {
   const getBgHoverClass = (partita) => {
     const conditions = ["+", "-", "=", "..."];
     if (conditions.includes(partita.casa)) {
-      return "hover:bg-fuchsia-800/90";
+      return "hover:bg-fuchsia-600/90";
     } else if (conditions.includes(partita.fuori)) {
-      return "hover:bg-fuchsia-500";
+      return "hover:bg-fuchsia-300/90";
     }
     return " ";
   };
@@ -105,12 +105,19 @@ const TableCamminoSq = ({ squadra, datiSquadra }) => {
         </thead>
       </table>
       <div className="overflow-y-auto overflow-x-hidden md:overflow-x-hidden h-[37.5rem]">
-        <table className=" filter brightness-75 overflow-y-auto w-[120%] table-auto bg-white">
+        <table className=" filter brightness-[65%] overflow-y-auto w-[120%] table-auto bg-white">
           <tbody>
             {/* eslint-disable-next-line */}
             {datiSquadra.map((partita, index) => {
               const casaClass = getClassForCasa(partita.casa);
               const fuoriClass = getClassForFuori(partita.fuori);
+
+              // Dividere il risultato in due parti
+              const risultatoPulito = partita.risultato.trim().replace(/\s*-\s*/, "-");
+              const risultatoParts = risultatoPulito.split("-");
+              const risultatoParte1 = risultatoParts[0]; // Prima parte del risultato
+              const risultatoParte2 = risultatoParts[1]; // Seconda parte del risultato
+
 
               // Converti il nome della squadra: prima lettera maiuscola, resto minuscolo
               const formattedSqVs = partita.sqVs.toLowerCase();
@@ -120,8 +127,12 @@ const TableCamminoSq = ({ squadra, datiSquadra }) => {
               const bgHoverClass = getBgHoverClass(partita);
               // const textColorClass = getTextColor(partita);
               return (
-                <tr key={index} className={`overflow-x-hidden xs:text-lg sm:text-md ${bgHoverClass} last-text-white `}>
-                  <td className="w-[5%] sm:w-[15%] xl:w-[5%] text-center font-bold text-cyan-500 bg-black">{partita.risultato}</td>
+                <tr key={index} className={`overflow-x-hidden xs:text-lg sm:text-md ${bgHoverClass} last-text-white`}>
+                  <td className={`w-[5%] sm:w-[15%] xl:w-[5%] text-center font-bold text-cyan-500 bg-black text-xl`}>
+                    <span className={"text-fuchsia-400 text-xl"}>{risultatoParte1}</span>
+                    {"-"}
+                    <span className={"text-sky-300"}>{risultatoParte2}</span>
+                  </td>
                   <td className={`w-[7%] sm:w-[15%] xl:w-[10%] text-center xs:text-xs sm:text-base ${casaClass}`}>{partita.casa}</td>
                   <td className={`w-[7%] sm:w-[15%] xl:w-[10%] text-center xs:text-xs sm:text-base ${fuoriClass}`}>{partita.fuori}</td>
                   <td className={`sm:w-[50%] pl-4 text-xl ${sqVsClass} `}>

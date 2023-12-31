@@ -255,7 +255,7 @@ export const calendario = {
         { numero: 10, day: 'sab', time: '20:45', team1: 'Juve', team2: 'Roma', results: '1-0' },
     ],
     giornata19: [
-        { numero: 1, day: 'ven', time: '18.30', team1: 'Bologna', team2: 'Genoa', results: '1-0' },
+        { numero: 1, day: 'ven', time: '18.30', team1: 'Bologna', team2: 'Genoa', results: '' },
 
         { numero: 2, day: 'sab', time: '18.30', team1: 'Inter', team2: 'Verona', results: '' },
         { numero: 3, day: 'sab', time: '20.45', team1: 'Frosinone', team2: 'Monza', results: '' },
