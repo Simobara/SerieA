@@ -1,13 +1,16 @@
-import { useEffect, useState } from "react";
-import { ATeams } from "../../../../START/START";
-import { BTeams } from "../../../../START/START";
+import { useEffect, useState, useContext } from "react";
+import { ATeams } from "../../../../START/StartSqCammino/1Start";
+import { BTeams } from "../../../../START/StartSqCammino/1Start";
+import { calendario } from "../../../../START/Matches/matches";
+import { GiornataClouContext } from "../../../Global/global/";
+// import { giornataClou } from "../../../../START/Matches/matches";
 import "./tableCamminoSq.css";
 
 const TableCamminoSq = ({ squadra, datiSquadra }) => {
   const [isMobile, setIsMobile] = useState(window.matchMedia("(max-width: 600px)").matches);
-
   // console.log("isMobile", isMobile);
-
+  const { giornataClouSelected, setGiornataClouSelected } = useContext(GiornataClouContext);
+  const [selectedIndexGiornata, setSelectedIndexGiornata] = useState(null);
 
   const nomeSquadra = typeof squadra === "string" ? squadra : "DefinireSq";
 
@@ -31,6 +34,8 @@ const TableCamminoSq = ({ squadra, datiSquadra }) => {
     }
   };
 
+
+
   // const getTextColor = (partita) => {
   //   const conditions = ["+", "-", "=", "..."];
   //   if (conditions.includes(partita.casa) || conditions.includes(partita.fuori)) {
@@ -42,9 +47,9 @@ const TableCamminoSq = ({ squadra, datiSquadra }) => {
   const getBgHoverClass = (partita) => {
     const conditions = ["+", "-", "=", "..."];
     if (conditions.includes(partita.casa)) {
-      return "hover:bg-fuchsia-600/90";
+      return "hover:bg-fuchsia-800/90";
     } else if (conditions.includes(partita.fuori)) {
-      return "hover:bg-fuchsia-300/90";
+      return "hover:bg-fuchsia-400/90";
     }
     return " ";
   };
@@ -80,6 +85,7 @@ const TableCamminoSq = ({ squadra, datiSquadra }) => {
     }
   };
 
+
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.matchMedia("(max-width: 600px)").matches);
@@ -89,6 +95,21 @@ const TableCamminoSq = ({ squadra, datiSquadra }) => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  useEffect(() => {
+    if (giornataClouSelected) {
+      let nuovoIndice = Object.keys(calendario).findIndex(key => calendario[key] === giornataClouSelected) + 1;
+      console.log("NI", nuovoIndice)
+      if (nuovoIndice <= 19) {
+        setSelectedIndexGiornata(nuovoIndice - 1);
+      } else {
+        setSelectedIndexGiornata(nuovoIndice);
+      }
+      // console.log(giornataClouSelected);
+    }
+  }, [giornataClouSelected]); // la dipendenza è necessaria per ricaricare l'effetto quando giornataClouSelected cambia
+
+
 
   return (
     <div className="">
@@ -118,6 +139,16 @@ const TableCamminoSq = ({ squadra, datiSquadra }) => {
               const risultatoParte1 = risultatoParts[0]; // Prima parte del risultato
               const risultatoParte2 = risultatoParts[1]; // Seconda parte del risultato
 
+              // Condizione per non visualizzare il risultato se è 9-8, 8-9, o 9-9
+              const isPronostico = (risultatoParte1 === '9' && risultatoParte2 === '8') ||
+                (risultatoParte1 === '8' && risultatoParte2 === '9') ||
+                (risultatoParte1 === '9' && risultatoParte2 === '9');
+
+
+              let borderStyle = "";
+              if (index === selectedIndexGiornata) {
+                borderStyle = "border-b-4 border-fuchsia-400"; // Aggiungi la classe per un bordo giallo
+              }
 
               // Converti il nome della squadra: prima lettera maiuscola, resto minuscolo
               const formattedSqVs = partita.sqVs.toLowerCase();
@@ -127,11 +158,18 @@ const TableCamminoSq = ({ squadra, datiSquadra }) => {
               const bgHoverClass = getBgHoverClass(partita);
               // const textColorClass = getTextColor(partita);
               return (
-                <tr key={index} className={`overflow-x-hidden xs:text-lg sm:text-md ${bgHoverClass} last-text-white`}>
+                <tr key={index} className={`overflow-x-hidden xs:text-lg sm:text-md ${bgHoverClass} last-text-white ${borderStyle}`}>
                   <td className={`w-[5%] sm:w-[15%] xl:w-[5%] text-center font-bold text-cyan-500 bg-black text-xl`}>
-                    <span className={"text-fuchsia-400 text-xl"}>{risultatoParte1}</span>
-                    {"-"}
-                    <span className={"text-sky-300"}>{risultatoParte2}</span>
+                    {isPronostico ?
+                      <div className="flex justify-center items-center">
+                        <span className="text-yellow-400 text-2xl font-black justify-item-centre ">*</span>
+                      </div> :
+                      <>
+                        <span className={"text-fuchsia-400 text-xl"}>{risultatoParte1}</span>
+                        {risultatoParte1 && risultatoParte2 && "-"}
+                        <span className={"text-sky-300"}>{risultatoParte2}</span>
+                      </>
+                    }
                   </td>
                   <td className={`w-[7%] sm:w-[15%] xl:w-[10%] text-center xs:text-xs sm:text-base ${casaClass}`}>{partita.casa}</td>
                   <td className={`w-[7%] sm:w-[15%] xl:w-[10%] text-center xs:text-xs sm:text-base ${fuoriClass}`}>{partita.fuori}</td>

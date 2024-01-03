@@ -4,7 +4,7 @@
 
 .underlineC {
     text-decoration: underline;
-    text-decoration-color: #a200ff; /* Colore rosso per l'underline */
+    text-decoration-color: #c013b7; /* Colore rosso per l'underline */
     text-decoration-thickness: 4px;
     overflow:hidden;
     /* opacity:1; */
@@ -19,7 +19,7 @@
 
 .underlineF {
     text-decoration: underline;
-    text-decoration-color: #a200ff; /* Colore rosso per l'underline */
+    text-decoration-color: #c013b7; /* Colore rosso per l'underline */
     text-decoration-thickness: 4px;
     overflow:hidden;
 }

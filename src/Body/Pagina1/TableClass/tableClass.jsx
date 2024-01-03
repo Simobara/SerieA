@@ -1,10 +1,12 @@
 import { useContext, useState, useEffect, useCallback, useMemo } from "react";
-import { squadre } from "../../../START/START";
-import { ATeams } from "../../../START/START";
-import { BTeams } from "../../../START/START";
+import { squadre } from "../../../START/StartSqCammino/1Start";
+import { ATeams } from "../../../START/StartSqCammino/1Start";
+import { BTeams } from "../../../START/StartSqCammino/1Start";
 import { SquadraContext } from "../../Global/global";
 import { CoppiaPartitaContext } from "../../Global/global";
 import { CoppiaPartitaRegistrataContext } from "../../Global/global";
+import { calendario } from "../../../START/Matches/matches";
+import { GiornataClouContext } from "../../Global/global/";
 // import { CoppiaPartitaRegistrataContext } from "../../Global/global";
 import "./tableClass.css";
 
@@ -16,8 +18,10 @@ const TableClass = () => {
   const [differenzePunti, setDifferenzePunti] = useState({});
   const { coppiaSelected } = useContext(CoppiaPartitaContext);
   const { coppiaRegSelected } = useContext(CoppiaPartitaRegistrataContext);
-  const [punteggiAggiornati, setPunteggiAggiornati] = useState([]);
 
+  const [punteggiAggiornati, setPunteggiAggiornati] = useState([]);
+  const [selectedIndexGiornata, setSelectedIndexGiornata] = useState(null);
+  const { giornataClouSelected, setGiornataClouSelected } = useContext(GiornataClouContext);
 
 
   const isATeam = (teamName) => {
@@ -134,25 +138,7 @@ const TableClass = () => {
     );
   }, [coppiaRegSelected]);
 
-  const getPunteggioColonnaPTS = useCallback((squadra) => {
-    let punteggioFinale = squadra.punteggio;
-    if (isTeamInCoppiaRegSelected(squadra.nome)) {
-      coppiaRegSelected.forEach(match => {
-        const [scoreTeam1, scoreTeam2] = match.risultato.split('-').map(Number);
-        if (scoreTeam1 === scoreTeam2) {
-          if (match.team1 === squadra.nome || match.team2 === squadra.nome) {
-            punteggioFinale -= 1;
-          }
-        } else {
-          if ((match.team1 === squadra.nome && scoreTeam1 > scoreTeam2) ||
-            (match.team2 === squadra.nome && scoreTeam2 > scoreTeam1)) {
-            punteggioFinale -= 3;
-          }
-        }
-      });
-    }
-    return punteggioFinale;
-  }, [coppiaRegSelected]); // Aggiungi tutte le dipendenze esterne utilizzate nella funzione
+
 
   const isWinningTeamInCoppiaRegSelected = (teamName) => {
     return coppiaRegSelected.some(match => {
@@ -177,7 +163,31 @@ const TableClass = () => {
     });
   };
 
+
+  const getPunteggioColonnaPTS = useCallback((squadra) => {
+    let punteggioFinale = squadra.punteggio;
+    coppiaRegSelected.forEach((match, index) => {
+      const [scoreTeam1, scoreTeam2] = match.risultato.split('-').map(Number);
+      // Assegna i punti in base al risultato della partita
+      if (scoreTeam1 === scoreTeam2) {
+        if (match.team1 === squadra.nome || match.team2 === squadra.nome) {
+          punteggioFinale += 1; // Aggiunge un punto per un pareggio
+        } else {
+          if ((match.team1 === squadra.nome && scoreTeam1 > scoreTeam2) ||
+            (match.team2 === squadra.nome && scoreTeam2 > scoreTeam1)) {
+            punteggioFinale += 3; // Aggiunge tre punti per una vittoria
+          }
+        }
+      }
+    });
+    return punteggioFinale;
+  }, [coppiaRegSelected]);
+
+
   // ------------------------------------------------------------------------------------
+
+
+
   useEffect(() => {
     let nuoviIndici = [];
     let numeriCorrispondenti = {};
@@ -214,30 +224,41 @@ const TableClass = () => {
     setDifferenzePunti(nuoveDifferenze);
   }, [punteggiAggiornati]);
 
+  // useEffect(() => {
+  //   if (coppiaRegSelected) {
+  //     console.log("COMP TABLECLASS/coppiaRegSelected", coppiaRegSelected)
+  //   }
+  //   aggPunteggioSqReg();
+  // }, [coppiaRegSelected]);
+
+
+  // --------------------------------------------------------------------------------------------
   useEffect(() => {
-    if (coppiaRegSelected) {
-      console.log("COMP TABLECLASS/coppiaRegSelected", coppiaRegSelected)
+    if (selectedIndexGiornata !== null) {
+      const nuoviPunteggi = squadreOrdinate.map(squadra => ({
+        ...squadra,
+        punteggioAggiornato: getPunteggioColonnaPTS(squadra, selectedIndexGiornata)
+      }));
+      setPunteggiAggiornati(nuoviPunteggi);
+
+      let nuoveDifferenze = {};
+      for (let i = 1; i < nuoviPunteggi.length; i++) {
+        const differenza = Math.abs(nuoviPunteggi[i].punteggioAggiornato - nuoviPunteggi[i - 1].punteggioAggiornato);
+        if (differenza >= 3) {
+          nuoveDifferenze[i] = differenza;
+        }
+      }
+      setDifferenzePunti(nuoveDifferenze);
     }
-    aggPunteggioSqReg();
-  }, [coppiaRegSelected]);
+  }, [selectedIndexGiornata, squadreOrdinate, getPunteggioColonnaPTS]);
+
 
   useEffect(() => {
-    // Calcola i nuovi punteggi basandoti su getPunteggioColonnaPTS
-    const nuoviPunteggi = squadreOrdinate.map(squadra => ({
-      ...squadra,
-      punteggioAggiornato: getPunteggioColonnaPTS(squadra)
-    }));
-    setPunteggiAggiornati(nuoviPunteggi);
-    // Calcola le differenze di punteggio tra le squadre adiacenti basandoti sui nuovi punteggi
-    let nuoveDifferenze = {};
-    for (let i = 1; i < nuoviPunteggi.length; i++) {
-      const differenza = Math.abs(nuoviPunteggi[i].punteggioAggiornato - nuoviPunteggi[i - 1].punteggioAggiornato);
-      if (differenza >= 3) {
-        nuoveDifferenze[i] = differenza;
-      }
+    if (giornataClouSelected) {
+      const massimoIndice = Object.keys(calendario).findIndex(key => calendario[key] === giornataClouSelected) - 1;
+      setSelectedIndexGiornata(massimoIndice);
     }
-    setDifferenzePunti(nuoveDifferenze);
-  }, [coppiaRegSelected]); // Aggiungi le dipendenze necessarie qui
+  }, [giornataClouSelected, calendario]);
 
 
   // -------------------------------------------------------------------------------------------------
@@ -262,11 +283,11 @@ const TableClass = () => {
             {/* { COLONNA SQUADRE} */}
             <td className={`w-[100%] bg-black xs:pl-0 sm:pl-32 lg:pl-36 xl:px-6 flex justify-start relative sq-column text-xl 
             ${isCoppiaSelected(squadra.nome) ? "bg-gray-700" : ""}
-            ${isTeamMarkedWithX(squadra.nome) ? `underline-yellow` : sqSelected.includes(squadra.nome + "Z") ? "underlineC" : sqSelected.includes(squadra.nome + "Y") ? "" : ""}
+            ${isTeamMarkedWithX(squadra.nome) ? `underlineX` : sqSelected.includes(squadra.nome + "Z") ? "underline1" : sqSelected.includes(squadra.nome + "Y") ? "underline2" : ""}
             
-            ${isWinningTeamInCoppiaRegSelected(squadra.nome) ? `filter brightness-[65%] underlineC ${isCoppiaSelected(squadra.nome) ? ` bg-gray-500` : "bg-gray-700/60"}` : ""}
-            ${isLosingTeamInCoppiaRegSelected(squadra.nome) ? `filter brightness-[65%]  ${isCoppiaSelected(squadra.nome) ? " bg-gray-500" : "bg-gray-700/60"}` : ""}
-            ${isDrawingTeamInCoppiaRegSelected(squadra.nome) ? `filter brightness-[65%] underline-yellow ${isCoppiaSelected(squadra.nome) ? "bg-gray-500" : "bg-gray-700/60"}` : ""}          
+            ${isWinningTeamInCoppiaRegSelected(squadra.nome) ? ` underline1 ${isCoppiaSelected(squadra.nome) ? " bg-gray-500" : "bg-gray-700/60"}` : ""}
+            ${isLosingTeamInCoppiaRegSelected(squadra.nome) ? ` underline2 ${isCoppiaSelected(squadra.nome) ? " bg-gray-500" : "bg-gray-700/60"}` : ""}
+            ${isDrawingTeamInCoppiaRegSelected(squadra.nome) ? ` underlineX ${isCoppiaSelected(squadra.nome) ? "bg-gray-500" : "bg-gray-700/60"}` : ""}          
                   >
               }`}
             >

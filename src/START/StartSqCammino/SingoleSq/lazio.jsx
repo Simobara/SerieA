@@ -1,4 +1,4 @@
-import { calendario } from "../Matches/matches";
+import { calendario } from "../../Matches/matches";
 
 function creaRisultatiLazio(calendario) {
     const squadra = 'Lazio';

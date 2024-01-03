@@ -1,4 +1,4 @@
-import { calendario } from "../Matches/matches";
+import { calendario } from "../../Matches/matches";
 
 function creaRisultatiVerona(calendario) {
     const squadra = 'Verona';
@@ -60,6 +60,8 @@ function creaRisultatiVerona(calendario) {
 
 const risultatiVerona = creaRisultatiVerona(calendario);
 export const verona = risultatiVerona;
+
+
 
 // export const verona = [
 //     //* 1

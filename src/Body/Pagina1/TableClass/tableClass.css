@@ -32,27 +32,30 @@ th, td {
     overflow:hidden;
 } */
 
-.underlineC {
+.underline1 {
     text-decoration: underline;
-    text-decoration-color: #a200ff; /* Colore rosso per l'underline */
-    text-decoration-thickness: 2px;
+    text-decoration-color: #c013b7; /* Colore rosso per l'underline */
+    text-decoration-thickness: 3px;
     overflow:hidden;
+    filter: brightness(65%);
     /* opacity:1; */
 }
 
-.underline-yellow {
+.underlineX {
     text-decoration: underline;
-    text-decoration-color: rgb(116, 116, 54); /* Colore rosso per l'underline */
-    text-decoration-thickness: 2px;
+    text-decoration-color: rgb(145, 145, 73); /* Colore rosso per l'underline */
+    text-decoration-thickness: 3px;
     overflow:hidden;
+    filter: brightness(65%);
 }
 
-/* .underlineF {
-    text-decoration: underline;
+.underline2 {
+    /* text-decoration: underline;
     text-decoration-color: #f200ff; /* Colore rosso per l'underline
-    text-decoration-thickness: 2px;
+    text-decoration-thickness: 2px; */
     overflow:hidden;
-} */
+    filter: brightness(65%);
+}
 
 .underlineCoppiaRegSel{
     text-decoration: underline;

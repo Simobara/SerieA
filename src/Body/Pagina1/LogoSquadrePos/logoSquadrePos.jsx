@@ -1,31 +1,32 @@
 import { useState, useRef, useContext, useEffect } from "react";
-import { squadre } from "../../../START/START";
+import { squadre } from "../../../START/StartSqCammino/1Start";
 import TableCamminoSq from "./TableCamminoSq/tableCamminoSq";
 import { CoppiaPartitaContext } from "../../Global/global";
-import { SqEndGruppo1, SqEndGruppo2 } from "../../../START/START";
+import { SqEndGruppo1, SqEndGruppo2 } from "../../../START/StartSqCammino/1Start";
 
-import { inter } from "../../../START/StartSqCammino/inter";
-import { juve } from "../../../START/StartSqCammino/juve";
-import { milan } from "../../../START/StartSqCammino/milan";
-import { atalanta } from "../../../START/StartSqCammino/atalanta";
-import { napoli } from "../../../START/StartSqCammino/napoli";
-import { roma } from "../../../START/StartSqCammino/roma";
+import {
+  camInter,
+  camJuve,
+  camMilan,
+  camAtalanta,
+  camNapoli,
+  camRoma,
+  camLazio,
+  camBologna,
+  camFiorentina,
+  camTorino,
+  camSassuolo,
+  camUdinese,
+  camGenoa,
+  camFrosinone,
+  camMonza,
+  camLecce,
+  camCagliari,
+  camEmpoli,
+  camVerona,
+  camSalernitana
+} from "../../../START/StartSqCammino/0Start";
 
-import { lazio } from "../../../START/StartSqCammino/lazio";
-import { bologna } from "../../../START/StartSqCammino/bologna";
-import { fiorentina } from "../../../START/StartSqCammino/fiorentina";
-import { torino } from "../../../START/StartSqCammino/torino";
-import { sassuolo } from "../../../START/StartSqCammino/sassuolo";
-import { udinese } from "../../../START/StartSqCammino/udinese";
-import { genoa } from "../../../START/StartSqCammino/genoa";
-
-import { frosinone } from "../../../START/StartSqCammino/frosinone";
-import { monza } from "../../../START/StartSqCammino/monza";
-import { lecce } from "../../../START/StartSqCammino/lecce";
-import { cagliari } from "../../../START/StartSqCammino/cagliari";
-import { empoli } from "../../../START/StartSqCammino/empoli";
-import { verona } from "../../../START/StartSqCammino/verona";
-import { salernitana } from "../../../START/StartSqCammino/salernitana";
 
 const LogoSquadrePos = () => {
   const [squadraAttiva1, setSquadraAttiva1] = useState("");
@@ -36,35 +37,31 @@ const LogoSquadrePos = () => {
 
   const logoRefs = useRef({});
   const refContainer = useRef(null);
+  //*--- ---- ---
   const datiSquadre = {
-    Inter: inter,
-    Juve: juve,
-    Milan: milan,
-    Atalanta: atalanta,
-    Napoli: napoli,
-    Roma: roma,
+    Inter: camInter,
+    Juve: camJuve,
+    Milan: camMilan,
+    Atalanta: camAtalanta,
+    Napoli: camNapoli,
+    Roma: camRoma,
     //*--- ---- ---
-    Lazio: lazio,
-    Bologna: bologna,
-    Fiorentina: fiorentina,
-    Torino: torino,
-    Sassuolo: sassuolo,
-    Udinese: udinese,
-    Genoa: genoa,
+    Lazio: camLazio,
+    Bologna: camBologna,
+    Fiorentina: camFiorentina,
+    Torino: camTorino,
+    Sassuolo: camSassuolo,
+    Udinese: camUdinese,
+    Genoa: camGenoa,
     //*--- ---- ---
-    Monza: monza,
-    Frosinone: frosinone,
-    Lecce: lecce,
-    Cagliari: cagliari,
-    Empoli: empoli,
-    Verona: verona,
-    Salernitana: salernitana,
+    Frosinone: camFrosinone,
+    Monza: camMonza,
+    Lecce: camLecce,
+    Cagliari: camCagliari,
+    Empoli: camEmpoli,
+    Verona: camVerona,
+    Salernitana: camSalernitana
   };
-
-  // const handleClick = (nomeSquadra) => {
-  //     console.log('')
-  //     setSquadraAttiva1(nomeSquadra);
-  // };
 
   const renderLinea = (start, end) => (
     <div style={{ display: "flex", justifyContent: "center", marginBottom: "24px", marginTop: "9px" }}>

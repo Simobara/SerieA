@@ -1,4 +1,4 @@
-import { calendario } from "../Matches/matches";
+import { calendario } from "../../Matches/matches";
 
 function creaRisultatiUdinese(calendario) {
     const squadra = 'Udinese';
@@ -60,6 +60,7 @@ function creaRisultatiUdinese(calendario) {
 
 const risultatiUdinese = creaRisultatiUdinese(calendario);
 export const udinese = risultatiUdinese;
+
 
 
 // export const udinese = [

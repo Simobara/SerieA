@@ -1,13 +1,13 @@
 import { useState, useContext, useEffect } from "react";
 import { CoppiaPartitaContext } from "../../Global/global";
 import { ButtonResetContext } from "../../Global/global";
-import { ATeams } from "../../../START/START";
-import { BTeams } from "../../../START/START";
+import { ATeams } from "../../../START/StartSqCammino/1Start";
+import { BTeams } from "../../../START/StartSqCammino/1Start";
 import Partite from "./Partite/partite";
 import CalGiorn from "./CalGiorn/calGiorn";
 import squadreConfig from "./PosSquadreChart/posSquadreChart";
 import serieAItalia from "../../../assets/serieAItalia/serieAItalia.png";
-import { calendario } from "../../../START/Matches/matches"
+// import { calendario } from "../../../START/Matches/matches"
 // import { giornataClou } from "../../../START/Matches/matches";
 // import { GiornataClouContext } from "../../Global/global";
 // import { PartiteDefinNoModContext } from "../../Global/global";

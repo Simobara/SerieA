@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 // import { useDrag, useDrop } from "react-dnd";
-import { ATeams } from "../../../../../../START/START";
-import { BTeams } from "../../../../../../START/START";
+import { ATeams } from "../../../../../../START/StartSqCammino/1Start";
+import { BTeams } from "../../../../../../START/StartSqCammino/1Start";
 
 import { SquadraContext } from "../../../../../Global/global";
 import { CoppiaPartitaContext } from "../../../../../Global/global";
@@ -9,7 +9,6 @@ import { CoppiaPartitaRegistrataContext } from "../../../../../Global/global";
 import { GiornataClouContext } from "../../../../../Global/global";
 import { PartiteDefinNoModContext } from "../../../../../Global/global";
 import { ButtonResetContext } from "../../../../../Global/global";
-// import { giornataClou } from "../../../../../../START/Matches/matches";
 import "./partita.css";
 
 const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartita }) => {
@@ -312,6 +311,7 @@ const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartit
             if (/^\d+-\d+$/.test(partitaGiornataClou.results)) {
                 const score = partitaGiornataClou.results.split('-').map(Number);
                 let selectionType;
+
                 if (score[0] > score[1]) {
                     selectionType = "1";
                 } else if (score[0] < score[1]) {
@@ -319,6 +319,7 @@ const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartit
                 } else {
                     selectionType = "X";
                 }
+
                 handleSelection(partitaGiornataClou.team1, selectionType, partitaGiornataClou.numero);
                 partiteRegistrata.push({
                     team1: partitaGiornataClou.team1,
@@ -331,7 +332,7 @@ const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartit
         setCoppiaRegSelected(partiteRegistrata);
     }, [giornataClouSelected]);
 
-    useEffect(() => {
+    useEffect(() => { //determina i colori se la squadra vince perde pareggia
         if (partita.results) {
             const score = partita.results.split('-').map(Number);
             let selectionType;
@@ -394,7 +395,7 @@ const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartit
                                 {isMobile ? partita.team1.slice(0, 3) : partita.team1}
                             </div>
                         </div>
-                        <div className={`absolute flex flex-row ml-[40%] border border-sky-950 rounded-lg bg-gray-950 mt-3 w-6 pt-[0.7rem] z-[4] 
+                        <div className={`absolute flex flex-row ml-[40%] border border-sky-900 rounded-lg bg-gray-950 mt-3 w-6 pt-[0.7rem] z-[4] 
                                 ${isKQBtnActive || !isPartitaModificabile ? "hover:cursor-not-allowed unselectable" : "hover:cursor-pointer"} 
                                 ${selection === "X" ? "text-yellow-500/50" : ""}`}
                             onClick={() => (!isSignOk && isPartitaModificabile) ? handleSelection(partita.team1, "X") : undefined}

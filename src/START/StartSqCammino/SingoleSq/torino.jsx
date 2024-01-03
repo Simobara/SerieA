@@ -1,4 +1,4 @@
-import { calendario } from "../Matches/matches";
+import { calendario } from "../../Matches/matches";
 
 function creaRisultatiTorino(calendario) {
     const squadra = 'Torino';
@@ -60,6 +60,8 @@ function creaRisultatiTorino(calendario) {
 
 const risultatiTorino = creaRisultatiTorino(calendario);
 export const torino = risultatiTorino;
+
+
 
 // export const torino = [
 //     //* 1

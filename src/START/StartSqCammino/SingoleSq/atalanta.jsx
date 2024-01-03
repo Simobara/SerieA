@@ -1,6 +1,7 @@
-import { calendario } from "../Matches/matches";
+import { calendario } from "../../Matches/matches";
 
-function creaRisultatiAtalanta(calendario) {
+
+const creaRisultatiAtalanta = (calendario) => {
     const squadra = 'Atalanta';
     const risultatiAtalanta = [];
     let giornataSpecialeInserita = false;

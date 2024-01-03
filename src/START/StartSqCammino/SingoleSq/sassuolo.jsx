@@ -1,4 +1,4 @@
-import { calendario } from "../Matches/matches";
+import { calendario } from "../../Matches/matches";
 
 function creaRisultatiSassuolo(calendario) {
     const squadra = 'Sassuolo';
@@ -60,6 +60,7 @@ function creaRisultatiSassuolo(calendario) {
 
 const risultatiSassuolo = creaRisultatiSassuolo(calendario);
 export const sassuolo = risultatiSassuolo;
+
 
 // export const sassuolo = [
 //     //* 1

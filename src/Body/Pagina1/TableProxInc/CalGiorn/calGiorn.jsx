@@ -138,7 +138,7 @@ const CalGiorn = ({ onReset }) => {
                             ${Math.abs(selected - number) <= 3 && selected !== number ? 'hover:bg-fuchsia-800' : ''}`}
                         >
                             <span className={`text-md font-semibold 
-                            ${selected === number ? 'text-fuchsia-900 font-bold text-4xl' : 'text-cyan-800'}`}>{number}</span>
+                            ${selected === number ? 'text-sky-950 font-bold text-4xl' : 'text-cyan-800'}`}>{number}</span>
                         </div>
                     ))}
                 </div>
