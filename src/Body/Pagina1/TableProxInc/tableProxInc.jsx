@@ -42,6 +42,8 @@ const TableProxInc = () => {
 
 
   const renderSquadre = () => {
+    const teamAElements = [];
+    const teamBElements = [];
     return squadreConfig.map(squadra => {
       // Verifica se la squadra corrente è team1 o team2
       const isCoppiaSelectedTeam = coppiaSelected && (coppiaSelected.team1 === squadra.id || coppiaSelected.team2 === squadra.id);
@@ -96,7 +98,8 @@ const TableProxInc = () => {
             zIndex: 4,
           };
 
-          const teamColorClass = coppiaSelected.team1 === squadra.id ? "bg-sky-800/90" : "bg-sky-500";
+          const teamColorClass = coppiaSelected.team1 === squadra.id ? "bg-sky-800 z-10" : "bg-sky-500 z-5";
+
 
           let textStyleClass = "text-black font-medium text-lg"; // Default style
           if (coppiaSelected.team1 === squadra.id && ATeams.includes(coppiaSelected.team1.toUpperCase())) {
@@ -201,8 +204,7 @@ const TableProxInc = () => {
             <img src={serieAItalia} alt="serieAItalia" className="relative h-[47rem] w-[100%] mt-[-4.4rem] filter brightness-50" />
             {coppiaSelected && renderSquadre()}
             {buttonResetIsResetting &&
-              <button
-                className="absolute top-[30.5%] left-[46%] p-1 font-bold bg-transparent rounded-full hover:bg-red-400"
+              <button className="absolute top-[30.5%] left-[46%] p-1 font-bold bg-transparent rounded-full hover:bg-red-400"
                 onClick={() => handleReset()}
                 style={{ width: '12px', height: '12px', backgroundColor: 'black' }}
               >
@@ -215,22 +217,16 @@ const TableProxInc = () => {
               //   📍
               // </button>
             }
+            <div type='checkbox' className="absolute top-[22%] left-[48.5%]">1 -📈 </div>
+            <div className="absolute top-[26%] left-[49.5%]">3 -📊 👁️</div>
+            <div className="absolute top-[30.2%] left-[51%]">3 -📋 C/F</div>
           </div>
         </div>
-        {/* <div> */}
-        {/* <button
-              className="mt-2 mr-4 p-4 font-bold bg-gray-500 rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300 focus:ring-opacity-50 transition duration-300 ease-in-out"
+        {/* <button className="mt-2 mr-4 p-4 font-bold bg-gray-500 rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300 focus:ring-opacity-50 transition duration-300 ease-in-out"
               // style={{ transform: 'rotate(180deg)' }}
               onClick={() => setIsModalInserOpen(true)}
-            >
-              📝
-            </button> */}
-        {/* </div> */}
-        {/* <div className="flex items-start"> */}
-        {/* <Calendario /> */}
-        {/* </div> */}
-        {/* <div className="absolute bottom-0 w-full mt-[20rem]"> */}
-        <div className="sticky flex flex-col overflow-y-hidden h-[33rem] bg-black mt-[-1rem] z-[4]">
+            > 📝 </button> */}
+        <div className="sticky flex flex-col overflow-y-hidden h-[33.2rem] bg-black mt-[-1.2rem] z-[4]">
           <CalGiorn onReset={resetAll} />
           <Partite resetAll={resetAll} />
         </div>

@@ -99,7 +99,7 @@ const TableCamminoSq = ({ squadra, datiSquadra }) => {
   useEffect(() => {
     if (giornataClouSelected) {
       let nuovoIndice = Object.keys(calendario).findIndex(key => calendario[key] === giornataClouSelected) + 1;
-      console.log("NI", nuovoIndice)
+      // console.log("NI", nuovoIndice)
       if (nuovoIndice <= 19) {
         setSelectedIndexGiornata(nuovoIndice - 1);
       } else {
@@ -126,7 +126,7 @@ const TableCamminoSq = ({ squadra, datiSquadra }) => {
         </thead>
       </table>
       <div className="overflow-y-auto overflow-x-hidden md:overflow-x-hidden h-[37.5rem]">
-        <table className=" filter brightness-[65%] overflow-y-auto w-[120%] table-auto bg-white">
+        <table className=" filter brightness-[75%] overflow-y-auto w-[120%] table-auto bg-white">
           <tbody>
             {/* eslint-disable-next-line */}
             {datiSquadra.map((partita, index) => {

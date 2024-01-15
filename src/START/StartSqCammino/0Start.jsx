@@ -1,6 +1,6 @@
 import { calendario } from "../Matches/matches";
 
-const creaRisultatiSquadra = (calendario, nomeSquadra) => {
+export const creaRisultatiSquadra = (calendario, nomeSquadra) => {
     const risultatiSquadra = [];
     let giornataSpecialeInserita = false;
 
@@ -12,7 +12,7 @@ const creaRisultatiSquadra = (calendario, nomeSquadra) => {
                 risultato: '',
                 casa: ' ',
                 fuori: ' ',
-                sqVs: ' / '
+                sqVs: '/'
             });
             giornataSpecialeInserita = true;
         }
@@ -22,12 +22,12 @@ const creaRisultatiSquadra = (calendario, nomeSquadra) => {
                 const isCasa = partita.team1 === nomeSquadra;
                 let resultsTrimmed = '';
 
-                // Se 'pron' è '1', imposta il risultato su '3-0'
-                if (partita.pron === '1') {
+
+                if (partita.pron === '1') {// Se 'pron' è '1', imposta il risultato su '9-8'
                     resultsTrimmed = '9-8';
-                } else if (partita.pron === '2') { // Aggiunto: se 'pron' è '2', imposta il risultato su '0-3'
+                } else if (partita.pron === '2') { // Aggiunto: se 'pron' è '2', imposta il risultato su '8-9'
                     resultsTrimmed = '8-9';
-                } else if (partita.pron === 'x') { // Aggiunto: se 'pron' è 'X', imposta il risultato su '3-3'
+                } else if (partita.pron === 'x') { // Aggiunto: se 'pron' è 'X', imposta il risultato su '9-9'
                     resultsTrimmed = '9-9';
                 } else {
                     resultsTrimmed = typeof partita.results === 'string' ? partita.results.trim() : '';
@@ -118,4 +118,3 @@ export {
     camVerona,
     camSalernitana
 };
-

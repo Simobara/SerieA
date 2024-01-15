@@ -32,7 +32,7 @@ th, td {
     overflow:hidden;
 } */
 
-.underline1 {
+.underlineW {
     text-decoration: underline;
     text-decoration-color: #c013b7; /* Colore rosso per l'underline */
     text-decoration-thickness: 3px;
@@ -49,9 +49,9 @@ th, td {
     filter: brightness(65%);
 }
 
-.underline2 {
+.underlineL {
     /* text-decoration: underline;
-    text-decoration-color: #f200ff; /* Colore rosso per l'underline
+    text-decoration-color: none; /* Colore rosso per l'underline
     text-decoration-thickness: 2px; */
     overflow:hidden;
     filter: brightness(65%);

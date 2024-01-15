@@ -1,5 +1,5 @@
 import { useState, useRef, useContext, useEffect } from "react";
-import { squadre } from "../../../START/StartSqCammino/1Start";
+import { squadrePunt } from "../../../START/StartSqCammino/1Start";
 import TableCamminoSq from "./TableCamminoSq/tableCamminoSq";
 import { CoppiaPartitaContext } from "../../Global/global";
 import { SqEndGruppo1, SqEndGruppo2 } from "../../../START/StartSqCammino/1Start";
@@ -65,7 +65,7 @@ const LogoSquadrePos = () => {
 
   const renderLinea = (start, end) => (
     <div style={{ display: "flex", justifyContent: "center", marginBottom: "24px", marginTop: "9px" }}>
-      {squadre.slice(start, end).map((squadra, index) => {
+      {squadrePunt.slice(start, end).map((squadra, index) => {
         const isActive1 = squadra.nome === squadraAttiva1;
         const isActive2 = squadra.nome === squadraAttiva2;
         let className = "px-1 sm:px-2 py-1 cursor-pointer grayscale";
@@ -128,7 +128,7 @@ const LogoSquadrePos = () => {
             <div className="pl-1 border border-2 border-sky-800/80 w-5 bg-gray-700 text-sky-700/70 sm:text-md font-extrabold uppercase">3</div>
           </div>
           {/* Aggiunta di max-h-[3rem] e overflow-y-auto */}
-          <div className="filter brightness-[75%] max-h-[3.3rem] sm:max-h-[5rem] xl:max-h-[5rem] overflow-y-hidden">{renderLinea(SqEndGruppo2, squadre.length)}</div>
+          <div className="filter brightness-[75%] max-h-[3.3rem] sm:max-h-[5rem] xl:max-h-[5rem] overflow-y-hidden">{renderLinea(SqEndGruppo2, squadrePunt.length)}</div>
         </div>
       </div>
       <div ref={refContainer} className=" flex sticky mt-[5px] ">

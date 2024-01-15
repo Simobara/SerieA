@@ -279,7 +279,7 @@ const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartit
                         });
                         setCoppiaSelected(currentSelected => {
                             if (!Array.isArray(currentSelected)) {
-                                console.error('currentSelected is not an array:', currentSelected);
+                                // console.error('currentSelected is not an array:', currentSelected);
                                 return [];
                             }
                             return currentSelected.filter(coppia =>

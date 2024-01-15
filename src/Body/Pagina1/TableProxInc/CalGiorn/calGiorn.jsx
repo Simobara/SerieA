@@ -4,12 +4,14 @@ import { GiornataClouContext } from "../../../Global/global/";
 import { PartiteDefinNoModContext } from "../../../Global/global";
 import { ButtonResetContext } from "../../../Global/global";
 import { giornataClou } from '../../../../START/Matches/matches';
+import { IndexSelectedContext } from '../../../Global/global';
 import "./CalGiorn.css";
 
 const CalGiorn = ({ onReset }) => {
     const scrollContainer = useRef(null);
     const singleBoxRef = useRef(null); // Aggiunto ref per la larghezza della casella
-    const [selected, setSelected] = useState(null);
+    const { indexSel, setIndexSel } = useContext(IndexSelectedContext);
+    const [indexSelected, setIndexSelected] = useState(null)
     const [matches, setMatches] = useState([]);
     const { giornataClouSelected, setGiornataClouSelected } = useContext(GiornataClouContext);
     const { partiteDefinNoMod, setPartiteDefinNoMod } = useContext(PartiteDefinNoModContext);
@@ -26,11 +28,12 @@ const CalGiorn = ({ onReset }) => {
     const handleSelectNumber = (number) => {
         if (number >= 1 && number <= 38) {
             // Seleziona la nuova giornata e controlla se è diversa dalla corrente
-            if (number !== selected) {
+            if (number !== indexSelected) {
                 setButtonResetIsResetting(true);
+                setIndexSelected(number);
+                setIndexSel(number)
+                // console.log("CAL GIORNO/number", number)
             }
-
-            setSelected(number);
             setMatches(calendario[`giornata${number}`]);
             setGiornataClouSelected(calendario[`giornata${number}`]);
             scrollIntoView(number);
@@ -38,11 +41,11 @@ const CalGiorn = ({ onReset }) => {
     }
 
     const scroll = (direction) => {
-        let newSelected = selected;
-        if (direction === 'left' && selected > 1) {
-            newSelected = selected - 1;
-        } else if (direction === 'right' && selected < 38) {
-            newSelected = selected + 1;
+        let newSelected = indexSelected;
+        if (direction === 'left' && indexSelected > 1) {
+            newSelected = indexSelected - 1;
+        } else if (direction === 'right' && indexSelected < 38) {
+            newSelected = indexSelected + 1;
         }
         handleSelectNumber(newSelected);
     };
@@ -56,8 +59,8 @@ const CalGiorn = ({ onReset }) => {
     };
 
     const getVisibleMatches = () => {
-        let start = selected - 3;
-        let end = selected + 3;
+        let start = indexSelected - 3;
+        let end = indexSelected + 3;
         if (start < 1) {
             end = end + (1 - start);
             start = 1;
@@ -75,9 +78,12 @@ const CalGiorn = ({ onReset }) => {
         setButtonResetIsResetting(false)
         const giornataClouIndex = Object.keys(calendario).findIndex(giornata => calendario[giornata] === giornataClou) + 1;
         if (giornataClouIndex) {
-            setSelected(giornataClouIndex);
+            setIndexSelected(giornataClouIndex);
             scrollIntoView(giornataClouIndex);
             setButtonResetIsResetting(false)
+            console.log("giornataClouIndex", giornataClouIndex)
+
+            // console.log("giornataClouSelected", giornataClouSelected)        
         }
     }, []);
 
@@ -86,14 +92,14 @@ const CalGiorn = ({ onReset }) => {
         setButtonResetIsResetting(false);
         if (onReset) {
             const giornataClouIndex = Object.keys(calendario).findIndex(giornata => calendario[giornata] === giornataClou) + 1;
-            if (selected === giornataClouIndex) {
+            if (indexSelected === giornataClouIndex) {
                 // Se sei nella giornata clou, mantieni la selezione corrente
                 // Esempio: potresti voler aggiornare solo parte dello stato
-                setMatches(calendario[`giornata${selected}`]);
-                setGiornataClouSelected(calendario[`giornata${selected}`]);
+                setMatches(calendario[`giornata${indexSelected}`]);
+                setGiornataClouSelected(calendario[`giornata${indexSelected}`]);
             } else {
                 // Se sei in una giornata diversa dalla clou, reimposta tutto
-                setSelected(null);
+                setIndexSelected(null);
                 setMatches([]);
                 setGiornataClouSelected(giornataClou);
             }
@@ -106,7 +112,7 @@ const CalGiorn = ({ onReset }) => {
             const nuovaGiornataClou = Object.keys(calendario).findIndex(key => calendario[key] === giornataClouSelected) + 1;
 
             setMatches(giornataClouSelected);
-            setSelected(nuovaGiornataClou);
+            setIndexSelected(nuovaGiornataClou);
             scrollIntoView(nuovaGiornataClou);
 
             // if (nuovaGiornataClou !== selected) {
@@ -120,8 +126,8 @@ const CalGiorn = ({ onReset }) => {
         <div className="flex items-center justify-center bg-gray-800">
             <button
                 onClick={() => scroll('left')}
-                disabled={selected === 1} // Disabilita se selected è 1
-                className={`text-sky-600/60 p-2 hover:bg-fuchsia-900 focus:outline-none ${selected === 1 ? 'opacity-20 cursor-not-allowed' : ''}`}
+                disabled={indexSelected === 1} // Disabilita se selected è 1
+                className={`text-sky-600/60 p-2 hover:bg-fuchsia-900 focus:outline-none ${indexSelected === 1 ? 'opacity-20 cursor-not-allowed' : ''}`}
             >
                 &#9664;
             </button>
@@ -134,19 +140,19 @@ const CalGiorn = ({ onReset }) => {
                             ref={boxRefs.current[number - 1]} // Assegna il ref corrispondente
                             onClick={() => handleSelectNumber(number)}
                             className={`w-12 h-12 flex items-center justify-center m-1 cursor-pointer 
-                            ${selected === number ? 'bg-sky-900' : 'bg-black'} 
-                            ${Math.abs(selected - number) <= 3 && selected !== number ? 'hover:bg-fuchsia-800' : ''}`}
+                            ${indexSelected === number ? 'bg-sky-900' : 'bg-black'} 
+                            ${Math.abs(indexSelected - number) <= 3 && indexSelected !== number ? 'hover:bg-fuchsia-800' : ''}`}
                         >
                             <span className={`text-md font-semibold 
-                            ${selected === number ? 'text-sky-950 font-bold text-4xl' : 'text-cyan-800'}`}>{number}</span>
+                            ${indexSelected === number ? 'text-sky-950 font-bold text-4xl' : 'text-cyan-800'}`}>{number}</span>
                         </div>
                     ))}
                 </div>
             </div>
             <button
                 onClick={() => scroll('right')}
-                disabled={selected === 38} // Disabilita se selected è 38
-                className={`text-sky-600/60 p-2 hover:bg-fuchsia-900 focus:outline-none ${selected === 38 ? 'opacity-20 cursor-not-allowed' : ''}`}
+                disabled={indexSelected === 38} // Disabilita se selected è 38
+                className={`text-sky-600/60 p-2 hover:bg-fuchsia-900 focus:outline-none ${indexSelected === 38 ? 'opacity-20 cursor-not-allowed' : ''}`}
             >
                 &#9654;
             </button>

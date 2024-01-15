@@ -87,3 +87,17 @@ export const ButtonResetProvider = ({ children }) => {
 };
 
 //-----------------------------------------------------------------------
+
+export const IndexSelectedContext = createContext();
+// eslint-disable-next-line
+export const IndexSelectedProvider = ({ children }) => {
+    const [indexSel, setIndexSel] = useState(null);
+
+    return (
+        <IndexSelectedContext.Provider value={{ indexSel, setIndexSel }}>
+            {children}
+        </IndexSelectedContext.Provider>
+    )
+};
+
+//-----------------------------------------------------------------------

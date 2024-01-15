@@ -58,7 +58,7 @@ const calcolaPuntiSquadra = (puntiSquadra) => {
 
 
 //* SQUADRE PUNTEGGIO
-export const squadre = [
+export const squadrePunt = [
     { logo: Inter, nome: 'Inter', punteggio: calcolaPuntiSquadra(camInter) },
     { logo: Juve, nome: 'Juve', punteggio: calcolaPuntiSquadra(camJuve) },
     { logo: Milan, nome: 'Milan', punteggio: calcolaPuntiSquadra(camMilan) },

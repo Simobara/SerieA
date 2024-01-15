@@ -1,0 +1,23 @@
+{
+  "hash": "0eed26df",
+  "browserHash": "c89435ab",
+  "optimized": {
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "cf9296eb",
+      "needsInterop": true
+    },
+    "react-dom": {
+      "src": "../../node_modules/react-dom/index.js",
+      "file": "react-dom.js",
+      "fileHash": "6bb460af",
+      "needsInterop": true
+    }
+  },
+  "chunks": {
+    "chunk-K4RRNJ5H": {
+      "file": "chunk-K4RRNJ5H.js"
+    }
+  }
+}
