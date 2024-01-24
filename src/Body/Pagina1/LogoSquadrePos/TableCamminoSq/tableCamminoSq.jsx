@@ -26,11 +26,13 @@ const TableCamminoSq = ({ squadra, datiSquadra }) => {
 
   const getTextTeam = (teamName) => {
     if (isATeam(teamName)) {
-      return "font-black";
+      return "font-black text-black";
     } else if (isBTeam(teamName)) {
-      return "font-extralight text-gray-500";
+      return "font-thin text-gray-400/80";
+    } else if (teamName !== "--- --- --- --- --- ---") {
+      return "text-medium text-cyan-500/80 font-medium";
     } else {
-      return "text-medium";
+      return "text-black"
     }
   };
 
@@ -45,11 +47,14 @@ const TableCamminoSq = ({ squadra, datiSquadra }) => {
   // };
 
   const getBgHoverClass = (partita) => {
+    if (partita.sqVs === "--- --- --- --- --- ---") {
+      return "hover:no.hover"; // Nessuna classe hover per questa specifica condizione
+    }
     const conditions = ["+", "-", "=", "..."];
     if (conditions.includes(partita.casa)) {
-      return "hover:bg-fuchsia-800/90";
+      return "hover:bg-fuchsia-900";
     } else if (conditions.includes(partita.fuori)) {
-      return "hover:bg-fuchsia-400/90";
+      return "hover:bg-fuchsia-500";
     }
     return " ";
   };
@@ -154,15 +159,21 @@ const TableCamminoSq = ({ squadra, datiSquadra }) => {
               const formattedSqVs = partita.sqVs.toLowerCase();
               const sqVsFormatted = formattedSqVs.charAt(0).toUpperCase() + formattedSqVs.slice(1);
 
-              const sqVsClass = isATeam(partita.sqVs) ? "text-black font-black" : isBTeam(partita.sqVs) ? "text-gray-500/40 font-extralight" : "font-medium";
+              const sqVsClass = isATeam(partita.sqVs) ?
+                "font-black bg-sky-600 rounded-lg text-black py-[-4] ml-[-4]" :
+                isBTeam(partita.sqVs) ?
+                  "font-light text-gray-400/50" :
+                  (partita.sqVs === "--- --- --- --- --- ---") ?
+                    "font-black text-black" : // Imposta il testo nero per questa condizione specifica
+                    "text-cyan-500 font-bold ";
               const bgHoverClass = getBgHoverClass(partita);
               // const textColorClass = getTextColor(partita);
               return (
-                <tr key={index} className={`overflow-x-hidden xs:text-lg sm:text-md ${bgHoverClass} last-text-white ${borderStyle}`}>
+                <tr key={index} className={`overflow-x-hidden xs:text-lg sm:text-md ${bgHoverClass} last-text ${borderStyle}`}>
                   <td className={`w-[5%] sm:w-[15%] xl:w-[5%] text-center font-bold text-cyan-500 bg-black text-xl`}>
                     {isPronostico ?
                       <div className="flex justify-center items-center">
-                        <span className="text-yellow-400 text-2xl font-black justify-item-centre ">*</span>
+                        <span className="text-yellow-400 text-xl font-black justify-item-centre ">*</span>
                       </div> :
                       <>
                         <span className={"text-fuchsia-400 text-xl"}>{risultatoParte1}</span>
@@ -171,8 +182,8 @@ const TableCamminoSq = ({ squadra, datiSquadra }) => {
                       </>
                     }
                   </td>
-                  <td className={`w-[7%] sm:w-[15%] xl:w-[10%] text-center xs:text-xs sm:text-base ${casaClass}`}>{partita.casa}</td>
-                  <td className={`w-[7%] sm:w-[15%] xl:w-[10%] text-center xs:text-xs sm:text-base ${fuoriClass}`}>{partita.fuori}</td>
+                  <td className={`w-[7%] sm:w-[15%] xl:w-[10%] text-center xs:text-xl sm:text-base ${casaClass}`}>{partita.casa}</td>
+                  <td className={`w-[7%] sm:w-[15%] xl:w-[10%] text-center xs:text-xl sm:text-base ${fuoriClass}`}>{partita.fuori}</td>
                   <td className={`sm:w-[50%] pl-4 text-xl ${sqVsClass} `}>
                     {isMobile == true ? sqVsFormatted.slice(0, 3) : sqVsFormatted}</td>
                 </tr>

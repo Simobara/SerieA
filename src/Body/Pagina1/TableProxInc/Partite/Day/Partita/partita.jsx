@@ -44,7 +44,7 @@ const Partita = ({ partita, resetAll, occhioApertoPartita, setOcchioApertoPartit
         } else if (isBTeam(teamName)) {
             return "font-light text-gray-500";
         } else {
-            return "text-medium text-cyan-700";
+            return "text-medium text-cyan-700 font-light";
         }
     };
 

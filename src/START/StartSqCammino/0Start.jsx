@@ -10,9 +10,9 @@ export const creaRisultatiSquadra = (calendario, nomeSquadra) => {
         if (i === 20 && !giornataSpecialeInserita) {
             risultatiSquadra.push({
                 risultato: '',
-                casa: ' ',
-                fuori: ' ',
-                sqVs: '/'
+                casa: '---',
+                fuori: '---',
+                sqVs: '--- --- --- --- --- ---'
             });
             giornataSpecialeInserita = true;
         }

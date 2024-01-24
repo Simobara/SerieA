@@ -42,7 +42,7 @@ const TableClass = () => {
     } else if (isBTeam(teamName)) {
       return "font-light text-gray-500";
     } else {
-      return "text-medium text-cyan-700";
+      return "text-medium text-cyan-700 font-light";
     }
   };
 
@@ -310,8 +310,8 @@ const TableClass = () => {
             <td
               className={`sm:pl-16 lg:pl-2 xl:mr-4 sm:pr-2 text-left font-bold bg-black text-xl
               ${isCoppiaSelected(squadra.nome) ? "bg-gray-700" : ""}
-              ${indiciDiffPts.includes(index) ? "borderAlto border-gray-600/80 " : ""}
-              ${getPunteggioColonnaDomanda(squadra) !== " " ? "text-gray-600/70" : "text-cyan-700/80"}
+              ${indiciDiffPts.includes(index) ? "borderAlto border-gray-500/80 " : ""}
+              ${getPunteggioColonnaDomanda(squadra) !== " " ? "filter brightness-[65%] text-gray-500/60" : "text-cyan-700/80"}
 
               ${isWinningTeamInCoppiaRegSelected(squadra.nome) ? `filter brightness-[65%] text-gray-500 
               ${isCoppiaSelected(squadra.nome) ? "bg-gray-700" : " bg-gray-700/60"}` : ""}
