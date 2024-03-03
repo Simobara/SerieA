@@ -4,6 +4,7 @@
 
 table tr.last-text:hover td:last-child {
     color: rgb(255, 180, 255);
+    /* color: white; */
 }
 
 .no-hover:hover {

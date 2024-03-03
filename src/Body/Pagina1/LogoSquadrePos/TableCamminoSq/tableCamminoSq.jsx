@@ -131,7 +131,7 @@ const TableCamminoSq = ({ squadra, datiSquadra }) => {
         </thead>
       </table>
       <div className="overflow-y-auto overflow-x-hidden md:overflow-x-hidden h-[37.5rem]">
-        <table className=" filter brightness-[75%] overflow-y-auto w-[120%] table-auto bg-white">
+        <table className=" filter brightness-[65%] overflow-y-auto w-[120%] table-auto bg-white">
           <tbody>
             {/* eslint-disable-next-line */}
             {datiSquadra.map((partita, index) => {
@@ -160,7 +160,7 @@ const TableCamminoSq = ({ squadra, datiSquadra }) => {
               const sqVsFormatted = formattedSqVs.charAt(0).toUpperCase() + formattedSqVs.slice(1);
 
               const sqVsClass = isATeam(partita.sqVs) ?
-                "font-black bg-sky-600 rounded-lg text-black py-[-4] ml-[-4]" :
+                "font-black bg-black rounded-lg text-sky-600 py-[-4] ml-[-4]" :
                 isBTeam(partita.sqVs) ?
                   "font-light text-gray-400/50" :
                   (partita.sqVs === "--- --- --- --- --- ---") ?
