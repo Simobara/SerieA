@@ -576,7 +576,7 @@ const calendario24 = {
 ],
   //*---  -----                                                                                                                --- 38
 	giornata38: [
-    { numero: 1,  day: 'gio', time: '20:45',          team1: 'Cagliari',    team2: 'Fiorentina',         pron: '', results: '' },
+    { numero: 1,  day: 'gio', time: '20:45',          team1: 'Cagliari',    team2: 'Fiorentina',         pron: '', results: '2-3' },
     
     { numero: 2,  day: 'ven', time: '20:45',          team1: 'Genoa',       team2: 'Bologna',            pron: '', results: '' },
     

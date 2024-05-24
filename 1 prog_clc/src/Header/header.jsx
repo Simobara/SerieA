@@ -29,11 +29,10 @@ const Header = () => {
 		<header>
 			<div className="flex items-center w-full bg-sky-900/60">
 				<img src={LogoSerieA} alt="Calendar" className="mr-2" style={{ width: '50px', height: 'auto' }} />
-				<img src={ItaliaDelCalcio} alt="Italia del Calcio" className="mr-2" style={{ width: '30px', height: 'auto' }} />
 				<div className="flex-grow flex justify-center items-center">
 					<div>
-						<button className="bg-black text-blue-900 rounded flex items-center justify-center animate-gradient" onClick={openLink1}>
-							{/* Italia del calcio */}
+						<button className="text-blue-900 rounded flex items-center justify-center animate-gradient cursor-pointer hover:cursor-pointer px-4 py-2" onClick={openLink1}>
+							<img src={ItaliaDelCalcio} alt="Italia del Calcio" className="" style={{ width: '30px', height: 'auto' }} />
 						</button>
 					</div>
 					<div className="flex items-center space-x-4">
