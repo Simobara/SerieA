@@ -1,0 +1,12 @@
+.tableContainer {
+    box-shadow: 0 30px 40px -1px rgba(147, 45, 158, 0.5), 0 30px 100px -1px rgba(50, 48, 175, 0.818)
+}
+
+table tr.last-text:hover td:last-child {
+    color: rgb(255, 180, 255);
+    /* color: white; */
+}
+
+.no-hover:hover {
+    background-color: inherit; /* o qualsiasi altro stile che desideri mantenere */
+}
